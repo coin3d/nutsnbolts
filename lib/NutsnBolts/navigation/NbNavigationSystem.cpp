@@ -206,6 +206,10 @@ NbNavigationSystem::initClass(void)
   ctrlup->setKey(SoKeyboardEvent::LEFT_CONTROL);
   ctrlup->setState(SoButtonEvent::UP);
 
+  SoKeyboardEvent * key_sdown = new SoKeyboardEvent;
+  key_sdown->setKey(SoKeyboardEvent::S);
+  key_sdown->setState(SoButtonEvent::DOWN);
+
   SoMouseButtonEvent * button1down = new SoMouseButtonEvent;
   button1down->setButton(SoMouseButtonEvent::BUTTON1);
   button1down->setState(SoButtonEvent::DOWN);
@@ -244,22 +248,33 @@ NbNavigationSystem::initClass(void)
     new NbIdleMode(NB_EXAMINER_WAITFORPAN_MODE);
   NbPanMode * examinerpan =
     new NbPanMode(NB_EXAMINER_PAN_MODE);
+  NbIdleMode * examinerwaitforcenter =
+    new NbIdleMode(NB_EXAMINER_WAITFORCENTER_MODE);
+  NbCenterMode * examinercenter =
+    new NbCenterMode(NB_EXAMINER_CENTER_MODE);
 
   examiner->addMode(examineridle);
   examiner->addMode(examinerrotate);
   examiner->addMode(examinerwaitforzoom);
   examiner->addMode(examinerwaitforpan);
+  examiner->addMode(examinerwaitforcenter);
   examiner->addMode(examinerzoom);
   examiner->addMode(examinerpan);
+  examiner->addMode(examinercenter);
 
   examiner->addModeTransition(examineridle, INITIAL);
-  examiner->addModeTransition(examineridle, examinerrotate, STACK, button1down);
-  examiner->addModeTransition(examineridle, examinerwaitforzoom, STACK, shiftdown);
-  examiner->addModeTransition(examineridle, examinerwaitforpan, STACK, ctrldown);
-
-  examiner->addModeTransition(examineridle, examinerzoom, STACK, button2down);
-  examiner->addModeTransition(examineridle, examinerpan, STACK, button3down);
-
+  examiner->addModeTransition(examineridle, examinerrotate,
+			      STACK, button1down);
+  examiner->addModeTransition(examineridle, examinerwaitforzoom,
+			      STACK, shiftdown);
+  examiner->addModeTransition(examineridle, examinerwaitforpan,
+			      STACK, ctrldown);
+  examiner->addModeTransition(examineridle, examinerzoom,
+			      STACK, button2down);
+  examiner->addModeTransition(examineridle, examinerpan,
+			      STACK, button3down);
+  examiner->addModeTransition(examineridle, examinerwaitforcenter,
+			      STACK, key_sdown);
 
   examiner->addModeTransition(examinerrotate, FINISH, button1up, button1down);
   examiner->addModeTransition(examinerrotate, ABORT, escapedown);
@@ -272,12 +287,17 @@ NbNavigationSystem::initClass(void)
   examiner->addModeTransition(examinerpan, FINISH, button3up, button3down);
   examiner->addModeTransition(examinerpan, ABORT, escapedown);
 
-  examiner->addModeTransition(examinerwaitforzoom, ABORT, shiftup, shiftdown);
-  examiner->addModeTransition(examinerwaitforpan, ABORT, ctrlup, ctrldown);
+  examiner->addModeTransition(examinerwaitforzoom, FINISH, shiftup, shiftdown);
+  examiner->addModeTransition(examinerwaitforpan, FINISH, ctrlup, ctrldown);
+  examiner->addModeTransition(examinerwaitforcenter, FINISH, key_sdown);
 
 
   examiner->addModeTransition(examinerwaitforzoom, examinerzoom, SWITCH, button1down);
   examiner->addModeTransition(examinerwaitforpan, examinerpan, SWITCH, button1down);
+  examiner->addModeTransition(examinerwaitforcenter, examinercenter,
+			      SWITCH, button1down);
+
+  examiner->addModeTransition(examinercenter, FINISH, button1up);
 
 
   NbNavigationSystem * rotater = new NbNavigationSystem(NB_ROTATER_SYSTEM);
@@ -321,11 +341,23 @@ NbNavigationSystem::initClass(void)
   zoomer->addModeTransition(zoomer_zoom, FINISH, button1up);
   zoomer->addModeTransition(zoomer_zoom, ABORT, escapedown);
 
+  NbNavigationSystem * centerer = new NbNavigationSystem(NB_CENTERER_SYSTEM);
+  NbIdleMode * centerer_idle = new NbIdleMode(NB_CENTERER_IDLE_MODE);
+  NbCenterMode * centerer_center = new NbCenterMode(NB_CENTERER_CENTER_MODE);
+
+  centerer->addMode(centerer_idle);
+  centerer->addMode(centerer_center);
+  centerer->addModeTransition(centerer_idle, INITIAL);
+  centerer->addModeTransition(centerer_idle, centerer_center,
+			      STACK, button1down);
+  centerer->addModeTransition(centerer_center, FINISH,
+			      button1up, button1down);
+
   NbNavigationSystem::registerSystem(examiner);
   NbNavigationSystem::registerSystem(rotater);
   NbNavigationSystem::registerSystem(panner);
   NbNavigationSystem::registerSystem(zoomer);
-
+  NbNavigationSystem::registerSystem(centerer);
 
   // FIXME: delete events
 }

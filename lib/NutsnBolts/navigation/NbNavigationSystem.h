@@ -42,6 +42,8 @@ class NbNavigationSystem;
 #define NB_EXAMINER_ZOOM_MODE           "examiner:zoom"
 #define NB_EXAMINER_WAITFORPAN_MODE     "examiner:wait_for_pan"
 #define NB_EXAMINER_PAN_MODE            "examiner:pan"
+#define NB_EXAMINER_WAITFORCENTER_MODE  "examiner:wait_for_center"
+#define NB_EXAMINER_CENTER_MODE         "examiner:center"
 
 // some simple button1-modes
 #define NB_PANNER_SYSTEM                "panner"
