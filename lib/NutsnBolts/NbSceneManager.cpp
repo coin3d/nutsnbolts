@@ -30,6 +30,7 @@
 #include <Inventor/SbBox.h>
 #include <Inventor/SbXfBox3f.h>
 #include <Inventor/SbMatrix.h>
+#include <Inventor/errors/SoDebugError.h>
 #include <Inventor/elements/SoDrawStyleElement.h>
 #include <Inventor/elements/SoComplexityTypeElement.h>
 #include <Inventor/elements/SoPolygonOffsetElement.h>
@@ -353,6 +354,12 @@ protected:
 NbSceneManager::NbSceneManager(void)
 {
   PRIVATE(this) = new NbSceneManagerP(this);
+  if ( NbViewerNavigationMode::getClassTypeId() == SoType::badType() ) {
+    SoDebugError::post("NbSceneManager::NbSceneManager",
+		       "SIM Nuts'n'Bolts library is not initialized. "
+		       "See NutsnBolts::init().");
+    exit(-1);
+  }
   PRIVATE(this)->rendermode = AS_IS;
   PRIVATE(this)->stereomode = MONO;
   PRIVATE(this)->stereooffset = 0.1f;
@@ -363,6 +370,7 @@ NbSceneManager::NbSceneManager(void)
   PRIVATE(this)->dummynode->ref();
   PRIVATE(this)->autoclipsensor =
     new SoNodeSensor(NbSceneManagerP::update_clipping_planes, PRIVATE(this));
+  PRIVATE(this)->autoclipsensor->setPriority(this->getRedrawPriority() - 1);
 }
 
 /*!
@@ -729,12 +737,18 @@ NbSceneManager::setSceneGraph(SoNode * const root)
   if ( PRIVATE(this)->autoclipsensor->isScheduled() ) {
     PRIVATE(this)->autoclipsensor->unschedule();
   }
-  if ( root ) {
-    PRIVATE(this)->autoclipsensor->attach(root);
-    PRIVATE(this)->autoclipsensor->schedule();
+  if ( PRIVATE(this)->autoclipsensor->getAttachedNode() ) {
+    PRIVATE(this)->autoclipsensor->detach();
   }
 
   inherited::setSceneGraph(root);
+
+  if ( root ) {
+    PRIVATE(this)->autoclipsensor->attach(root);
+    if ( PRIVATE(this)->autoclipping != NbSceneManager::NO_AUTO_CLIPPING ) {
+      PRIVATE(this)->setClippingPlanes();
+    }
+  }
 
   // set up navigation mode if scene graph contains navigation mode node.
   PRIVATE(this)->searchaction.reset();
@@ -823,6 +837,23 @@ void
 NbSceneManager::setAutoClipping(AutoClippingStrategy strategy)
 {
   PRIVATE(this)->autoclipping = strategy;
+  switch ( strategy ) {
+  case NO_AUTO_CLIPPING:
+    if ( PRIVATE(this)->autoclipsensor->isScheduled() ) {
+      PRIVATE(this)->autoclipsensor->unschedule();
+    }
+    if ( PRIVATE(this)->autoclipsensor->getAttachedNode() ) {
+      PRIVATE(this)->autoclipsensor->detach();
+    }
+    break;
+  case FIXED_NEAR_PLANE:
+  case VARIABLE_NEAR_PLANE:
+    if ( !PRIVATE(this)->autoclipsensor->getAttachedNode() ) {
+      PRIVATE(this)->autoclipsensor->attach(this->getSceneGraph());
+    }
+    PRIVATE(this)->autoclipsensor->schedule();
+    break;
+  }
 }
 
 /*!
