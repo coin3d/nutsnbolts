@@ -29,12 +29,12 @@ modechange(void * closure, NbNavigationSystem * system)
 int
 main(int argc, char ** argv)
 {
-  HWND wnd = So@Gui@::init("test", "test");
+  @WIDGET@ toplevel = So@Gui@::init("test", "test");
   NutsnBolts::init();
 
-  So@Gui@RenderArea * ra = new So@Gui@RenderArea(wnd);
+  So@Gui@RenderArea * ra = new So@Gui@RenderArea(NULL);
   ra->show();
-  So@Gui@::show(wnd);
+  // So@Gui@::show(toplevel);
 
   NbSceneManager * sm = new NbSceneManager;
   sm->activate();
@@ -42,8 +42,8 @@ main(int argc, char ** argv)
 
   sm->setNavigationState(NbSceneManager::JUST_NAVIGATION);
 
-  // NbNavigationSystem * nav = NbNavigationSystem::getByName(NB_EXAMINER_SYSTEM);
-  NbNavigationSystem * nav = NbNavigationSystem::getByName(NB_ZOOMER_SYSTEM);
+  NbNavigationSystem * nav = NbNavigationSystem::getByName(NB_EXAMINER_SYSTEM);
+  // NbNavigationSystem * nav = NbNavigationSystem::getByName(NB_ZOOMER_SYSTEM);
   nav->addModeChangeCallback(modechange, NULL);
   sm->setNavigationSystem(nav);
 
@@ -64,6 +64,9 @@ main(int argc, char ** argv)
   // camera->viewAll(scene);
 
   ra->setSceneGraph(scene);
+  ra->scheduleRedraw();
+
+  ra->setSize(SbVec2s(300, 300));
 
   So@Gui@::mainLoop();
 
