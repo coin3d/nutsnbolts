@@ -25465,13 +25465,17 @@ sim_ac_prog_sogui_config=true
 if test "${with_sogui_config+set}" = set; then
   withval="$with_sogui_config"
   case $withval in
-   no | false | "" )
+   no | false )
      sim_ac_enable_gui_progs=false
-     sim_ac_prog_sogui_config=false ;;
+     sim_ac_prog_sogui_config=true ;;
    * )
      sim_ac_enable_gui_progs=true
      sim_ac_prog_sogui_config=$withval ;;
    esac
+else
+
+     sim_ac_enable_gui_progs=false
+     sim_ac_prog_sogui_config=true
 fi;
 
 
