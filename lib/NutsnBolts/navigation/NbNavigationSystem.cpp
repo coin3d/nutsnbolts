@@ -45,6 +45,7 @@
 #include <NutsnBolts/navigation/NbRollMode.h>
 #include <NutsnBolts/navigation/NbYawMode.h>
 #include <NutsnBolts/navigation/NbCenterMode.h>
+#include <NutsnBolts/navigation/NbOrthoCenterMode.h>
 
 #include <NutsnBolts/navigation/NbNavigationSystem.h>
 

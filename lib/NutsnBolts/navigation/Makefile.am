@@ -30,6 +30,8 @@ SourceFiles = \
 	NbZoomMode.h \
 	NbCenterMode.cpp \
 	NbCenterMode.h \
+	NbOrthoCenterMode.cpp \
+	NbOrthoCenterMode.h \
 	NbRollMode.cpp \
 	NbRollMode.h \
 	NbPitchMode.cpp \
@@ -48,6 +50,7 @@ HeaderFiles = \
 	NbPanMode.h \
 	NbZoomMode.h \
 	NbCenterMode.h \
+	NbOrthoCenterMode.h \
 	NbRollMode.h \
 	NbPitchMode.h \
 	NbYawMode.h

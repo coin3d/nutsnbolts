@@ -207,6 +207,8 @@ SourceFiles = \
 	NbZoomMode.h \
 	NbCenterMode.cpp \
 	NbCenterMode.h \
+	NbOrthoCenterMode.cpp \
+	NbOrthoCenterMode.h \
 	NbRollMode.cpp \
 	NbRollMode.h \
 	NbPitchMode.cpp \
@@ -226,6 +228,7 @@ HeaderFiles = \
 	NbPanMode.h \
 	NbZoomMode.h \
 	NbCenterMode.h \
+	NbOrthoCenterMode.h \
 	NbRollMode.h \
 	NbPitchMode.h \
 	NbYawMode.h
@@ -251,8 +254,8 @@ am__objects_1 = NbNavigationControl.$(OBJEXT) NbNavigationMode.$(OBJEXT) \
 	NbNavigationState.$(OBJEXT) NbNavigationSystem.$(OBJEXT) \
 	NbNavigationVehicle.$(OBJEXT) NbIdleMode.$(OBJEXT) \
 	NbRotateMode.$(OBJEXT) NbPanMode.$(OBJEXT) NbZoomMode.$(OBJEXT) \
-	NbCenterMode.$(OBJEXT) NbRollMode.$(OBJEXT) \
-	NbPitchMode.$(OBJEXT) NbYawMode.$(OBJEXT)
+	NbCenterMode.$(OBJEXT) NbOrthoCenterMode.$(OBJEXT) \
+	NbRollMode.$(OBJEXT) NbPitchMode.$(OBJEXT) NbYawMode.$(OBJEXT)
 am_navigation_lst_OBJECTS = $(am__objects_1)
 navigation_lst_OBJECTS = $(am_navigation_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
@@ -262,8 +265,8 @@ libNutsnBoltsNavigation_la_LIBADD =
 am__objects_2 = NbNavigationControl.lo NbNavigationMode.lo \
 	NbNavigationState.lo NbNavigationSystem.lo \
 	NbNavigationVehicle.lo NbIdleMode.lo NbRotateMode.lo \
-	NbPanMode.lo NbZoomMode.lo NbCenterMode.lo NbRollMode.lo \
-	NbPitchMode.lo NbYawMode.lo
+	NbPanMode.lo NbZoomMode.lo NbCenterMode.lo NbOrthoCenterMode.lo \
+	NbRollMode.lo NbPitchMode.lo NbYawMode.lo
 am_libNutsnBoltsNavigation_la_OBJECTS = $(am__objects_2)
 libNutsnBoltsNavigation_la_OBJECTS = \
 	$(am_libNutsnBoltsNavigation_la_OBJECTS)
@@ -283,6 +286,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/NbNavigationSystem.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/NbNavigationVehicle.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/NbNavigationVehicle.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/NbOrthoCenterMode.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/NbOrthoCenterMode.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/NbPanMode.Plo ./$(DEPDIR)/NbPanMode.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/NbPitchMode.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/NbPitchMode.Po \
@@ -360,6 +365,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbNavigationSystem.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbNavigationVehicle.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbNavigationVehicle.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbOrthoCenterMode.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbOrthoCenterMode.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbPanMode.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbPanMode.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbPitchMode.Plo@am__quote@
