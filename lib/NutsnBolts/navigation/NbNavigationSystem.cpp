@@ -315,6 +315,7 @@ NbNavigationSystem::initClass(void)
   NbNavigationSystem::registerSystem(panner);
   NbNavigationSystem::registerSystem(zoomer);
 
+
   // FIXME: delete events
 }
 
@@ -427,6 +428,12 @@ SbName
 NbNavigationSystem::getName(void) const
 {
   return PRIVATE(this)->name;
+}
+
+void
+NbNavigationSystem::setSceneGraph(SoNode * scenegraph)
+{
+  PRIVATE(this)->info->setSceneGraph(scenegraph);
 }
 
 /*!

@@ -56,6 +56,10 @@ class NbNavigationSystem;
 #define NB_ROTATER_IDLE_MODE            "rotater:idle"
 #define NB_ROTATER_ROTATE_MODE          "rotater:rotate"
 
+#define NB_CENTERER_SYSTEM              "centerer"
+#define NB_CENTERER_IDLE_MODE           "centerer:idle"
+#define NB_CENTERER_CENTER_MODE         "centerer:center"
+
 #define NB_DEFAULT_SYSTEM               NB_EXAMINER_SYSTEM
 
 typedef
@@ -79,6 +83,7 @@ public:
   void addModeChangeCallback(NbNavigationModeChangeCB * cb, void * closure);
   void removeModeChangeCallback(NbNavigationModeChangeCB * cb, void * closure);
 
+  void setSceneGraph(SoNode * scenegraph);
   void setCamera(SoCamera * camera);
   void setViewport(const SbViewportRegion & viewport);
 
