@@ -9,8 +9,8 @@
 #include <Inventor/nodes/SoDirectionalLight.h>
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 
-#include <Inventor/Win/SoWin.h>
-#include <Inventor/Win/SoWinRenderArea.h>
+#include <Inventor/@Gui@/So@Gui@.h>
+#include <Inventor/@Gui@/So@Gui@RenderArea.h>
 
 #include <NutsnBolts/NutsnBolts.h>
 #include <NutsnBolts/NbSceneManager.h>
@@ -29,12 +29,12 @@ modechange(void * closure, NbNavigationSystem * system)
 int
 main(int argc, char ** argv)
 {
-  HWND wnd = SoWin::init("test", "test");
+  HWND wnd = So@Gui@::init("test", "test");
   NutsnBolts::init();
 
-  SoWinRenderArea * ra = new SoWinRenderArea(wnd);
+  So@Gui@RenderArea * ra = new So@Gui@RenderArea(wnd);
   ra->show();
-  SoWin::show(wnd);
+  So@Gui@::show(wnd);
 
   NbSceneManager * sm = new NbSceneManager;
   sm->activate();
@@ -65,7 +65,7 @@ main(int argc, char ** argv)
 
   ra->setSceneGraph(scene);
 
-  SoWin::mainLoop();
+  So@Gui@::mainLoop();
 
   return 0;
 }

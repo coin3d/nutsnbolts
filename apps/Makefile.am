@@ -3,11 +3,9 @@ DEFAULT_INCLUDES = -I$(top_builddir)/lib -I$(top_srcdir)/lib
 
 CLEANFILES = .\#* *.bak *.ilk *.lib *.exp *.pdb *~
 
-noinst_PROGRAMS = viewer
+BUILT_SOURCES = viewer.cpp
 
-viewer_SOURCES = viewer.cpp
-viewer_LDADD =  -lsowin1 -L../lib/NutsnBolts -lnutsnbolts0
-
-# ../lib/NutsnBolts/libNutsnBolts.la
-# viewer_LDADD =
+viewer.cpp: $(top_builddir)/apps/viewer.cpp.in
+	@sim_ac_prog_sogui_config@ --ac-subst $(top_builddir)/apps/viewer.cpp.in  > viewer.cpp
+	@sim_ac_prog_sogui_config@ --build viewer viewer.cpp -lNutsnBolts0
 
