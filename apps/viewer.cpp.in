@@ -42,8 +42,9 @@ main(int argc, char ** argv)
 
   sm->setNavigationState(NbSceneManager::JUST_NAVIGATION);
 
-  NbNavigationSystem * nav = NbNavigationSystem::getByName(NB_EXAMINER_SYSTEM);
-  // NbNavigationSystem * nav = NbNavigationSystem::getByName(NB_ZOOMER_SYSTEM);
+  NbNavigationSystem * nav =
+    NbNavigationSystem::createByName(NB_EXAMINER_SYSTEM);
+  assert(nav);
   nav->addModeChangeCallback(modechange, NULL);
   sm->setNavigationSystem(nav);
 
@@ -69,6 +70,10 @@ main(int argc, char ** argv)
   ra->setSize(SbVec2s(300, 300));
 
   So@Gui@::mainLoop();
+
+  sm->setNavigationSystem(NULL);
+  delete nav;
+  delete sm;
 
   return 0;
 }
