@@ -188,6 +188,8 @@ SourceFiles = \
 	NbNavigationState.h \
 	NbNavigationSystem.cpp \
 	NbNavigationSystem.h \
+	NbNavigationVehicle.cpp \
+	NbNavigationVehicle.h \
 	NbIdleMode.cpp \
 	NbIdleMode.h \
 	NbRotateMode.cpp \
@@ -203,6 +205,7 @@ HeaderFiles = \
 	NbNavigationMode.h \
 	NbNavigationState.h \
 	NbNavigationSystem.h \
+	NbNavigationVehicle.h \
 	NbIdleMode.h \
 	NbRotateMode.h \
 	NbPanMode.h \
@@ -227,8 +230,8 @@ navigation_lst_AR = $(AR) cru
 navigation_lst_LIBADD =
 am__objects_1 = NbNavigationInfo.$(OBJEXT) NbNavigationMode.$(OBJEXT) \
 	NbNavigationState.$(OBJEXT) NbNavigationSystem.$(OBJEXT) \
-	NbIdleMode.$(OBJEXT) NbRotateMode.$(OBJEXT) NbPanMode.$(OBJEXT) \
-	NbZoomMode.$(OBJEXT)
+	NbNavigationVehicle.$(OBJEXT) NbIdleMode.$(OBJEXT) \
+	NbRotateMode.$(OBJEXT) NbPanMode.$(OBJEXT) NbZoomMode.$(OBJEXT)
 am_navigation_lst_OBJECTS = $(am__objects_1)
 navigation_lst_OBJECTS = $(am_navigation_lst_OBJECTS)
 LTLIBRARIES = $(lib_LTLIBRARIES)
@@ -236,8 +239,9 @@ LTLIBRARIES = $(lib_LTLIBRARIES)
 libNutsnBoltsNavigation_la_LDFLAGS =
 libNutsnBoltsNavigation_la_LIBADD =
 am__objects_2 = NbNavigationInfo.lo NbNavigationMode.lo \
-	NbNavigationState.lo NbNavigationSystem.lo NbIdleMode.lo \
-	NbRotateMode.lo NbPanMode.lo NbZoomMode.lo
+	NbNavigationState.lo NbNavigationSystem.lo \
+	NbNavigationVehicle.lo NbIdleMode.lo NbRotateMode.lo \
+	NbPanMode.lo NbZoomMode.lo
 am_libNutsnBoltsNavigation_la_OBJECTS = $(am__objects_2)
 libNutsnBoltsNavigation_la_OBJECTS = \
 	$(am_libNutsnBoltsNavigation_la_OBJECTS)
@@ -255,6 +259,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/NbNavigationState.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/NbNavigationSystem.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/NbNavigationSystem.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/NbNavigationVehicle.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/NbNavigationVehicle.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/NbPanMode.Plo ./$(DEPDIR)/NbPanMode.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/NbRotateMode.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/NbRotateMode.Po \
@@ -369,6 +375,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbNavigationState.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbNavigationSystem.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbNavigationSystem.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbNavigationVehicle.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbNavigationVehicle.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbPanMode.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbPanMode.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbRotateMode.Plo@am__quote@
