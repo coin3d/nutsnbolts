@@ -175,7 +175,7 @@ target_cpu = @target_cpu@
 target_os = @target_os@
 target_vendor = @target_vendor@
 
-AM_INCLUDES = -I$(top_srcdir)/lib
+DEFAULT_INCLUDES = -I$(top_builddir)/lib -I$(top_srcdir)/lib
 
 CLEANFILES = .\#* *.bak *~ *.lst
 
@@ -263,8 +263,6 @@ am__objects_2 = NbNavigationControl.lo NbNavigationMode.lo \
 am_libNutsnBoltsNavigation_la_OBJECTS = $(am__objects_2)
 libNutsnBoltsNavigation_la_OBJECTS = \
 	$(am_libNutsnBoltsNavigation_la_OBJECTS)
-
-DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/lib -I$(top_builddir)/lib/NutsnBolts
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/NbCenterMode.Plo \

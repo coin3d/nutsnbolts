@@ -1,7 +1,7 @@
 
 SUBDIRS = misc navigation nodes
 
-AM_INCLUDES = -I$(top_srcdir)/lib
+DEFAULT_INCLUDES = -I$(top_builddir)/lib -I$(top_srcdir)/lib
 
 CLEANFILES = .\#* *.bak *.pdb *.exp *.dll *~
 

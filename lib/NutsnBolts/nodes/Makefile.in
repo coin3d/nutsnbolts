@@ -175,7 +175,7 @@ target_cpu = @target_cpu@
 target_os = @target_os@
 target_vendor = @target_vendor@
 
-AM_INCLUDES = -I$(top_srcdir)/lib -I$(top_builddir)/lib
+DEFAULT_INCLUDES = -I$(top_builddir)/lib -I$(top_srcdir)/lib
 
 CLEANFILES = .\#* *.bak *~ *.lst
 
@@ -217,8 +217,6 @@ libNutsnBoltsNodes_la_LIBADD =
 am__objects_2 = NbViewerNavigationMode.lo
 am_libNutsnBoltsNodes_la_OBJECTS = $(am__objects_2)
 libNutsnBoltsNodes_la_OBJECTS = $(am_libNutsnBoltsNodes_la_OBJECTS)
-
-DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/lib -I$(top_builddir)/lib/NutsnBolts
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/NbViewerNavigationMode.Plo \

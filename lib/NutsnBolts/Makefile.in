@@ -177,7 +177,7 @@ target_vendor = @target_vendor@
 
 SUBDIRS = misc navigation nodes
 
-AM_INCLUDES = -I$(top_srcdir)/lib
+DEFAULT_INCLUDES = -I$(top_builddir)/lib -I$(top_srcdir)/lib
 
 CLEANFILES = .\#* *.bak *.pdb *.exp *.dll *~
 
@@ -243,8 +243,6 @@ libNutsnBolts_la_DEPENDENCIES = misc/libNutsnBoltsMisc.la \
 am__objects_2 = NutsnBolts.lo NbSceneManager.lo
 am_libNutsnBolts_la_OBJECTS = $(am__objects_2)
 libNutsnBolts_la_OBJECTS = $(am_libNutsnBolts_la_OBJECTS)
-
-DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/lib -I.
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/NbSceneManager.Plo \
