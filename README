@@ -1,0 +1,18 @@
+
+                            ====================
+                            SIM Nuts'n'Bolts 0.1
+                            ====================
+
+    SIM Nuts'n'Bolts is an extension library for Coin that contains
+    various nuts and bolts that are useful for creating generic Coin-
+    based visualization applications.  The nodes are in general viewer-
+    centric in scope.  You won't find domain-specific nodes for any
+    particular engineering domain here - such nodes will have to go into
+    another library.
+
+    The library was first released in early 2005, but some of the nodes
+    it contains has been living in the SmallChange library for years
+    and been in use in various projects.  The unversioned/unreleased
+    state of SmallChange has however been a problem, so to make the
+    nodes more useful and usable, a new strict library was split out.
+
