@@ -465,7 +465,7 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os target target_cpu target_vendor target_os sim_ac_mks_make BUILD_WITH_MSVC BUILD_WITH_MSVC_TRUE BUILD_WITH_MSVC_FALSE NB_MAJOR_VERSION NB_MINOR_VERSION NB_MICRO_VERSION NB_BETA_VERSION NB_VERSION LT_CURRENT LT_REVISION LT_AGE nutsnbolts_build_dir nutsnbolts_src_dir ac_unique_file sim_ac_relative_src_dir sim_ac_relative_src_dir_p CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT CPP CXX CXXFLAGS ac_ct_CXX CXXCPP NUTSNBOLTS_EXTRA_CPPFLAGS NUTSNBOLTS_EXTRA_CFLAGS NUTSNBOLTS_EXTRA_CXXFLAGS NUTSNBOLTS_EXTRA_LDFLAGS NUTSNBOLTS_EXTRA_LIBS INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE am__leading_dot DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE MAINTAINER_MODE_TRUE MAINTAINER_MODE_FALSE MAINT EGREP LN_S ECHO AR ac_ct_AR RANLIB ac_ct_RANLIB F77 FFLAGS ac_ct_F77 LIBTOOL DSUFFIX CONFIG SUFFIX sim_ac_coin_configcmd LIBFLAGS X_CFLAGS X_PRE_LIBS X_LIBS X_EXTRA_LIBS NUTSNBOLTS_COMPILER ac_compiler_gnu NUTSNBOLTS_DSP_LIBS NUTSNBOLTS_DSP_INCS NUTSNBOLTS_DSP_DEFS LIBOBJS LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os target target_cpu target_vendor target_os sim_ac_mks_make BUILD_WITH_MSVC BUILD_WITH_MSVC_TRUE BUILD_WITH_MSVC_FALSE NB_MAJOR_VERSION NB_MINOR_VERSION NB_MICRO_VERSION NB_BETA_VERSION NB_VERSION LT_CURRENT LT_REVISION LT_AGE nutsnbolts_build_dir nutsnbolts_src_dir ac_unique_file sim_ac_relative_src_dir sim_ac_relative_src_dir_p CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT CPP CXX CXXFLAGS ac_ct_CXX CXXCPP NUTSNBOLTS_EXTRA_CPPFLAGS NUTSNBOLTS_EXTRA_CFLAGS NUTSNBOLTS_EXTRA_CXXFLAGS NUTSNBOLTS_EXTRA_LDFLAGS NUTSNBOLTS_EXTRA_LIBS INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE am__leading_dot DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE MAINTAINER_MODE_TRUE MAINTAINER_MODE_FALSE MAINT EGREP LN_S ECHO AR ac_ct_AR RANLIB ac_ct_RANLIB F77 FFLAGS ac_ct_F77 LIBTOOL DSUFFIX CONFIG SUFFIX sim_ac_coin_configcmd LIBFLAGS X_CFLAGS X_PRE_LIBS X_LIBS X_EXTRA_LIBS NUTSNBOLTS_COMPILER ac_compiler_gnu sim_ac_enable_gui_progs sim_ac_prog_sogui_config ENABLE_SOGUI_TRUE ENABLE_SOGUI_FALSE NUTSNBOLTS_DSP_LIBS NUTSNBOLTS_DSP_INCS NUTSNBOLTS_DSP_DEFS LIBOBJS LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -1081,6 +1081,8 @@ Optional Packages:
   --with-opengl=DIR       OpenGL/Mesa installation directory
   --with-x                use the X Window System
   --with-pthread=DIR      pthread installation directory
+  --with-sogui-config=<sogui-config>
+                          enable gui application for sogui library
 
 Some influential environment variables:
   CC          C compiler command
@@ -4971,7 +4973,7 @@ ia64-*-hpux*)
   ;;
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 4974 "configure"' > conftest.$ac_ext
+  echo '#line 4976 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -5852,7 +5854,7 @@ fi
 
 
 # Provide some information about the compiler.
-echo "$as_me:5855:" \
+echo "$as_me:5857:" \
      "checking for Fortran 77 compiler version" >&5
 ac_compiler=`set X $ac_compile; echo $2`
 { (eval echo "$as_me:$LINENO: \"$ac_compiler --version </dev/null >&5\"") >&5
@@ -6921,11 +6923,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:6924: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:6926: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:6928: \$? = $ac_status" >&5
+   echo "$as_me:6930: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings
@@ -7176,11 +7178,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:7179: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:7181: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:7183: \$? = $ac_status" >&5
+   echo "$as_me:7185: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings
@@ -7236,11 +7238,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:7239: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:7241: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:7243: \$? = $ac_status" >&5
+   echo "$as_me:7245: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -9436,7 +9438,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 9439 "configure"
+#line 9441 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -9534,7 +9536,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 9537 "configure"
+#line 9539 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -11754,11 +11756,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:11757: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:11759: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:11761: \$? = $ac_status" >&5
+   echo "$as_me:11763: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings
@@ -11814,11 +11816,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:11817: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:11819: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:11821: \$? = $ac_status" >&5
+   echo "$as_me:11823: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -13177,7 +13179,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 13180 "configure"
+#line 13182 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -13275,7 +13277,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 13278 "configure"
+#line 13280 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -14130,11 +14132,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:14133: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:14135: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:14137: \$? = $ac_status" >&5
+   echo "$as_me:14139: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings
@@ -14190,11 +14192,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:14193: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:14195: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:14197: \$? = $ac_status" >&5
+   echo "$as_me:14199: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -16246,11 +16248,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:16249: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:16251: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:16253: \$? = $ac_status" >&5
+   echo "$as_me:16255: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings
@@ -16501,11 +16503,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:16504: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:16506: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:16508: \$? = $ac_status" >&5
+   echo "$as_me:16510: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings
@@ -16561,11 +16563,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:16564: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:16566: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:16568: \$? = $ac_status" >&5
+   echo "$as_me:16570: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -18761,7 +18763,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 18764 "configure"
+#line 18766 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -18859,7 +18861,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 18862 "configure"
+#line 18864 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -25455,6 +25457,36 @@ esac
 
 
 
+sim_ac_enable_gui_progs=false
+
+
+# Check whether --with-sogui-config or --without-sogui-config was given.
+if test "${with_sogui_config+set}" = set; then
+  withval="$with_sogui_config"
+  case $withval in
+   no | false | "" ) sim_ac_enable_gui_progs=false;
+                     sim_ac_prog_sogui_config=false ;;
+   * )               sim_ac_enable_gui_progs=true;
+                     sim_ac_prog_sogui_config=$withval ;;
+   esac
+  sim_ac_enable_gui_progs=false;
+   sim_ac_prog_sogui_config=false;
+fi;
+
+
+
+
+
+
+if $sim_ac_enable_gui_progs; then
+  ENABLE_SOGUI_TRUE=
+  ENABLE_SOGUI_FALSE='#'
+else
+  ENABLE_SOGUI_TRUE='#'
+  ENABLE_SOGUI_FALSE=
+fi
+
+
 # **************************************************************************
 # Remove redundant options from certain option lists.
 
@@ -25966,6 +25998,13 @@ if test -z "${MAINTAINER_MODE_TRUE}" && test -z "${MAINTAINER_MODE_FALSE}"; then
   { { echo "$as_me:$LINENO: error: conditional \"MAINTAINER_MODE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 echo "$as_me: error: conditional \"MAINTAINER_MODE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${ENABLE_SOGUI_TRUE}" && test -z "${ENABLE_SOGUI_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"ENABLE_SOGUI\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"ENABLE_SOGUI\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -26612,6 +26651,10 @@ s,@X_LIBS@,$X_LIBS,;t t
 s,@X_EXTRA_LIBS@,$X_EXTRA_LIBS,;t t
 s,@NUTSNBOLTS_COMPILER@,$NUTSNBOLTS_COMPILER,;t t
 s,@ac_compiler_gnu@,$ac_compiler_gnu,;t t
+s,@sim_ac_enable_gui_progs@,$sim_ac_enable_gui_progs,;t t
+s,@sim_ac_prog_sogui_config@,$sim_ac_prog_sogui_config,;t t
+s,@ENABLE_SOGUI_TRUE@,$ENABLE_SOGUI_TRUE,;t t
+s,@ENABLE_SOGUI_FALSE@,$ENABLE_SOGUI_FALSE,;t t
 s,@NUTSNBOLTS_DSP_LIBS@,$NUTSNBOLTS_DSP_LIBS,;t t
 s,@NUTSNBOLTS_DSP_INCS@,$NUTSNBOLTS_DSP_INCS,;t t
 s,@NUTSNBOLTS_DSP_DEFS@,$NUTSNBOLTS_DSP_DEFS,;t t
