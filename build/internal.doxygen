@@ -360,6 +360,10 @@ INPUT                  = \
   lib/NutsnBolts/navigation/NbZoomMode.cpp \
   lib/NutsnBolts/navigation/NbCenterMode.h \
   lib/NutsnBolts/navigation/NbCenterMode.cpp \
+  lib/NutsnBolts/navigation/NbOrthoCenterMode.h \
+  lib/NutsnBolts/navigation/NbOrthoCenterMode.cpp \
+  lib/NutsnBolts/navigation/NbPickMode.h \
+  lib/NutsnBolts/navigation/NbPickMode.cpp \
   lib/NutsnBolts/navigation/NbPitchMode.h \
   lib/NutsnBolts/navigation/NbPitchMode.cpp \
   lib/NutsnBolts/navigation/NbYawMode.h \
