@@ -208,7 +208,10 @@ libNutsnBolts_la_LIBADD = \
 
 libNutsnBolts_la_LDFLAGS = \
 	-no-undefined \
-	-version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
+	-avoid-version
+
+# temporarily disabled
+#	-version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
 
 
 nutsnbolts@NB_MAJOR_VERSION@_lib_SOURCES = $(SourceFiles)
