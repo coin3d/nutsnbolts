@@ -29,8 +29,3 @@ nodes.lst: $(nodes_lst_OBJECTS)
 	for obj in $(nodes_lst_OBJECTS); do \
 	  echo $$obj >>$@; \
 	done
-
-# if BUILD_WITH_MSVC
-# all-local: nodes.lst
-# endif
-

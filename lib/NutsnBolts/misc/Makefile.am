@@ -23,8 +23,3 @@ misc.lst: $(misc_lst_OBJECTS)
 	for obj in $(misc_lst_OBJECTS); do \
 	  echo $$obj >> $@; \
 	done
-
-# if BUILD_WITH_MSVC
-# all-local: misc.lst
-# endif
-
