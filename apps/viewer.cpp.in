@@ -8,6 +8,8 @@
 #include <Inventor/nodes/SoSeparator.h>
 #include <Inventor/nodes/SoRotor.h>
 #include <Inventor/nodes/SoCube.h>
+#include <Inventor/nodes/SoTranslation.h>
+#include <Inventor/nodes/SoMaterial.h>
 #include <Inventor/nodes/SoDirectionalLight.h>
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 
@@ -22,6 +24,8 @@
 
 // *************************************************************************
 
+static NbNavigationSystem * navigationsystem = NULL;
+
 void
 modechange(void * closure, NbNavigationSystem * system)
 {
@@ -34,8 +38,27 @@ pick_cb(void * closure, const SbVec3f & pos, const SoPath * path)
 {
   fprintf(stderr, "pick: <%f %f %f>  [%s]\n",
           pos[0], pos[1], pos[2], path->getTail()->getTypeId().getName().getString());
+  SoPath * copy = path->copy();
+  copy->ref();
+  navigationsystem->viewPart(copy, SbVec3f(0, 1, 0), SbVec3f(0, 0, 1));
+  copy->unref();
 }
 
+static
+SoSeparator *
+newSoCubeGraph(void)
+{
+  static int counter = 0;
+  counter++;
+  SoSeparator * sep = new SoSeparator;
+  SoMaterial * mat = new SoMaterial;
+  mat->diffuseColor.setValue(counter & 0x1 ? 1.0 : 0.0,
+                             counter & 0x2 ? 1.0 : 0.0,
+                             counter & 0x4 ? 1.0 : 0.0);
+  sep->addChild(mat);
+  sep->addChild(new SoCube);
+  return sep;
+}
 
 int
 main(int argc, char ** argv)
@@ -69,8 +92,10 @@ main(int argc, char ** argv)
 
   nav->addModeChangeCallback(modechange, NULL);
   sm->setNavigationSystem(nav);
+  navigationsystem = nav;
 
   SoSeparator * scene = new SoSeparator;
+  scene->ref();
   SoDirectionalLight * light = new SoDirectionalLight;
   SoPerspectiveCamera * camera = new SoPerspectiveCamera;
   light->direction.setValue(SbVec3f(0.5, 0.5, -1.0));
@@ -80,13 +105,22 @@ main(int argc, char ** argv)
   scene->addChild(light);
   scene->addChild(camera);
   // scene->addChild(rotor);
-  scene->addChild(new SoCube);
+  scene->addChild(newSoCubeGraph());
+  int i;
+  for ( i = 0; i < 7; i++ ) {
+    SoTranslation * trans = new SoTranslation;
+    trans->translation.setValue(3,0,0);
+    scene->addChild(trans);
+    scene->addChild(newSoCubeGraph());
+  }
 
-  camera->position.setValue(0, 0, -5);
+  camera->position.setValue(0, 0, -50);
   camera->pointAt(SbVec3f(0, 0, 0));
-  // camera->viewAll(scene);
+  camera->viewAll(scene, sm->getViewportRegion(), 0.001f);
 
   ra->setSceneGraph(scene);
+  scene->unref();
+  scene = NULL;
   ra->scheduleRedraw();
 
   ra->setSize(SbVec2s(300, 300));
