@@ -25458,22 +25458,30 @@ esac
 
 
 sim_ac_enable_gui_progs=false
+sim_ac_prog_sogui_config=true
 
 
 # Check whether --with-sogui-config or --without-sogui-config was given.
 if test "${with_sogui_config+set}" = set; then
   withval="$with_sogui_config"
   case $withval in
-   no | false | "" ) sim_ac_enable_gui_progs=false;
-                     sim_ac_prog_sogui_config=false ;;
-   * )               sim_ac_enable_gui_progs=true;
-                     sim_ac_prog_sogui_config=$withval ;;
+   no | false | "" )
+     sim_ac_enable_gui_progs=false
+     sim_ac_prog_sogui_config=false ;;
+   * )
+     sim_ac_enable_gui_progs=true
+     sim_ac_prog_sogui_config=$withval ;;
    esac
-  sim_ac_enable_gui_progs=false;
-   sim_ac_prog_sogui_config=false;
 fi;
 
 
+
+
+if test x"${sim_ac_configuration_settings+set}" = x"set"; then
+  sim_ac_configuration_settings="$sim_ac_configuration_settings|GUI toolkit tool:$sim_ac_prog_sogui_config"
+else
+  sim_ac_configuration_settings="GUI toolkit tool:$sim_ac_prog_sogui_config"
+fi
 
 
 

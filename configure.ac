@@ -364,21 +364,23 @@ AC_SUBST([NUTSNBOLTS_COMPILER])
 AC_SUBST([ac_compiler_gnu])
 
 sim_ac_enable_gui_progs=false
+sim_ac_prog_sogui_config=true
 
 AC_ARG_WITH([sogui-config],
   [AC_HELP_STRING([--with-sogui-config=<sogui-config>],
                   [enable gui application for sogui library])],
   [case $withval in
-   no | false | "" ) sim_ac_enable_gui_progs=false;
-                     sim_ac_prog_sogui_config=false ;;
-   * )               sim_ac_enable_gui_progs=true;
-                     sim_ac_prog_sogui_config=$withval ;;
-   esac]
-  [sim_ac_enable_gui_progs=false;
-   sim_ac_prog_sogui_config=false;])
+   no | false | "" )
+     sim_ac_enable_gui_progs=false
+     sim_ac_prog_sogui_config=false ;;
+   * )
+     sim_ac_enable_gui_progs=true
+     sim_ac_prog_sogui_config=$withval ;;
+   esac])
 
 AC_SUBST([sim_ac_enable_gui_progs])
 AC_SUBST([sim_ac_prog_sogui_config])
+SIM_AC_CONFIGURATION_SETTING([GUI toolkit tool], [$sim_ac_prog_sogui_config])
 
 AM_CONDITIONAL([ENABLE_SOGUI], [$sim_ac_enable_gui_progs])
 
