@@ -29,8 +29,13 @@
 #include <Inventor/SbMatrix.h>
 #include <Inventor/SbViewportRegion.h>
 #include <Inventor/SoPickedPoint.h>
+#include <Inventor/SoType.h>
+#include <Inventor/errors/SoDebugError.h>
+#include <Inventor/nodes/SoOrthographicCamera.h>
 #include <Inventor/nodes/SoPerspectiveCamera.h>
+#include <Inventor/fields/SoSFVec3d.h>
 #include <Inventor/actions/SoRayPickAction.h>
+#include <Inventor/actions/SoSearchAction.h>
 
 #include <NutsnBolts/navigation/NbNavigationControl.h>
 
@@ -44,6 +49,9 @@
 
   Consider this class internal unless you are implementing your own
   navigation modes.
+
+  Certain custom camera node types are also supported in this class as
+  transparently as possible.
 
   \ingroup navigation
 */
@@ -62,6 +70,11 @@ public:
   SoNode * scenegraph;
 
   SoRayPickAction * rpaction;
+
+  // custom cameras
+  SoType utmcamtype;
+  SoType utmpostype;
+  SoType frustumcamtype;
 }; // NbNavigationControlP
 
 // *************************************************************************
@@ -79,6 +92,10 @@ NbNavigationControl::NbNavigationControl(void)
   PRIVATE(this)->cameraptr = NULL;
   PRIVATE(this)->scenegraph = NULL;
   PRIVATE(this)->rpaction = NULL;
+  // certain custom nodes
+  PRIVATE(this)->utmcamtype = SoType::fromName("UTMCamera");
+  PRIVATE(this)->utmpostype = SoType::fromName("UTMPosition");
+  PRIVATE(this)->frustumcamtype = SoType::fromName("FrustumCamera");
 }
 
 /*!
@@ -206,6 +223,15 @@ NbNavigationControl::restoreCamera(void) const
   PRIVATE(this)->cameraptr->copyFieldValues(PRIVATE(this)->initcamera);
 }
 
+/*!
+  Performs a pick in the scene.
+
+  \a pos is the 2D locationon the viewport.
+  \a pickpos is the returned 3D pick position.
+
+  The method returns TRUE if a point was picked, and FALSE otherwise.
+*/
+
 SbBool
 NbNavigationControl::pick(SbVec2s pos, SbVec3f & pickpos) const
 {
@@ -242,6 +268,67 @@ NbNavigationControl::pick(SbVec2s pos, SbVec3f & pickpos) const
   pickpos = pp->getPoint();
 
   return TRUE;
+}
+
+/*!
+  Positions the camera so that the whole model gets in view.
+*/
+
+void
+NbNavigationControl::viewAll(void) const
+{
+  SoCamera * camera = this->getCamera();
+  SoNode * root = this->getSceneGraph();
+
+  if (camera->isOfType(PRIVATE(this)->utmcamtype)) {
+    // we need to set UTMCamera->utmposition to some initial value not too far
+    // off the world space limits to reduce floating point precision errors
+    SoSearchAction sa;
+    sa.setSearchingAll(TRUE);
+    sa.setInterest(SoSearchAction::FIRST);
+    sa.setType(PRIVATE(this)->utmpostype);
+    sa.apply(root);
+    if (sa.getPath()) {
+      // introspective code since we don't #include class declarations
+      SoFieldContainer * utmpos = ((SoFullPath *) sa.getPath())->getTail();
+      SoSFVec3d * utmposfield = (SoSFVec3d *) utmpos->getField("utmposition");
+      SoSFVec3d * camposfield = (SoSFVec3d *) camera->getField("utmposition");
+      assert(camposfield && utmposfield);
+      *camposfield = *utmposfield;
+    }
+    else {
+      SoDebugError::postWarning("NbNavigationControl::viewAll",
+                                "You're using UTMCamera. "
+                                "Please consider supplying at least one "
+                                "UTMPosition node in your scene graph.");
+    }
+  }
+  float slack = 0.001f;
+  SbViewportRegion vp(this->getViewportSize());
+  camera->viewAll(root, vp, slack);
+  if (camera->isOfType(PRIVATE(this)->utmcamtype)) {
+    // move from position to utmposition and set position to (0,0,0)
+    // introspective code since we don't #include class declarations
+    SoSFVec3d * camposfield = (SoSFVec3d *) camera->getField("utmposition");
+    SbVec3d utmpos = camposfield->getValue();
+    SbVec3d tmp;
+    tmp.setValue(camera->position.getValue());
+    utmpos += tmp;
+    camera->position = SbVec3f(0.0f, 0.0f, 0.0f);
+    camposfield->setValue(utmpos);
+  }
+}
+
+/*!
+  Orients the camera so that it points in the given direction.
+
+  \sa reorientCamera
+*/
+
+void
+NbNavigationControl::pointDir(const SbVec3f & dir, SbBool resetroll) const
+{
+  // FIXME: implement
 }
 
 /*!
@@ -357,6 +444,9 @@ NbNavigationControl::moveCamera(const SbVec3f & distance) const
 }
 
 /*!
+  This camera moves the camera straight forwards towards the focal
+  point.  The position of the focal point can be kept, or moved
+  equally forwards as well.
 */
 
 void

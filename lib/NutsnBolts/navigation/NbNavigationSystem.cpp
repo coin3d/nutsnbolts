@@ -66,6 +66,7 @@
   modes, or  patch together a new one from existing navigation submodes.
 
   Builtin modes are named in the following set of defines:
+  \li NB_IDLER_SYSTEM
   \li NB_EXAMINER_SYSTEM
   \li NB_PANNER_SYSTEM
   \li NB_ZOOMER_SYSTEM
@@ -235,6 +236,12 @@ NbNavigationSystem::initClass(void)
   button3up->setState(SoButtonEvent::UP);
   
   // set up some standard navigation systems
+  NbNavigationSystem * idler =
+    new NbNavigationSystem(NB_IDLER_SYSTEM);
+  NbIdleMode * idleridle =
+    new NbIdleMode(NB_IDLER_IDLE_MODE);
+  idler->addMode(idleridle);
+  idler->addModeTransition(idleridle, INITIAL);
 
   NbNavigationSystem * examiner =
     new NbNavigationSystem(NB_EXAMINER_SYSTEM);
@@ -344,6 +351,7 @@ NbNavigationSystem::initClass(void)
   zoomer->addModeTransition(zoomer_zoom, FINISH, button1up);
   zoomer->addModeTransition(zoomer_zoom, ABORT, escapedown);
 
+
   NbNavigationSystem * centerer = new NbNavigationSystem(NB_CENTERER_SYSTEM);
   NbIdleMode * centerer_idle = new NbIdleMode(NB_CENTERER_IDLE_MODE);
   NbCenterMode * centerer_center = new NbCenterMode(NB_CENTERER_CENTER_MODE);
@@ -356,6 +364,7 @@ NbNavigationSystem::initClass(void)
   centerer->addModeTransition(centerer_center, FINISH,
 			      button1up, button1down);
 
+  NbNavigationSystem::registerSystem(idler);
   NbNavigationSystem::registerSystem(examiner);
   NbNavigationSystem::registerSystem(rotater);
   NbNavigationSystem::registerSystem(panner);
@@ -374,10 +383,22 @@ NbNavigationSystem::initClass(void)
 void
 NbNavigationSystem::cleanClass(void)
 {
-  NbNavigationSystem * examiner =
-    NbNavigationSystem::getByName(NB_EXAMINER_SYSTEM);
-  NbNavigationSystem::unregisterSystem(examiner);
-  delete examiner;
+#define DELETE_SYSTEM(systemname) \
+  do { \
+    NbNavigationSystem * system = \
+      NbNavigationSystem::getByName(systemname); \
+    NbNavigationSystem::unregisterSystem(system); \
+    delete system; \
+  } while ( FALSE )
+
+  DELETE_SYSTEM(NB_IDLER_SYSTEM);
+  DELETE_SYSTEM(NB_EXAMINER_SYSTEM);
+  DELETE_SYSTEM(NB_ZOOMER_SYSTEM);
+  DELETE_SYSTEM(NB_ROTATER_SYSTEM);
+  DELETE_SYSTEM(NB_PANNER_SYSTEM);
+  DELETE_SYSTEM(NB_CENTERER_SYSTEM);
+
+#undef DELETE_SYSTEM
 
   delete NbNavigationSystemP::namedict;
   NbNavigationSystemP::namedict = NULL;
@@ -502,6 +523,27 @@ void
 NbNavigationSystem::setViewport(const SbViewportRegion & vp)
 {
   PRIVATE(this)->ctrl->setViewport(vp);
+}
+
+/*!
+  Repositions the camera so that the complete model gets in the view.
+*/
+
+void
+NbNavigationSystem::viewAll(void)
+{
+  PRIVATE(this)->ctrl->viewAll();
+}
+
+/*!
+  Returns the navigation control class used by the navigation
+  systems.
+*/
+
+NbNavigationControl *
+NbNavigationSystem::getNavigationControl(void) const
+{
+  return PRIVATE(this)->ctrl;
 }
 
 /*!

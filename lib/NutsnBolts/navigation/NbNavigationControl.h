@@ -51,6 +51,9 @@ public:
 
   SbBool pick(SbVec2s pos, SbVec3f & pickpos) const;
 
+  void viewAll(void) const;
+  void pointDir(const SbVec3f & dir, SbBool resetroll) const;
+
   void reorientCamera(const SbRotation & rot) const;
   void reorientCamera(const SbVec3f & pointat) const;
   void pitchCamera(float angle) const;

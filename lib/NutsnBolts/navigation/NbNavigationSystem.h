@@ -34,6 +34,10 @@ class SoEvent;
 
 class NbNavigationMode;
 class NbNavigationSystem;
+class NbNavigationControl;
+
+#define NB_IDLER_SYSTEM                 "idler"
+#define NB_IDLER_IDLE_MODE              "idler:idle"
 
 #define NB_EXAMINER_SYSTEM              "examiner"
 #define NB_EXAMINER_IDLE_MODE           "examiner:idle"
@@ -89,7 +93,10 @@ public:
   void setCamera(SoCamera * camera);
   void setViewport(const SbViewportRegion & viewport);
 
+  void viewAll(void);
+
   SbBool processEvent(const SoEvent * event);
+  NbNavigationControl * getNavigationControl(void) const;
 
   SbName getName(void) const;
 
