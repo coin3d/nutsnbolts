@@ -636,7 +636,10 @@ NbSceneManager::processEvent(const SoEvent * const event)
 {
   // fprintf(stderr, "NbSceneManager::processEvent()\n");
   const SbViewportRegion & vp = this->getViewportRegion();
-  PRIVATE(this)->navigationsystem->setViewport(vp);
+  if ( PRIVATE(this)->navigationsystem != NULL ) {
+    PRIVATE(this)->navigationsystem->setViewport(vp);
+    PRIVATE(this)->navigationsystem->setSceneGraph(this->getSceneGraph());
+  }
 
   switch ( PRIVATE(this)->navigationstate ) {
   case NbSceneManager::NO_NAVIGATION:
