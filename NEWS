@@ -1,0 +1,4 @@
+NEWS in v0.1
+* Extended class NbSceneManager (SoSceneManager), previously SmSceneManager.
+* NbNavigationSystem NbSceneManager-subsystem.
+* NbViewerNavigationMode node.
