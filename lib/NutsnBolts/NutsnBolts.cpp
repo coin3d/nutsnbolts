@@ -47,6 +47,19 @@
   versions.  Users of this library are therefore encouraged to use the
   NB_VERSION_# defines heavily to write code that can be built against
   multiple major versions of SIM Nuts'n'Bolts the APIs change.
+
+  When using the SIM Nuts'n'Bolts library, the first thing you need to
+  do in your application is to initialize the SIM Nuts'n'Bolts library.
+
+  \code
+  #include <NutsnBolts/NutsnBolts.h>
+  ...
+  NutsnBolts::init();
+  \endcode
+
+  Otherwise, you will not have initialized the SIM Nuts'n'Bolts class
+  types (registered them in the Open Inventor type system), and you
+  will get warning messages about bad types and such.
 */
 
 /*!
