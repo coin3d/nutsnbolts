@@ -650,7 +650,7 @@ NbSceneManager::processEvent(const SoEvent * const event)
   // fprintf(stderr, "NbSceneManager::processEvent()\n");
   const SbViewportRegion & vp = this->getViewportRegion();
   assert(PRIVATE(this)->navigationsystem);
-  // PRIVATE(this)->navigationsystem->setViewport(vp);
+  PRIVATE(this)->navigationsystem->setViewport(vp);
   // PRIVATE(this)->navigationsystem->setSceneGraph(this->getSceneGraph());
 
   switch (PRIVATE(this)->navigationstate) {
@@ -714,8 +714,8 @@ NbSceneManager::setNavigationSystem(NbNavigationSystem * system)
     PRIVATE(this)->navigationsystem =
       NbNavigationSystem::getByName(NB_IDLER_SYSTEM);
   }
-  PRIVATE(this)->navigationsystem->setCamera(this->getCamera());
   PRIVATE(this)->navigationsystem->setSceneGraph(this->getSceneGraph());
+  PRIVATE(this)->navigationsystem->setCamera(this->getCamera());
   PRIVATE(this)->navigationsystem->setViewport(this->getViewportRegion());
 }
 
