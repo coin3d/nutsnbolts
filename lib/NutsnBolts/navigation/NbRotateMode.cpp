@@ -32,7 +32,7 @@
 #include <Inventor/events/SoLocation2Event.h>
 #include <Inventor/projectors/SbSphereSheetProjector.h>
 
-#include <NutsnBolts/navigation/NbNavigationInfo.h>
+#include <NutsnBolts/navigation/NbNavigationControl.h>
 
 #include <NutsnBolts/navigation/NbRotateMode.h>
 
@@ -98,17 +98,14 @@ NbRotateMode::~NbRotateMode(void)
 */
 
 SbBool
-NbRotateMode::handleEvent(const SoEvent * event, const NbNavigationInfo * info)
+NbRotateMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctrl)
 {
-  // fprintf(stderr, "NbRotateMode::handleEvent() %s\n",
-  // 	  this->getModeName().getString());
-
   if ( !event->isOfType(SoLocation2Event::getClassTypeId()) ) {
     return FALSE;
   }
 
-  SbVec2f initpos(this->getInitialNormalizedPosition(info));
-  SbVec2f currentpos(this->getCurrentNormalizedPosition(info));
+  SbVec2f initpos(this->getInitialNormalizedPosition(ctrl));
+  SbVec2f currentpos(this->getCurrentNormalizedPosition(ctrl));
 
   if ( PRIVATE(this)->projector == NULL ) {
     PRIVATE(this)->projector =
@@ -118,14 +115,14 @@ NbRotateMode::handleEvent(const SoEvent * event, const NbNavigationInfo * info)
     PRIVATE(this)->projector->setViewVolume(volume);
   }
 
-  info->restoreCamera();
+  ctrl->restoreCamera();
 
   PRIVATE(this)->projector->project(initpos);
   SbRotation rot;
   PRIVATE(this)->projector->projectAndGetRotation(currentpos, rot);
   rot.invert();
 
-  info->reorientCamera(rot);
+  ctrl->reorientCamera(rot);
   return TRUE;
 }
 

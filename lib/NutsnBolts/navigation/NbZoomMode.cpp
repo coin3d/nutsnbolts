@@ -29,7 +29,7 @@
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 #include <Inventor/nodes/SoOrthographicCamera.h>
 
-#include <NutsnBolts/navigation/NbNavigationInfo.h>
+#include <NutsnBolts/navigation/NbNavigationControl.h>
 
 #include <NutsnBolts/navigation/NbZoomMode.h>
 
@@ -57,6 +57,8 @@ NbZoomMode::NbZoomMode(SbName name)
   // no need for a private implementation now, but we've set off room for
   // it if we ever need one in the future.
   this->pimpl = NULL;
+  this->set1DValueFunc(NbNavigationMode::getMouseMoveVerticalNormalizedDistance,
+		       NULL);
 }
 
 /*!
@@ -74,25 +76,20 @@ NbZoomMode::~NbZoomMode(void)
 */
 
 SbBool
-NbZoomMode::handleEvent(const SoEvent * event, const NbNavigationInfo * info)
+NbZoomMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctrl)
 {
   if ( ! event->isOfType(SoLocation2Event::getClassTypeId()) ) {
     return FALSE;
   }
-  SoCamera * camera = info->getCamera();
+  SoCamera * camera = ctrl->getCamera();
   if ( !camera ) {
     return FALSE;
   }
 
-  // fprintf(stderr, "NbZoomMode::handleEvent() %s\n",
-  //	  this->getModeName().getString());
-
-  SbVec2f initposn = this->getInitialNormalizedPosition(info);
-  SbVec2f currentposn = this->getCurrentNormalizedPosition(info);
-  const float factor = (currentposn[1] - initposn[1]) * 20.0f;
+  const float factor = this->get1DValue(ctrl) * 20.0f;
   float multiplicator = float(exp(factor));
 
-  info->restoreCamera();
+  ctrl->restoreCamera();
 
   if ( camera->isOfType(SoOrthographicCamera::getClassTypeId()) ) {
     SoOrthographicCamera * oc = (SoOrthographicCamera *) camera;

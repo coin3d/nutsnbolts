@@ -1,5 +1,5 @@
-#ifndef NB_CENTERMODE_H
-#define NB_CENTERMODE_H
+#ifndef NB_YAWMODE_H
+#define NB_YAWMODE_H
 
 /**************************************************************************\
  *
@@ -25,21 +25,21 @@
 
 #include <NutsnBolts/navigation/NbNavigationMode.h>
 
-class NbCenterModeP;
+class NbYawModeP;
 
-class NB_DLL_API NbCenterMode : public NbNavigationMode {
+class NB_DLL_API NbYawMode : public NbNavigationMode {
   typedef NbNavigationMode inherited;
 
 public:
-  NbCenterMode(SbName name);
-  ~NbCenterMode(void);
+  NbYawMode(SbName name);
+  ~NbYawMode(void);
 
 protected:
   virtual SbBool handleEvent(const SoEvent * event, const NbNavigationControl * ctrl);
 
 private:
-  NbCenterModeP * pimpl;
+  NbYawModeP * pimpl;
 
-}; // NbCenterMode
+}; // NbYawMode
 
-#endif // !NB_CENTERMODE_H
+#endif // !NB_YAWMODE_H

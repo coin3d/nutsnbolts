@@ -35,12 +35,15 @@
 
 #include <NutsnBolts/misc/SoEvent.h>
 #include <NutsnBolts/navigation/NbNavigationState.h>
-#include <NutsnBolts/navigation/NbNavigationInfo.h>
+#include <NutsnBolts/navigation/NbNavigationControl.h>
 #include <NutsnBolts/navigation/NbNavigationMode.h>
 #include <NutsnBolts/navigation/NbIdleMode.h>
 #include <NutsnBolts/navigation/NbRotateMode.h>
 #include <NutsnBolts/navigation/NbZoomMode.h>
 #include <NutsnBolts/navigation/NbPanMode.h>
+#include <NutsnBolts/navigation/NbPitchMode.h>
+#include <NutsnBolts/navigation/NbRollMode.h>
+#include <NutsnBolts/navigation/NbYawMode.h>
 #include <NutsnBolts/navigation/NbCenterMode.h>
 
 #include <NutsnBolts/navigation/NbNavigationSystem.h>
@@ -159,7 +162,7 @@ public:
   ~NbNavigationSystemP(void);
 
   SbName name;
-  NbNavigationInfo * info;
+  NbNavigationControl * ctrl;
   NbNavigationState * state;
   SbPList * modechangecbs;
   SbList<NbNavigationMode *> * modes;
@@ -476,7 +479,7 @@ NbNavigationSystem::getName(void) const
 void
 NbNavigationSystem::setSceneGraph(SoNode * scenegraph)
 {
-  PRIVATE(this)->info->setSceneGraph(scenegraph);
+  PRIVATE(this)->ctrl->setSceneGraph(scenegraph);
 }
 
 /*!
@@ -487,7 +490,7 @@ NbNavigationSystem::setSceneGraph(SoNode * scenegraph)
 void
 NbNavigationSystem::setCamera(SoCamera * camera)
 {
-  PRIVATE(this)->info->setCamera(camera);
+  PRIVATE(this)->ctrl->setCamera(camera);
 }
 
 /*!
@@ -498,7 +501,7 @@ NbNavigationSystem::setCamera(SoCamera * camera)
 void
 NbNavigationSystem::setViewport(const SbViewportRegion & vp)
 {
-  PRIVATE(this)->info->setViewport(vp);
+  PRIVATE(this)->ctrl->setViewport(vp);
 }
 
 /*!
@@ -574,7 +577,7 @@ NbNavigationSystem::processEvent(const SoEvent * event)
 {
   assert(event);
   assert(PRIVATE(this)->state);
-  assert(PRIVATE(this)->info);
+  assert(PRIVATE(this)->ctrl);
   NbNavigationMode * mode = PRIVATE(this)->state->getMode();
   if ( mode == NULL ) return FALSE;
   // fprintf(stderr, "NbNavigationSystem::processEvent()\n");
@@ -598,40 +601,41 @@ NbNavigationSystem::processEvent(const SoEvent * event)
     case INITIAL:
       assert(0 && "crazy!");
       break;
+
     case FINISH:
     case ABORT:
-      mode->processEvent(event, PRIVATE(this)->info);
+      mode->processEvent(event, PRIVATE(this)->ctrl);
       if ( transition->type == FINISH ) {
-	mode->finish(event, PRIVATE(this)->info);
+	mode->finish(event, PRIVATE(this)->ctrl);
       } else {
-	mode->abort(event, PRIVATE(this)->info);
+	mode->abort(event, PRIVATE(this)->ctrl);
       }
       PRIVATE(this)->state->pop();
       mode = PRIVATE(this)->state->getMode();
       if ( mode ) {
 	this->invokeModeChangeCallbacks();
-	mode->init(event, PRIVATE(this)->info);
-	mode->processEvent(event, PRIVATE(this)->info);
+	mode->init(event, PRIVATE(this)->ctrl);
+	mode->processEvent(event, PRIVATE(this)->ctrl);
       }
-      return TRUE;
+      return TRUE; // transitions should always be considered handling events
 
     case STACK:
     case SWITCH:
-      mode->processEvent(event, PRIVATE(this)->info);
-      mode->finish(event, PRIVATE(this)->info);
+      mode->processEvent(event, PRIVATE(this)->ctrl);
+      mode->finish(event, PRIVATE(this)->ctrl);
       if ( transition->type == SWITCH )
 	PRIVATE(this)->state->pop();
       PRIVATE(this)->state->push(transition->mode2, event);
       mode = PRIVATE(this)->state->getMode();
       this->invokeModeChangeCallbacks();
-      mode->init(event, PRIVATE(this)->info);
-      mode->processEvent(event, PRIVATE(this)->info);
-      return TRUE;
+      mode->init(event, PRIVATE(this)->ctrl);
+      mode->processEvent(event, PRIVATE(this)->ctrl);
+      return TRUE; // transitions should always be considered handling events
     }
   }
 
   // no transition - just regular event processing
-  return mode->processEvent(event, PRIVATE(this)->info);
+  return mode->processEvent(event, PRIVATE(this)->ctrl);
 }
 
 /*!
@@ -735,7 +739,7 @@ NbNavigationSystem::getCurrentMode(void) const
 
 NbNavigationSystemP::NbNavigationSystemP(NbNavigationSystem * api)
 {
-  this->info = new NbNavigationInfo;
+  this->ctrl = new NbNavigationControl;
   this->state = new NbNavigationState;
   this->modechangecbs = NULL;
   this->modes = new SbList<NbNavigationMode *>;
@@ -758,7 +762,7 @@ NbNavigationSystemP::~NbNavigationSystemP(void)
     delete this->transitions;
   } while ( FALSE );
   delete this->modes;
-  delete this->info;
+  delete this->ctrl;
   delete this->state;
 }
 

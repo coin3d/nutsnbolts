@@ -1,6 +1,3 @@
-#ifndef NB_CENTERMODE_H
-#define NB_CENTERMODE_H
-
 /**************************************************************************\
  *
  *  This file is part of the SIM Nuts'n'Bolts extension library for Coin.
@@ -23,23 +20,40 @@
  *
 \**************************************************************************/
 
-#include <NutsnBolts/navigation/NbNavigationMode.h>
+#include <assert.h>
+#include <stdio.h>
 
-class NbCenterModeP;
+#include <Inventor/events/SoLocation2Event.h>
 
-class NB_DLL_API NbCenterMode : public NbNavigationMode {
-  typedef NbNavigationMode inherited;
+#include <NutsnBolts/navigation/NbNavigationControl.h>
+#include <NutsnBolts/navigation/NbRollMode.h>
 
-public:
-  NbCenterMode(SbName name);
-  ~NbCenterMode(void);
+// *************************************************************************
 
-protected:
-  virtual SbBool handleEvent(const SoEvent * event, const NbNavigationControl * ctrl);
+#define PRIVATE(obj) ((obj)->pimpl)
 
-private:
-  NbCenterModeP * pimpl;
+NbRollMode::NbRollMode(SbName name)
+: inherited(name)
+{
+  PRIVATE(this) = NULL;
+  this->set1DValueFunc(NbNavigationMode::getMouseMoveCenterAngle, NULL);
+}
 
-}; // NbCenterMode
+NbRollMode::~NbRollMode(void)
+{
+}
 
-#endif // !NB_CENTERMODE_H
+SbBool
+NbRollMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctrl)
+{
+  if ( ! event->isOfType(SoLocation2Event::getClassTypeId()) ) {
+    return FALSE;
+  }
+
+  ctrl->restoreCamera();
+  float angle = this->get1DValue(ctrl);
+  ctrl->rollCamera(angle);
+  return TRUE;
+}
+
+#undef PRIVATE

@@ -40,7 +40,7 @@
 #include <NutsnBolts/misc/SoEvent.h>
 
 #include <NutsnBolts/navigation/NbNavigationMode.h>
-#include <NutsnBolts/navigation/NbNavigationInfo.h>
+#include <NutsnBolts/navigation/NbNavigationControl.h>
 
 #include <NutsnBolts/navigation/NbIdleMode.h>
 #include <NutsnBolts/navigation/NbRotateMode.h>
@@ -81,6 +81,12 @@ public:
   SbVec2s initpos;
   SbVec2s prevpos;
   SbVec2s currentpos;
+
+  NbNavigation1DInputValueFunc * valuefunc1d;
+  NbNavigation2DInputValueFunc * valuefunc2d;
+  NbNavigation3DInputValueFunc * valuefunc3d;
+  void * valuefuncclosure;
+
 }; // NbNavigationModeP
 
 // *************************************************************************
@@ -129,6 +135,77 @@ NbNavigationMode::getModeName(void) const
 }
 
 /*!
+  \sa get1DValueFunc, set2DValueFunc, set3DValueFunc
+*/
+
+void
+NbNavigationMode::set1DValueFunc(NbNavigation1DInputValueFunc * func, void * closure)
+{
+  PRIVATE(this)->valuefunc1d = func;
+  PRIVATE(this)->valuefunc2d = NULL;
+  PRIVATE(this)->valuefunc3d = NULL;
+  PRIVATE(this)->valuefuncclosure = closure;
+}
+
+void
+NbNavigationMode::set2DValueFunc(NbNavigation2DInputValueFunc * func, void * closure)
+{
+  PRIVATE(this)->valuefunc1d = NULL;
+  PRIVATE(this)->valuefunc2d = func;
+  PRIVATE(this)->valuefunc3d = NULL;
+  PRIVATE(this)->valuefuncclosure = closure;
+}
+
+void
+NbNavigationMode::set3DValueFunc(NbNavigation3DInputValueFunc * func, void * closure)
+{
+  PRIVATE(this)->valuefunc1d = NULL;
+  PRIVATE(this)->valuefunc2d = NULL;
+  PRIVATE(this)->valuefunc3d = func;
+  PRIVATE(this)->valuefuncclosure = closure;
+}
+
+/*!
+  \sa set1DValueFunc, get2DValueFunc, get3DValueFunc
+*/
+
+NbNavigation1DInputValueFunc *
+NbNavigationMode::get1DValueFunc(void ** closureptr) const
+{
+  if ( !PRIVATE(this)->valuefunc1d ) {
+    return NULL;
+  }
+  if ( closureptr != NULL ) {
+    *closureptr = PRIVATE(this)->valuefuncclosure;
+  }
+  return PRIVATE(this)->valuefunc1d;
+}
+
+NbNavigation2DInputValueFunc *
+NbNavigationMode::get2DValueFunc(void ** closureptr) const
+{
+  if ( !PRIVATE(this)->valuefunc2d ) {
+    return NULL;
+  }
+  if ( closureptr != NULL ) {
+    *closureptr = PRIVATE(this)->valuefuncclosure;
+  }
+  return PRIVATE(this)->valuefunc2d;
+}
+
+NbNavigation3DInputValueFunc *
+NbNavigationMode::get3DValueFunc(void ** closureptr) const
+{
+  if ( !PRIVATE(this)->valuefunc3d ) {
+    return NULL;
+  }
+  if ( closureptr != NULL ) {
+    *closureptr = PRIVATE(this)->valuefuncclosure;
+  }
+  return PRIVATE(this)->valuefunc3d;
+}
+
+/*!
   This is the entry point for events coming from the
   NbNavigationSystem.  Some initial information is gathered before the
   event is passed on to the virtual, abstract handleEvent method.
@@ -137,14 +214,14 @@ NbNavigationMode::getModeName(void) const
 */
 
 SbBool
-NbNavigationMode::processEvent(const SoEvent * event, const NbNavigationInfo * info)
+NbNavigationMode::processEvent(const SoEvent * event, const NbNavigationControl * ctrl)
 {
   if ( event->isOfType(SoLocation2Event::getClassTypeId()) )
     PRIVATE(this)->prevpos = PRIVATE(this)->currentpos;
 
   PRIVATE(this)->currentpos = event->getPosition();
 
-  return this->handleEvent(event, info);
+  return this->handleEvent(event, ctrl);
 }
 
 /*!
@@ -162,7 +239,7 @@ NbNavigationMode::getSceneGraph(void)
 }
 
 /*!
-  \fn SbBool NbNavigationMode::handleEvent(const SoEvent * event, const NbNavigationInfo * into) = 0
+  \fn SbBool NbNavigationMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctrl) = 0
 
   Virtual abstract method that should be overridden to implement the
   navigation submode.
@@ -187,10 +264,8 @@ NbNavigationMode::getSceneGraph(void)
 */
 
 void
-NbNavigationMode::init(const SoEvent * event, const NbNavigationInfo * info)
+NbNavigationMode::init(const SoEvent * event, const NbNavigationControl * ctrl)
 {
-  // fprintf(stderr, "NbNavigationMode::init() %s\n",
-  // 	  this->getModeName().getString());
   PRIVATE(this)->initpos = event->getPosition();
   PRIVATE(this)->prevpos = event->getPosition();
   PRIVATE(this)->currentpos = event->getPosition();
@@ -204,11 +279,9 @@ NbNavigationMode::init(const SoEvent * event, const NbNavigationInfo * info)
 */
 
 void
-NbNavigationMode::abort(const SoEvent * event, const NbNavigationInfo * info)
+NbNavigationMode::abort(const SoEvent * event, const NbNavigationControl * ctrl)
 {
-  // fprintf(stderr, "NbNavigationMode::abort() %s\n",
-  // 	  this->getModeName().getString());
-  info->restoreCamera();
+  ctrl->restoreCamera();
 }
 
 /*!
@@ -219,14 +292,33 @@ NbNavigationMode::abort(const SoEvent * event, const NbNavigationInfo * info)
 */
 
 void
-NbNavigationMode::finish(const SoEvent * event, const NbNavigationInfo * info)
+NbNavigationMode::finish(const SoEvent * event, const NbNavigationControl * ctrl)
 {
-  // fprintf(stderr, "NbNavigationMode::finish() %s\n",
-  // 	  this->getModeName().getString());
-  info->saveCamera();
+  ctrl->saveCamera();
 }
 
 // *************************************************************************
+
+float
+NbNavigationMode::get1DValue(const NbNavigationControl * ctrl) const
+{
+  assert(PRIVATE(this)->valuefunc1d);
+  return PRIVATE(this)->valuefunc1d(PRIVATE(this)->valuefuncclosure, this, ctrl);
+}
+
+SbVec2f
+NbNavigationMode::get2DValue(const NbNavigationControl * ctrl) const
+{
+  assert(PRIVATE(this)->valuefunc2d);
+  return PRIVATE(this)->valuefunc2d(PRIVATE(this)->valuefuncclosure, this, ctrl);
+}
+
+SbVec3f
+NbNavigationMode::get3DValue(const NbNavigationControl * ctrl) const
+{
+  assert(PRIVATE(this)->valuefunc3d);
+  return PRIVATE(this)->valuefunc3d(PRIVATE(this)->valuefuncclosure, this, ctrl);
+}
 
 /*!
   Returns the initial pointer position in the viewport, from when the
@@ -272,9 +364,9 @@ NbNavigationMode::getCurrentPosition(void) const
 */
 
 SbVec2f
-NbNavigationMode::getInitialNormalizedPosition(const NbNavigationInfo * info) const
+NbNavigationMode::getInitialNormalizedPosition(const NbNavigationControl * ctrl) const
 {
-  SbVec2s vp(info->getViewportSize());
+  SbVec2s vp(ctrl->getViewportSize());
   SbVec2s pos(this->getInitialPosition());
   return SbVec2f(float(pos[0])/float(vp[0]-1), float(pos[1]/float(vp[1]-1)));
 }
@@ -286,9 +378,9 @@ NbNavigationMode::getInitialNormalizedPosition(const NbNavigationInfo * info) co
 */
 
 SbVec2f 
-NbNavigationMode::getPreviousNormalizedPosition(const NbNavigationInfo * info) const
+NbNavigationMode::getPreviousNormalizedPosition(const NbNavigationControl * ctrl) const
 {
-  SbVec2s vp(info->getViewportSize());
+  SbVec2s vp(ctrl->getViewportSize());
   SbVec2s pos(this->getPreviousPosition());
   return SbVec2f(float(pos[0])/float(vp[0]-1), float(pos[1]/float(vp[1]-1)));
 }
@@ -301,14 +393,95 @@ NbNavigationMode::getPreviousNormalizedPosition(const NbNavigationInfo * info) c
 
 
 SbVec2f
-NbNavigationMode::getCurrentNormalizedPosition(const NbNavigationInfo * info) const
+NbNavigationMode::getCurrentNormalizedPosition(const NbNavigationControl * ctrl) const
 {
-  SbVec2s vp(info->getViewportSize());
+  SbVec2s vp(ctrl->getViewportSize());
   SbVec2s pos(this->getCurrentPosition());
   return SbVec2f(float(pos[0])/float(vp[0]-1), float(pos[1]/float(vp[1]-1)));
 }
 
 #undef PRIVATE
+
+// *************************************************************************
+
+float
+NbNavigationMode::getAbsMouseMovePixelDistance(void * closure, const NbNavigationMode * mode, const NbNavigationControl * ctrl)
+{
+  SbVec2s initpos = mode->getInitialPosition();
+  SbVec2s currentpos = mode->getCurrentPosition();
+  SbVec2f vec(float(currentpos[0] - initpos[0]), float(currentpos[1] - initpos[1]));
+  return vec.length();
+}
+
+float
+NbNavigationMode::getMouseMoveVerticalPixelDistance(void * closure, const NbNavigationMode * mode, const NbNavigationControl * ctrl)
+{
+  SbVec2s initpos = mode->getInitialPosition();
+  SbVec2s currentpos = mode->getCurrentPosition();
+  return float(currentpos[1] - initpos[1]);
+}
+
+float
+NbNavigationMode::getMouseMoveVerticalNormalizedDistance(void * closure, const NbNavigationMode * mode, const NbNavigationControl * ctrl)
+{
+  SbVec2s initpos = mode->getInitialPosition();
+  SbVec2s currentpos = mode->getCurrentPosition();
+  SbVec2s vp = ctrl->getViewportSize();
+  return float(currentpos[1] - initpos[1]) / float(vp[1]);
+}
+
+float
+NbNavigationMode::getMouseMoveHorizontalPixelDistance(void * closure, const NbNavigationMode * mode, const NbNavigationControl * ctrl)
+{
+  SbVec2s initpos = mode->getInitialPosition();
+  SbVec2s currentpos = mode->getCurrentPosition();
+  return float(currentpos[0] - initpos[0]);
+}
+
+float
+NbNavigationMode::getMouseMoveHorizontalNormalizedDistance(void * closure, const NbNavigationMode * mode, const NbNavigationControl * ctrl)
+{
+  SbVec2s initpos = mode->getInitialPosition();
+  SbVec2s currentpos = mode->getCurrentPosition();
+  SbVec2s vp = ctrl->getViewportSize();
+  return float(currentpos[0] - initpos[0]) / float(vp[0]);
+}
+
+float
+NbNavigationMode::getAbsMouseCenterPixelDistance(void * closure, const NbNavigationMode * mode, const NbNavigationControl * ctrl)
+{
+  return 0.0f;
+}
+
+float
+NbNavigationMode::getMouseCenterVerticalPixelDistance(void * closure, const NbNavigationMode * mode, const NbNavigationControl * ctrl)
+{
+  return 0.0f;
+}
+
+float
+NbNavigationMode::getMouseCenterHorizontalPixelDistance(void * closure, const NbNavigationMode * mode, const NbNavigationControl * ctrl)
+{
+  return 0.0f;
+}
+
+float
+NbNavigationMode::getMouseMoveAngle(void * closure, const NbNavigationMode * mode, const NbNavigationControl * ctrl)
+{
+  return 0.0f;
+}
+
+float
+NbNavigationMode::getMouseCenterAngle(void * closure, const NbNavigationMode * mode, const NbNavigationControl * ctrl)
+{
+  return 0.0f;
+}
+
+float
+NbNavigationMode::getMouseMoveCenterAngle(void * closure, const NbNavigationMode * mode, const NbNavigationControl * ctrl)
+{
+  return 0.0f;
+}
 
 // *************************************************************************
 // private class implementation
@@ -318,4 +491,8 @@ NbNavigationModeP::NbNavigationModeP(void)
   this->initpos.setValue(0, 0);
   this->prevpos.setValue(0, 0);
   this->currentpos.setValue(0, 0);
+  this->valuefunc1d = NULL;
+  this->valuefunc2d = NULL;
+  this->valuefunc3d = NULL;
+  this->valuefuncclosure = NULL;
 }

@@ -59,7 +59,7 @@ NbIdleMode::~NbIdleMode(void)
 */
 
 SbBool
-NbIdleMode::handleEvent(const SoEvent * event, const NbNavigationInfo * info)
+NbIdleMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctrl)
 {
   return FALSE;
 }

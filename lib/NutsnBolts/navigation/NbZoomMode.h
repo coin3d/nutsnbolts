@@ -35,7 +35,7 @@ public:
   virtual ~NbZoomMode(void);
 
 protected:
-  virtual SbBool handleEvent(const SoEvent * event, const NbNavigationInfo * info);
+  virtual SbBool handleEvent(const SoEvent * event, const NbNavigationControl * ctrl);
 
 private:
   NbZoomModeP * pimpl;

@@ -1,6 +1,3 @@
-#ifndef NB_CENTERMODE_H
-#define NB_CENTERMODE_H
-
 /**************************************************************************\
  *
  *  This file is part of the SIM Nuts'n'Bolts extension library for Coin.
@@ -23,23 +20,35 @@
  *
 \**************************************************************************/
 
-#include <NutsnBolts/navigation/NbNavigationMode.h>
+#include <assert.h>
+#include <stdio.h>
 
-class NbCenterModeP;
+#include <Inventor/events/SoLocation2Event.h>
 
-class NB_DLL_API NbCenterMode : public NbNavigationMode {
-  typedef NbNavigationMode inherited;
+#include <NutsnBolts/navigation/NbYawMode.h>
 
-public:
-  NbCenterMode(SbName name);
-  ~NbCenterMode(void);
+// *************************************************************************
 
-protected:
-  virtual SbBool handleEvent(const SoEvent * event, const NbNavigationControl * ctrl);
+#define PRIVATE(obj) ((obj)->pimpl)
 
-private:
-  NbCenterModeP * pimpl;
+NbYawMode::NbYawMode(SbName name)
+ : inherited(name)
+{
+  PRIVATE(this) = NULL;
+  this->set1DValueFunc(NbNavigationMode::getMouseMoveHorizontalNormalizedDistance, NULL);
+}
 
-}; // NbCenterMode
+NbYawMode::~NbYawMode(void)
+{
+}
 
-#endif // !NB_CENTERMODE_H
+SbBool
+NbYawMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctrl)
+{
+  if ( ! event->isOfType(SoLocation2Event::getClassTypeId()) ) {
+    return FALSE;
+  }
+  return FALSE;
+}
+
+#undef PRIVATE

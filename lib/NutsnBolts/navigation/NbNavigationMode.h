@@ -24,6 +24,8 @@
 \**************************************************************************/
 
 #include <Inventor/SbName.h>
+#include <Inventor/SbVec2f.h>
+#include <Inventor/SbVec3f.h>
 #include <Inventor/SbViewportRegion.h>
 
 #include <NutsnBolts/Basic.h>
@@ -34,14 +36,33 @@ class SoCamera;
 class SoEvent;
 
 class NbNavigationSystem;
-class NbNavigationInfo;
+class NbNavigationControl;
 
+class NbNavigationMode;
 class NbNavigationModeP;
+
+typedef float NbNavigation1DInputValueFunc(void * closure, const NbNavigationMode * mode, const NbNavigationControl * ctrl);
+typedef SbVec2f NbNavigation2DInputValueFunc(void * closure, const NbNavigationMode * mode, const NbNavigationControl * ctrl);
+typedef SbVec3f NbNavigation3DInputValueFunc(void * closure, const NbNavigationMode * mode, const NbNavigationControl * ctrl);
 
 class NB_DLL_API NbNavigationMode {
 public:
   static void initClass(void);
   static void cleanClass(void);
+
+  // predefined set of input value functions
+  static float getAbsMouseMovePixelDistance(void * closure, const NbNavigationMode * mode, const NbNavigationControl * ctrl);
+  static float getAbsMouseMovePixelDistanceNormalized(void * closure, const NbNavigationMode * mode, const NbNavigationControl * ctrl);
+  static float getMouseMoveVerticalPixelDistance(void * closure, const NbNavigationMode * mode, const NbNavigationControl * ctrl);
+  static float getMouseMoveVerticalNormalizedDistance(void * closure, const NbNavigationMode * mode, const NbNavigationControl * ctrl);
+  static float getMouseMoveHorizontalPixelDistance(void * closure, const NbNavigationMode * mode, const NbNavigationControl * ctrl);
+  static float getMouseMoveHorizontalNormalizedDistance(void * closure, const NbNavigationMode * mode, const NbNavigationControl * ctrl);
+  static float getAbsMouseCenterPixelDistance(void * closure, const NbNavigationMode * mode, const NbNavigationControl * ctrl);
+  static float getMouseCenterVerticalPixelDistance(void * closure, const NbNavigationMode * mode, const NbNavigationControl * ctrl);
+  static float getMouseCenterHorizontalPixelDistance(void * closure, const NbNavigationMode * mode, const NbNavigationControl * ctrl);
+  static float getMouseMoveAngle(void * closure, const NbNavigationMode * mode, const NbNavigationControl * ctrl);
+  static float getMouseCenterAngle(void * closure, const NbNavigationMode * mode, const NbNavigationControl * ctrl);
+  static float getMouseMoveCenterAngle(void * closure, const NbNavigationMode * mode, const NbNavigationControl * ctrl);
 
 public:
   NbNavigationMode(SbName modename);
@@ -49,24 +70,35 @@ public:
 
   SbName getModeName(void) const;
 
-  SbBool processEvent(const SoEvent * event, const NbNavigationInfo * info);
+  void set1DValueFunc(NbNavigation1DInputValueFunc * func, void * closure);
+  NbNavigation1DInputValueFunc * get1DValueFunc(void ** closureptr = NULL) const;
+  void set2DValueFunc(NbNavigation2DInputValueFunc * func, void * closure);
+  NbNavigation2DInputValueFunc * get2DValueFunc(void ** closureptr = NULL) const;
+  void set3DValueFunc(NbNavigation3DInputValueFunc * func, void * closure);
+  NbNavigation3DInputValueFunc * get3DValueFunc(void ** closureptr = NULL) const;
+
+  SbBool processEvent(const SoEvent * event, const NbNavigationControl * ctrl);
 
   virtual SoNode * getSceneGraph(void);
 
-  virtual SbBool handleEvent(const SoEvent * event, const NbNavigationInfo * info) = 0;
+  virtual SbBool handleEvent(const SoEvent * event, const NbNavigationControl * ctrl) = 0;
 
-  virtual void init(const SoEvent * event, const NbNavigationInfo * info);
-  virtual void abort(const SoEvent * event, const NbNavigationInfo * info);
-  virtual void finish(const SoEvent * event, const NbNavigationInfo * info);
+  virtual void init(const SoEvent * event, const NbNavigationControl * ctrl);
+  virtual void abort(const SoEvent * event, const NbNavigationControl * ctrl);
+  virtual void finish(const SoEvent * event, const NbNavigationControl * ctrl);
 
 protected:
+  float get1DValue(const NbNavigationControl * ctrl) const;
+  SbVec2f get2DValue(const NbNavigationControl * ctrl) const;
+  SbVec3f get3DValue(const NbNavigationControl * ctrl) const;
+
   SbVec2s getInitialPosition(void) const;
   SbVec2s getPreviousPosition(void) const;
   SbVec2s getCurrentPosition(void) const;
 
-  SbVec2f getInitialNormalizedPosition(const NbNavigationInfo * info) const;
-  SbVec2f getPreviousNormalizedPosition(const NbNavigationInfo * info) const;
-  SbVec2f getCurrentNormalizedPosition(const NbNavigationInfo * info) const;
+  SbVec2f getInitialNormalizedPosition(const NbNavigationControl * ctrl) const;
+  SbVec2f getPreviousNormalizedPosition(const NbNavigationControl * ctrl) const;
+  SbVec2f getCurrentNormalizedPosition(const NbNavigationControl * ctrl) const;
 
 private:
   NbNavigationModeP * pimpl;

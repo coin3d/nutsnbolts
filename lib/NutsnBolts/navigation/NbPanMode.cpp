@@ -29,7 +29,7 @@
 #include <Inventor/events/SoLocation2Event.h>
 #include <Inventor/nodes/SoCamera.h>
 
-#include <NutsnBolts/navigation/NbNavigationInfo.h>
+#include <NutsnBolts/navigation/NbNavigationControl.h>
 
 #include <NutsnBolts/navigation/NbPanMode.h>
 
@@ -72,30 +72,30 @@ NbPanMode::~NbPanMode(void)
 */
 
 SbBool
-NbPanMode::handleEvent(const SoEvent * event, const NbNavigationInfo * info)
+NbPanMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctrl)
 {
   if ( ! event->isOfType(SoLocation2Event::getClassTypeId()) ) {
     return FALSE;
   }
 
-  SoCamera * camera = info->getCamera();
+  SoCamera * camera = ctrl->getCamera();
   if ( !camera ) {
     return FALSE;
   }
 
   // Find projection points for the current and the reference mouse
   // coordinates.
-  SbViewVolume vv = camera->getViewVolume(info->getViewportAspect());
+  SbViewVolume vv = camera->getViewVolume(ctrl->getViewportAspect());
   SbPlane panningplane = vv.getPlane(camera->focalDistance.getValue());
   SbLine line;
   SbVec3f current_planept, initial_planept;
-  vv.projectPointToLine(this->getCurrentNormalizedPosition(info), line);
+  vv.projectPointToLine(this->getCurrentNormalizedPosition(ctrl), line);
   panningplane.intersect(line, current_planept);
-  vv.projectPointToLine(this->getInitialNormalizedPosition(info), line);
+  vv.projectPointToLine(this->getInitialNormalizedPosition(ctrl), line);
   panningplane.intersect(line, initial_planept);
 
-  info->restoreCamera();
-  info->moveCamera(initial_planept - current_planept);
+  ctrl->restoreCamera();
+  ctrl->moveCamera(initial_planept - current_planept);
 
   return TRUE;
 }

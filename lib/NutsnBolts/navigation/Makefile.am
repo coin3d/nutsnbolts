@@ -10,8 +10,8 @@ noinst_LTLIBRARIES = libNutsnBoltsNavigation.la
 endif
 
 SourceFiles = \
-	NbNavigationInfo.cpp \
-	NbNavigationInfo.h \
+	NbNavigationControl.cpp \
+	NbNavigationControl.h \
 	NbNavigationMode.cpp \
 	NbNavigationMode.h \
 	NbNavigationState.cpp \
@@ -29,10 +29,16 @@ SourceFiles = \
 	NbZoomMode.cpp \
 	NbZoomMode.h \
 	NbCenterMode.cpp \
-	NbCenterMode.h
+	NbCenterMode.h \
+	NbRollMode.cpp \
+	NbRollMode.h \
+	NbPitchMode.cpp \
+	NbPitchMode.h \
+	NbYawMode.cpp \
+	NbYawMode.h
 
 HeaderFiles = \
-	NbNavigationInfo.h \
+	NbNavigationControl.h \
 	NbNavigationMode.h \
 	NbNavigationState.h \
 	NbNavigationSystem.h \
@@ -41,7 +47,10 @@ HeaderFiles = \
 	NbRotateMode.h \
 	NbPanMode.h \
 	NbZoomMode.h \
-	NbCenterMode.h
+	NbCenterMode.h \
+	NbRollMode.h \
+	NbPitchMode.h \
+	NbYawMode.h
 
 libNutsnBoltsNavigationincdir = $(includedir)/NutsnBolts/navigation
 libNutsnBoltsNavigationinc_HEADERS = $(HeaderFiles)
@@ -56,8 +65,3 @@ navigation.lst: $(navigation_lst_OBJECTS)
 	for obj in $(navigation_lst_OBJECTS); do \
 	  echo $$obj >> $@; \
 	done
-
-# if BUILD_WITH_MSVC
-# all-local: navigation.lst
-# endif
-

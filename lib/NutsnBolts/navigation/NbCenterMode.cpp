@@ -32,7 +32,7 @@
 #include <Inventor/actions/SoRayPickAction.h>
 #include <Inventor/SoPickedPoint.h>
 
-#include <NutsnBolts/navigation/NbNavigationInfo.h>
+#include <NutsnBolts/navigation/NbNavigationControl.h>
 
 #include <NutsnBolts/navigation/NbCenterMode.h>
 
@@ -93,7 +93,7 @@ NbCenterMode::~NbCenterMode(void)
 */
 
 SbBool
-NbCenterMode::handleEvent(const SoEvent * event, const NbNavigationInfo * info)
+NbCenterMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctrl)
 {
   if ( ! event->isOfType(SoMouseButtonEvent::getClassTypeId()) ) {
     return FALSE;
@@ -103,18 +103,26 @@ NbCenterMode::handleEvent(const SoEvent * event, const NbNavigationInfo * info)
     return FALSE;
   }
 
-  SoCamera * camera = info->getCamera();
+  SbVec3f pickpos;
+  SbBool hit = ctrl->pick(event->getPosition(), pickpos);
+
+  if ( hit ) {
+    ctrl->reorientCamera(pickpos);
+    ctrl->moveCamera(0.20f, TRUE);
+  }
+
+  SoCamera * camera = ctrl->getCamera();
   if ( !camera ) {
     return FALSE;
   }
 
-  SoNode * scene = info->getSceneGraph();
+  SoNode * scene = ctrl->getSceneGraph();
   if ( !scene ) {
     return FALSE;
   }
 
   SbViewportRegion vp;
-  vp.setWindowSize(info->getViewportSize());
+  vp.setWindowSize(ctrl->getViewportSize());
 
   if ( !PRIVATE(this)->rpaction ) {
     PRIVATE(this)->rpaction = new SoRayPickAction(vp);
@@ -152,7 +160,7 @@ NbCenterMode::handleEvent(const SoEvent * event, const NbNavigationInfo * info)
   camera->focalDistance = vec.length();
 
   PRIVATE(this)->rpaction->reset();
-  return FALSE;
+  return TRUE;
 }
 
 #undef ZOOM_FACTOR
