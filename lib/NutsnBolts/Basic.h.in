@@ -58,12 +58,12 @@
 # else // !NB_INTERNAL
 #  ifdef NB_DLL
 #   ifdef NB_NOT_DLL
-#    error Define _either_ NB_DLL or NB_NOT_DLL as appropriate for your linkage -- not both at the same time! See Coin's Inventor/C/basic.h for further instructions.
+#    error Define _either_ NB_DLL or NB_NOT_DLL as appropriate for your linkage -- not both at the same time! See the Coin Inventor/C/basic.h for further instructions.
 #   endif // NB_NOT_DLL
 #   define NB_DLL_API __declspec(dllimport)
 #  else // !NB_DLL
 #   ifndef NB_NOT_DLL
-#    error Define either NB_DLL or NB_NOT_DLL as appropriate for your linkage. See Coin's Inventor/C/basic.h for further instructions.
+#    error Define either NB_DLL or NB_NOT_DLL as appropriate for your linkage. See the Coin Inventor/C/basic.h for further instructions.
 #   endif // !NB_NOT_DLL
 #  endif // !NB_DLL
 # endif // !NB_INTERNAL
