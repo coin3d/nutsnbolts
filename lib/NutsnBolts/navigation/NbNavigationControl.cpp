@@ -343,7 +343,7 @@ NbNavigationControl::viewPart(SoPath * path, const SbVec3f & in, const SbVec3f &
       *camposfield = *utmposfield;
     }
     else {
-      SoDebugError::postWarning("NbNavigationControl::viewAll",
+      SoDebugError::postWarning("NbNavigationControl::viewPart",
                                 "You're using UTMCamera. "
                                 "Please consider supplying at least one "
                                 "UTMPosition node in your scene graph.");
