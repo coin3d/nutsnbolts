@@ -223,7 +223,7 @@ NbNavigationMode::finish(const SoEvent * event, const NbNavigationInfo * info)
 {
   // fprintf(stderr, "NbNavigationMode::finish() %s\n",
   // 	  this->getModeName().getString());
-  info->setCamera();
+  info->saveCamera();
 }
 
 // *************************************************************************
