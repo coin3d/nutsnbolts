@@ -84,6 +84,11 @@
   implements just zooming and rotating when the mouse is pressed.
 */
 
+/*
+  FIXME: there is never sent a mode change callback for the initial
+  mode.  Maybe the first event to be sent to processEvent should
+  invoke one?
+*/
 
 /*!
   \class NbNavigationSystem NutsnBolts/navigation/NbNavigationSystem.h
