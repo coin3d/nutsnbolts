@@ -39,6 +39,8 @@
   \class NbZoomMode NutsnBolts/navigation/NbZoomMode.h
   \brief Class that implements the zooming action.
 
+  This class implements zooming by mouse movement.
+
   \ingroup navigation
 */
 
@@ -46,7 +48,7 @@
 
 
 /*!
-  Constructor.  Needs to know its container navigation system and mode name.
+  Constructor.
 */
 
 NbZoomMode::NbZoomMode(SbName name)
@@ -58,7 +60,7 @@ NbZoomMode::NbZoomMode(SbName name)
 }
 
 /*!
-  Destructor.  Doesn't do anything currently.
+  Destructor.
 */
 
 NbZoomMode::~NbZoomMode(void)
@@ -67,6 +69,8 @@ NbZoomMode::~NbZoomMode(void)
 
 /*!
   This method handles the zooming operation.
+
+  Returns FALSE for unused events, and TRUE for events that are used.
 */
 
 SbBool
@@ -139,3 +143,5 @@ NbZoomMode::handleEvent(const SoEvent * event, const NbNavigationInfo * info)
 
   return TRUE;
 }
+
+// *************************************************************************

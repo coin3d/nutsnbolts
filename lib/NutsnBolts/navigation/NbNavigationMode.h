@@ -53,17 +53,6 @@ public:
 
   virtual SoNode * getSceneGraph(void);
 
-  void addTransition(NbNavigationMode * newmode,
-		     const SoEvent * event,
-		     SbBool stack = TRUE,
-		     const SoEvent * condition = NULL);
-  void addAbort(const SoEvent * event, const SoEvent * condition = NULL);
-  void addFinish(const SoEvent * event, const SoEvent * condition = NULL);
-
-  void activate(void);
-  void deactivate(void);
-  SbBool isActive(void) const;
-
   virtual SbBool handleEvent(const SoEvent * event, const NbNavigationInfo * info) = 0;
 
   virtual void init(const SoEvent * event, const NbNavigationInfo * info);

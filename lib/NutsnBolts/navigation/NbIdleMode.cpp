@@ -31,11 +31,14 @@
   \class NbIdleMode NutsnBolts/navigation/NbIdleMode.h
   \brief Class implementing an idle mode.
 
-  This navigation mode does nothing.
+  This class implements an idle navigation mode.
 
   \ingroup navigation
 */
 
+/*!
+  Constructor.
+*/
 
 NbIdleMode::NbIdleMode(SbName modename)
   : inherited(modename)
@@ -43,15 +46,21 @@ NbIdleMode::NbIdleMode(SbName modename)
   this->pimpl = NULL;
 }
 
+/*!
+  Destructor.
+*/
+
 NbIdleMode::~NbIdleMode(void)
 {
 }
 
+/*!
+  Implements idling.  Returns always FALSE.
+*/
+
 SbBool
 NbIdleMode::handleEvent(const SoEvent * event, const NbNavigationInfo * info)
 {
-  //fprintf(stderr, "NbIdleMode::handleEvent() %s\n",
-  //	  this->getModeName().getString());
   return FALSE;
 }
 

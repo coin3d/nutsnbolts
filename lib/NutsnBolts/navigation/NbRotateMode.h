@@ -37,8 +37,6 @@ public:
 protected:
   virtual SbBool handleEvent(const SoEvent * event, const NbNavigationInfo * info);
 
-  virtual void abort(const SoEvent * event, const NbNavigationInfo * info);
-
 private:
   NbRotateModeP * pimpl;
 

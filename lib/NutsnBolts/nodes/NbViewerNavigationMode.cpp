@@ -32,18 +32,49 @@
 
 /*!
   \class NbViewerNavigationMode NutsnBolts/nodes/NbViewerNavigationMode.h
-  \brief Class for setting the viewer navigation mode from a scene graph.
+  \brief Node for setting the default viewer navigation mode for a scene graph.
 
-  In this context, a viewer navigation mode is the viewer navigation system,
-  not a sub-mode.
+  This node provides a way to hint to the NbSceneManager which
+  navigation mode you want to use with a scene graph.
+
+  The node must be placed before the first camera in the scene graph,
+  or it will not be found by the system that searches for this node.
+
+  It will only work in cooperation with the NbSceneManager.  If for
+  instance just the regular SoSceneManager is used in the viewer, this
+  node does absolutely nothing.
+
+  Currently, the mode field of the node is not monitored for dynamic
+  changes, so updating it will not change the viewer mode.  Doing this is
+  a possibility for future enhancement.
+
+  Be aware that "navigation mode" in this context translates to a
+  complete navigation system (NbNavigationSystem), and not an atomic
+  navigation submode (NbNavigationMode).
 
   \ingroup nodes
   \ingroup navigation
 */
 
+/*!
+  \var SoSFString NbViewerNavigationMode::mode
+
+  The mode field is used for setting the name of the desired mode.
+  If the mode is not found in the system, no mode will be used.
+
+  The builtin modes are currently limited to "examiner", "panner",
+  "zoomer", and "rotater".  In addition, application developers can
+  extend the list with their own custom modes.
+*/
+
 #define PRIVATE(obj) ((obj)->pimpl)
 
 SO_NODE_SOURCE(NbViewerNavigationMode);
+
+/*!
+  Static class initializer.  It is called from NutsnBolts::init, so
+  there should be no need to call this directly.
+*/
 
 void
 NbViewerNavigationMode::initClass(void)
@@ -51,12 +82,20 @@ NbViewerNavigationMode::initClass(void)
   SO_NODE_INIT_CLASS(NbViewerNavigationMode, SoNode, SoNode);
 }
 
+/*!
+  Constructor.
+*/
+
 NbViewerNavigationMode::NbViewerNavigationMode(void)
 {
   PRIVATE(this) = NULL; // reserved for future
   SO_NODE_CONSTRUCTOR(NbViewerNavigationMode);
   SO_NODE_ADD_FIELD(mode, (""));
 }
+
+/*!
+  Destructor.
+*/
 
 NbViewerNavigationMode::~NbViewerNavigationMode(void)
 {

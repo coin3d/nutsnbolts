@@ -39,14 +39,13 @@
   \class NbPanMode NutsnBolts/navigation/NbPanMode.h
   \brief Class that implements the panning mode.
 
+  This class implements the panning mode.
+
   \ingroup navigation
 */
 
 /*!
-  The constructor.
-
-  \a system The navigfation system it belongs to.
-  \a name the name of the navigation mode.
+  Constructor.
 */
 
 NbPanMode::NbPanMode(SbName name)
@@ -58,7 +57,7 @@ NbPanMode::NbPanMode(SbName name)
 }
 
 /*!
-  The destructor.
+  Destructor.
 */
 
 NbPanMode::~NbPanMode(void)
@@ -66,7 +65,10 @@ NbPanMode::~NbPanMode(void)
 }
 
 /*!
-  This method handles the panning operation.
+  This method implements the panning operation.
+
+  Returns FALSE for events that are not used, and TRUE for events that
+  are used.
 */
 
 SbBool

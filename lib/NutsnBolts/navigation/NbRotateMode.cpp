@@ -42,6 +42,9 @@
   \class NbRotateMode NutsnBolts/navigation/NbRotateMode.h
   \brief Class that implements the rotate mode.
 
+  This class implements the object-rotate mode, rotating the camera
+  around the focal point.
+
   \ingroup navigation
 */
 
@@ -66,11 +69,20 @@ public:
 
 #define PRIVATE(obj) ((obj)->pimpl)
 
+/*!
+  Constructor.
+*/
+
+
 NbRotateMode::NbRotateMode(SbName modename)
   : inherited(modename)
 {
   PRIVATE(this) = new NbRotateModeP(this);
 }
+
+/*!
+  Destructor.
+*/
 
 NbRotateMode::~NbRotateMode(void)
 {
@@ -78,11 +90,18 @@ NbRotateMode::~NbRotateMode(void)
   PRIVATE(this) = NULL;
 }
 
+/*!
+  This method implements the object rotatio through tracking how the mouse
+  location moves on a spheresheet-projector.
+
+  Returns FALSE for unused events and TRUE for events that are used.
+*/
+
 SbBool
 NbRotateMode::handleEvent(const SoEvent * event, const NbNavigationInfo * info)
 {
-  fprintf(stderr, "NbRotateMode::handleEvent() %s\n",
-	  this->getModeName().getString());
+  // fprintf(stderr, "NbRotateMode::handleEvent() %s\n",
+  // 	  this->getModeName().getString());
 
   if ( !event->isOfType(SoLocation2Event::getClassTypeId()) ) {
     return FALSE;
@@ -108,13 +127,6 @@ NbRotateMode::handleEvent(const SoEvent * event, const NbNavigationInfo * info)
 
   info->reorientCamera(rot);
   return TRUE;
-}
-
-void
-NbRotateMode::abort(const SoEvent * event, const NbNavigationInfo * info)
-{
-  info->restoreCamera();
-  inherited::abort(event, info);
 }
 
 #undef PRIVATE

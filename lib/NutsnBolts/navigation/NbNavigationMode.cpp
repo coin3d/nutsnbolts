@@ -74,29 +74,14 @@ struct Transition {
 
 class NbNavigationModeP {
 public:
-  // static factory stuff
-  static SbDict * namedict;
-
-public:
   NbNavigationModeP(void);
 
   SbName modename;
 
-  SbBool active;
-  NbNavigationMode * submode;
-  const SoEvent * trigger;
-
   SbVec2s initpos;
   SbVec2s prevpos;
   SbVec2s currentpos;
-
-  SbList<Transition> * transitions;
-  SbList<Transition> * finishes;
-  SbList<Transition> * aborts;
-
 }; // NbNavigationModeP
-
-SbDict * NbNavigationModeP::namedict = NULL;
 
 // *************************************************************************
 
@@ -129,58 +114,27 @@ NbNavigationMode::NbNavigationMode(SbName modename)
 
 NbNavigationMode::~NbNavigationMode(void)
 {
-  // this->setCamera(NULL);
-
-  if ( PRIVATE(this)->trigger ) {
-    delete PRIVATE(this)->trigger;
-    PRIVATE(this)->trigger = NULL;
-  }
-
-  if ( PRIVATE(this)->transitions ) {
-    int i = 0;
-    int max = PRIVATE(this)->transitions->getLength();
-    for ( i = 0; i < max; i++ ) {
-      Transition t = (*(PRIVATE(this)->transitions))[i];
-      if ( t.trigger ) delete t.trigger;
-      if ( t.condition ) delete t.condition;
-    }
-    delete PRIVATE(this)->transitions;
-    PRIVATE(this)->transitions = NULL;
-  }
-
-  if ( PRIVATE(this)->aborts ) {
-    int i = 0;
-    int max = PRIVATE(this)->aborts->getLength();
-    for ( i = 0; i < max; i++ ) {
-      Transition t = (*(PRIVATE(this)->aborts))[i];
-      if ( t.trigger ) delete t.trigger;
-      if ( t.condition ) delete t.condition;
-    }
-    delete PRIVATE(this)->aborts;
-    PRIVATE(this)->aborts = NULL;
-  }
-
-  if ( PRIVATE(this)->finishes ) {
-    int i = 0;
-    int max = PRIVATE(this)->finishes->getLength();
-    for ( i = 0; i < max; i++ ) {
-      Transition t = (*(PRIVATE(this)->finishes))[i];
-      if ( t.trigger ) delete t.trigger;
-      if ( t.condition ) delete t.condition;
-    }
-    delete PRIVATE(this)->finishes;
-    PRIVATE(this)->finishes = NULL;
-  }
-
   delete PRIVATE(this);
   PRIVATE(this) = NULL;
 }
+
+/*!
+  Returns the name of the mode, given to the constructor.
+*/
 
 SbName
 NbNavigationMode::getModeName(void) const
 {
   return PRIVATE(this)->modename;
 }
+
+/*!
+  This is the entry point for events coming from the
+  NbNavigationSystem.  Some initial information is gathered before the
+  event is passed on to the virtual, abstract handleEvent method.
+
+  \sa handleEvent
+*/
 
 SbBool
 NbNavigationMode::processEvent(const SoEvent * event, const NbNavigationInfo * info)
@@ -195,6 +149,10 @@ NbNavigationMode::processEvent(const SoEvent * event, const NbNavigationInfo * i
 
 /*!
   Not implemented yet.
+
+  This function should return a visualization scene graph in case the
+  navigation submode also includes visualization hints for the 3D
+  display.
 */
 
 SoNode *
@@ -203,95 +161,47 @@ NbNavigationMode::getSceneGraph(void)
   return NULL;
 }
 
-void
-NbNavigationMode::addTransition(NbNavigationMode * newmode,
-				const SoEvent * event,
-				SbBool stack,
-				const SoEvent * condition)
-{
-  Transition t;
-  t.trigger = SoEvent_Clone(event);
-  if ( condition ) {
-    t.condition = SoEvent_Clone(condition);
-  } else {
-    t.condition = NULL;
-  }
-  t.mode = newmode;
-  if ( PRIVATE(this)->transitions == NULL ) {
-    PRIVATE(this)->transitions = new SbList<Transition>;
-  }
-  PRIVATE(this)->transitions->append(t);
-}
+/*!
+  \fn SbBool NbNavigationMode::handleEvent(const SoEvent * event, const NbNavigationInfo * into) = 0
 
-void
-NbNavigationMode::addAbort(const SoEvent * event,
-			   const SoEvent * condition)
-{
-  Transition t;
-  t.trigger = SoEvent_Clone(event);
-  if ( condition ) {
-    t.condition = SoEvent_Clone(condition);
-  } else {
-    t.condition = NULL;
-  }
-  t.mode = NULL;
-  if ( PRIVATE(this)->aborts == NULL ) {
-    PRIVATE(this)->aborts = new SbList<Transition>;
-  }
-  PRIVATE(this)->aborts->append(t);
-}
+  Virtual abstract method that should be overridden to implement the
+  navigation submode.
 
-void
-NbNavigationMode::addFinish(const SoEvent * event,
-			    const SoEvent * condition)
-{
-  Transition t;
-  t.trigger = SoEvent_Clone(event);
-  if ( condition ) {
-    t.condition = SoEvent_Clone(condition);
-  } else {
-    t.condition = NULL;
-  }
-  t.mode = NULL;
-  if ( PRIVATE(this)->finishes == NULL ) {
-    PRIVATE(this)->finishes = new SbList<Transition>;
-  }
-  PRIVATE(this)->finishes->append(t);
-}
+  All events passed through the system while this mode is active is
+  passed to this method, including the events that cause init(),
+  abort(), and finish() event transitions.
 
-void
-NbNavigationMode::activate(void)
-{
-  PRIVATE(this)->active = TRUE;
-}
+*/
 
-void
-NbNavigationMode::deactivate(void)
-{
-  PRIVATE(this)->active = FALSE;
-}
+/*!
+  Invoked when a mode is started/initialized.  It is passed the event that
+  triggered the mode change, or NULL in the case of being the default mode.
 
-SbBool
-NbNavigationMode::isActive(void) const
-{
-  if ( PRIVATE(this)->submode && PRIVATE(this)->submode->isActive() )
-    return TRUE;
-  return PRIVATE(this)->active;
-}
+  This method is called just before handleEvent is called with the
+  exact same event object.
 
-// *************************************************************************
+  If overriding this event, control should still be passed down to this
+  method.
+
+  \sa handleEvent, abort(), finish()
+*/
 
 void
 NbNavigationMode::init(const SoEvent * event, const NbNavigationInfo * info)
 {
   // fprintf(stderr, "NbNavigationMode::init() %s\n",
   // 	  this->getModeName().getString());
-  PRIVATE(this)->trigger = SoEvent_Clone(event);
   PRIVATE(this)->initpos = event->getPosition();
   PRIVATE(this)->prevpos = event->getPosition();
   PRIVATE(this)->currentpos = event->getPosition();
-  PRIVATE(this)->active = TRUE;
 }
+
+/*!
+  This method is invoked when themode is aborted.  The event passed to
+  this method has already been handed to handleEvent as well.
+
+  \sa handleEvent, init(), finish()
+*/
 
 void
 NbNavigationMode::abort(const SoEvent * event, const NbNavigationInfo * info)
@@ -299,9 +209,14 @@ NbNavigationMode::abort(const SoEvent * event, const NbNavigationInfo * info)
   // fprintf(stderr, "NbNavigationMode::abort() %s\n",
   // 	  this->getModeName().getString());
   info->restoreCamera();
-  PRIVATE(this)->active = FALSE;
-  PRIVATE(this)->trigger = NULL;
 }
+
+/*!
+  Invoked when a mode is completed.  The event object passed to this method
+  has already been handed to handleEvent as well.
+
+  \sa handleEvent, init(), abort()
+*/
 
 void
 NbNavigationMode::finish(const SoEvent * event, const NbNavigationInfo * info)
@@ -309,11 +224,16 @@ NbNavigationMode::finish(const SoEvent * event, const NbNavigationInfo * info)
   // fprintf(stderr, "NbNavigationMode::finish() %s\n",
   // 	  this->getModeName().getString());
   info->setCamera();
-  PRIVATE(this)->active = FALSE;
-  PRIVATE(this)->trigger = NULL;
 }
 
 // *************************************************************************
+
+/*!
+  Returns the initial pointer position in the viewport, from when the
+  navigation submode was started.
+
+  \sa getPreviousPosition, getCurrentPosition, getInitialNormalizedPosition
+*/
 
 SbVec2s
 NbNavigationMode::getInitialPosition(void) const
@@ -321,17 +241,35 @@ NbNavigationMode::getInitialPosition(void) const
   return PRIVATE(this)->initpos;
 }
 
+/*!
+  Returns the previous points position in the viewport.
+
+  \sa getInitialPosition, getCurrentPosition, getPreviousNormalizedPosition
+*/
+
 SbVec2s
 NbNavigationMode::getPreviousPosition(void) const
 {
   return PRIVATE(this)->prevpos;
 }
 
+/*!
+  Returns the current pointer position in the viewport.
+
+  \sa getInitialPosition, getPreviousPosition, getCurrentNormalizedPosition
+*/
+
 SbVec2s
 NbNavigationMode::getCurrentPosition(void) const
 {
   return PRIVATE(this)->currentpos;
 }
+
+/*!
+  Returns the initial pointer position in normalized coordinates.
+
+  \sa getInitialPosition, getPreviousNormalizedPosition, getCurrentNormalizedPosition
+*/
 
 SbVec2f
 NbNavigationMode::getInitialNormalizedPosition(const NbNavigationInfo * info) const
@@ -341,6 +279,12 @@ NbNavigationMode::getInitialNormalizedPosition(const NbNavigationInfo * info) co
   return SbVec2f(float(pos[0])/float(vp[0]-1), float(pos[1]/float(vp[1]-1)));
 }
 
+/*!
+  Returns the previuos pointer position in normalized coordinates.
+
+  \sa getPreviousPosition, getInitialNormalizedPosition, getCurrentNormalizedPosition
+*/
+
 SbVec2f 
 NbNavigationMode::getPreviousNormalizedPosition(const NbNavigationInfo * info) const
 {
@@ -348,6 +292,13 @@ NbNavigationMode::getPreviousNormalizedPosition(const NbNavigationInfo * info) c
   SbVec2s pos(this->getPreviousPosition());
   return SbVec2f(float(pos[0])/float(vp[0]-1), float(pos[1]/float(vp[1]-1)));
 }
+
+/*!
+  Returns the current pointer position in normalized coordinates.
+
+  \sa getCurrentPosition, getInitialNormalizedPosition, getPreviousNormalizedPosition
+*/
+
 
 SbVec2f
 NbNavigationMode::getCurrentNormalizedPosition(const NbNavigationInfo * info) const
@@ -364,15 +315,7 @@ NbNavigationMode::getCurrentNormalizedPosition(const NbNavigationInfo * info) co
 
 NbNavigationModeP::NbNavigationModeP(void)
 {
-  this->trigger = NULL;
-  this->submode = NULL;
-  this->active = FALSE;
-
   this->initpos.setValue(0, 0);
   this->prevpos.setValue(0, 0);
   this->currentpos.setValue(0, 0);
-
-  this->transitions = NULL;
-  this->finishes = NULL;
-  this->aborts = NULL;
 }

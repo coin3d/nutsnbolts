@@ -92,6 +92,10 @@
   This function initializes the SIM Nuts'n'Bolts library - all the
   classes and components.
 
+  It calls all the other static class initializers in the library,
+  making sure there is no need to call any other initializer than this
+  to use SIM Nuts'n'Bolts.
+
   \sa NutsnBolts::clean
 */
 
