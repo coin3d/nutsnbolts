@@ -54,6 +54,8 @@ public:
   SbViewportRegion viewport;
   SoCamera * initcamera;
   SoCamera * cameraptr;
+
+  SoNode * scenegraph;
 }; // NbNavigationInfoP
 
 // *************************************************************************
@@ -69,6 +71,7 @@ NbNavigationInfo::NbNavigationInfo(void)
   PRIVATE(this) = new NbNavigationInfoP(this);
   PRIVATE(this)->initcamera = NULL;
   PRIVATE(this)->cameraptr = NULL;
+  PRIVATE(this)->scenegraph = NULL;
 }
 
 /*!
@@ -77,8 +80,50 @@ NbNavigationInfo::NbNavigationInfo(void)
 
 NbNavigationInfo::~NbNavigationInfo(void)
 {
+
+  if ( PRIVATE(this)->initcamera ) {
+    PRIVATE(this)->initcamera->unref();
+    PRIVATE(this)->initcamera = NULL;
+  }
+  if ( PRIVATE(this)->cameraptr ) {
+    PRIVATE(this)->cameraptr->unref();
+    PRIVATE(this)->cameraptr = NULL;
+  }
+  this->setSceneGraph(NULL);
   delete PRIVATE(this);
   PRIVATE(this) = NULL;
+}
+
+/*!
+  Sets the scene graph.  Needed for certain navigation modes that for
+  instance perform picking.
+
+  \sa getSceneGraph
+*/
+
+void
+NbNavigationInfo::setSceneGraph(SoNode * scenegraph)
+{
+  if ( PRIVATE(this)->scenegraph ) {
+    PRIVATE(this)->scenegraph->unref();
+    PRIVATE(this)->scenegraph = NULL;
+  }
+  if ( scenegraph ) {
+    PRIVATE(this)->scenegraph = scenegraph;
+    PRIVATE(this)->scenegraph->ref();
+  }
+}
+
+/*!
+  Returns the set scene graph.
+
+  \sa setSceneGraph
+*/
+
+SoNode *
+NbNavigationInfo::getSceneGraph(void) const
+{
+  return PRIVATE(this)->scenegraph;
 }
 
 /*!
@@ -120,17 +165,7 @@ NbNavigationInfo::getCamera(void) const
 }
 
 /*!
-  This method sets the viewport information.
-*/
-
-void
-NbNavigationInfo::setViewport(const SbViewportRegion & vp)
-{
-  PRIVATE(this)->viewport = vp;
-}
-
-/*!
-  This method <i>sets</i> the camera to its current position.
+  This method <i>saves</i> the current camera position and orientation.
   You can later restore the camera back to this position by calling
   restoreCamera().
 
@@ -138,7 +173,7 @@ NbNavigationInfo::setViewport(const SbViewportRegion & vp)
 */
 
 void
-NbNavigationInfo::setCamera(void) const
+NbNavigationInfo::saveCamera(void) const
 {
   // fprintf(stderr, "NbNavigationInfo::setCamera()\n");
   if ( !PRIVATE(this)->cameraptr || !PRIVATE(this)->initcamera ) return;
@@ -147,7 +182,9 @@ NbNavigationInfo::setCamera(void) const
 
 /*!
   This method restores the camera back to its last <i>set</i> position,
-  or its initial position if setCamera() has not been used yet.
+  or its initial position if saveCamera() has not been used yet.
+
+  \sa saveCamera
 */
 
 void
@@ -161,7 +198,7 @@ NbNavigationInfo::restoreCamera(void) const
 /*!
   This method reorients the camera according to the given rotation.
 
-  \sa setCamera, restoreCamera, moveCamera
+  \sa saveCamera, restoreCamera, moveCamera
 */
 
 void
@@ -188,6 +225,8 @@ NbNavigationInfo::reorientCamera(const SbRotation & rot) const
 
 /*!
   This method moves the camera.
+
+  \sa reorientCamera, saveCamera, restoreCamera
 */
 
 void
@@ -197,6 +236,16 @@ NbNavigationInfo::moveCamera(const SbVec3f & vec) const
   if ( PRIVATE(this)->cameraptr == NULL ) return;
   PRIVATE(this)->cameraptr->position =
     PRIVATE(this)->cameraptr->position.getValue() + vec;
+}
+
+/*!
+  This method sets the viewport information.
+*/
+
+void
+NbNavigationInfo::setViewport(const SbViewportRegion & vp)
+{
+  PRIVATE(this)->viewport = vp;
 }
 
 /*!

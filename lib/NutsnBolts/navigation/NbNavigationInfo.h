@@ -28,6 +28,7 @@
 #include <NutsnBolts/Basic.h>
 
 class SoCamera;
+class SoNode;
 class SbRotation;
 class SbViewportRegion;
 
@@ -38,13 +39,17 @@ public:
   NbNavigationInfo(void);
   virtual ~NbNavigationInfo(void);
 
+  void setSceneGraph(SoNode * scene);
+  SoNode * getSceneGraph(void) const;
+
   void setCamera(SoCamera * camera);
   SoCamera * getCamera(void) const;
 
+  void saveCamera(void) const;
+  void restoreCamera(void) const;
+
   void reorientCamera(const SbRotation & rot) const;
   void moveCamera(const SbVec3f & vec) const;
-  void setCamera(void) const;
-  void restoreCamera(void) const;
 
   void setViewport(const SbViewportRegion & vp);
   SbVec2s getViewportSize(void) const;
