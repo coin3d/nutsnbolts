@@ -24,11 +24,13 @@
 \**************************************************************************/
 
 #include <Inventor/SbName.h>
+#include <Inventor/SbVec3f.h>
 
 #include <NutsnBolts/Basic.h>
 
 class SbViewportRegion;
 class SoNode;
+class SoPath;
 class SoCamera;
 class SoEvent;
 
@@ -66,6 +68,10 @@ class NbNavigationControl;
 #define NB_CENTERER_IDLE_MODE           "centerer:idle"
 #define NB_CENTERER_CENTER_MODE         "centerer:center"
 
+#define NB_PICKER_SYSTEM                "picker"
+#define NB_PICKER_IDLE_MODE             "picker:idle"
+#define NB_PICKER_PICK_MODE             "picker:pick"
+
 #define NB_DEFAULT_SYSTEM               NB_EXAMINER_SYSTEM
 
 typedef
@@ -80,11 +86,16 @@ public:
 
   static SbBool registerSystem(NbNavigationSystem * system);
   static SbBool unregisterSystem(NbNavigationSystem * system);
+  static SbBool isRegistered(NbNavigationSystem * system);
+
   static NbNavigationSystem * getByName(SbName name);
+  static NbNavigationSystem * createByName(SbName name);
 
 public:
   NbNavigationSystem(SbName name);
   ~NbNavigationSystem(void);
+
+  NbNavigationSystem * clone(void) const;
 
   void addModeChangeCallback(NbNavigationModeChangeCB * cb, void * closure);
   void removeModeChangeCallback(NbNavigationModeChangeCB * cb, void * closure);
@@ -94,6 +105,8 @@ public:
   void setViewport(const SbViewportRegion & viewport);
 
   void viewAll(void);
+  void viewPart(SoPath * path, const SbVec3f & in, const SbVec3f & up);
+  void viewPart(SoNode * node, const SbVec3f & in, const SbVec3f & up);
 
   SbBool processEvent(const SoEvent * event);
   NbNavigationControl * getNavigationControl(void) const;
@@ -101,7 +114,8 @@ public:
   SbName getName(void) const;
 
   SbName getCurrentModeName(void) const;
-  const NbNavigationMode * getCurrentMode(void) const;
+  NbNavigationMode * getMode(SbName name) const;
+  NbNavigationMode * getCurrentMode(void) const;
   
   enum TransitionType {
     INITIAL,

@@ -32,6 +32,7 @@
 #include <Inventor/lists/SbList.h>
 #include <Inventor/events/SoKeyboardEvent.h>
 #include <Inventor/events/SoMouseButtonEvent.h>
+#include <Inventor/actions/SoSearchAction.h>
 
 #include <NutsnBolts/misc/SoEvent.h>
 #include <NutsnBolts/navigation/NbNavigationState.h>
@@ -41,6 +42,7 @@
 #include <NutsnBolts/navigation/NbRotateMode.h>
 #include <NutsnBolts/navigation/NbZoomMode.h>
 #include <NutsnBolts/navigation/NbPanMode.h>
+#include <NutsnBolts/navigation/NbPickMode.h>
 #include <NutsnBolts/navigation/NbPitchMode.h>
 #include <NutsnBolts/navigation/NbRollMode.h>
 #include <NutsnBolts/navigation/NbYawMode.h>
@@ -303,13 +305,12 @@ NbNavigationSystem::initClass(void)
   examiner->addModeTransition(examinerwaitforcenter, FINISH, key_sdown);
 
 
-  examiner->addModeTransition(examinerwaitforzoom, examinerzoom, SWITCH, button1down);
-  examiner->addModeTransition(examinerwaitforpan, examinerpan, SWITCH, button1down);
+  examiner->addModeTransition(examinerwaitforzoom, examinerzoom,
+                              SWITCH, button1down);
+  examiner->addModeTransition(examinerwaitforpan, examinerpan,
+                              SWITCH, button1down);
   examiner->addModeTransition(examinerwaitforcenter, examinercenter,
-			      SWITCH, button1down);
-
-  examiner->addModeTransition(examinercenter, FINISH, button1up);
-
+                              SWITCH, button1down);
 
   NbNavigationSystem * rotater = new NbNavigationSystem(NB_ROTATER_SYSTEM);
   NbIdleMode * rotater_idle = new NbIdleMode(NB_ROTATER_IDLE_MODE);
@@ -362,8 +363,15 @@ NbNavigationSystem::initClass(void)
   centerer->addModeTransition(centerer_idle, INITIAL);
   centerer->addModeTransition(centerer_idle, centerer_center,
 			      STACK, button1down);
-  centerer->addModeTransition(centerer_center, FINISH,
-			      button1up, button1down);
+
+  NbNavigationSystem * picker = new NbNavigationSystem(NB_PICKER_SYSTEM);
+  NbIdleMode * picker_idle = new NbIdleMode(NB_PICKER_IDLE_MODE);
+  NbPickMode * picker_pick = new NbPickMode(NB_PICKER_PICK_MODE);
+  picker->addMode(picker_idle);
+  picker->addMode(picker_pick);
+  picker->addModeTransition(picker_idle, INITIAL);
+  picker->addModeTransition(picker_idle, picker_pick,
+                            STACK, button1down);
 
   NbNavigationSystem::registerSystem(idler);
   NbNavigationSystem::registerSystem(examiner);
@@ -371,8 +379,21 @@ NbNavigationSystem::initClass(void)
   NbNavigationSystem::registerSystem(panner);
   NbNavigationSystem::registerSystem(zoomer);
   NbNavigationSystem::registerSystem(centerer);
+  NbNavigationSystem::registerSystem(picker);
 
-  // FIXME: delete events
+
+  delete spacedown;
+  delete key_sdown;
+  delete button1down;
+  delete button1up;
+  delete button2down;
+  delete button2up;
+  delete button3down;
+  delete button3up;
+  delete shiftdown;
+  delete shiftup;
+  delete ctrldown;
+  delete ctrlup;
 }
 
 /*!
@@ -446,6 +467,20 @@ NbNavigationSystem::unregisterSystem(NbNavigationSystem * system)
 }
 
 /*!
+  This function returns whether or not this particular navigation system
+  instance is in the register.
+*/
+
+SbBool
+NbNavigationSystem::isRegistered(NbNavigationSystem * system)
+{
+  assert(NbNavigationSystemP::namedict);
+  SbName name = system->getName();
+  NbNavigationSystem * registered = NbNavigationSystem::getByName(name);
+  return (registered == system) ? TRUE : FALSE;
+}
+
+/*!
   This function returns the navigation system that has been registered
   under the given name.  NULL is returned if no such system has been
   registered.
@@ -460,6 +495,19 @@ NbNavigationSystem::getByName(SbName name)
   void * ptr = NULL;
   NbNavigationSystemP::namedict->find((uintptr_t) name.getString(), ptr);
   return (NbNavigationSystem *) ptr;
+}
+
+/*!
+  This function returns a distinct copy of the navigation system defined
+  by the given name, or NULL if no such navigation system has been 
+*/
+
+NbNavigationSystem *
+NbNavigationSystem::createByName(SbName name)
+{
+  NbNavigationSystem * orig = NbNavigationSystem::getByName(name);
+  if (!orig) return NULL;
+  return orig->clone();
 }
 
 // *************************************************************************
@@ -486,6 +534,54 @@ NbNavigationSystem::~NbNavigationSystem(void)
 {
   delete PRIVATE(this);
   PRIVATE(this) = NULL;
+}
+
+/*!
+  This method creates a clone of this navigation system.  Only the mode
+  network setup is copied - callback lists are not.
+*/
+
+NbNavigationSystem *
+NbNavigationSystem::clone(void) const
+{
+  NbNavigationSystem * clone = new NbNavigationSystem(this->getName());
+  int i;
+  const int nummodes = PRIVATE(this)->modes->getLength();
+  for ( i = 0; i < nummodes; i++ ) {
+    PRIVATE(clone)->modes->append((*(PRIVATE(this)->modes))[i]->clone());
+  }
+  const int numtransitions = PRIVATE(this)->transitions->getLength();
+  for ( i = 0; i < numtransitions; i++ ) {
+    NbNavigationModeTransition * origt = (*(PRIVATE(this)->transitions))[i];
+    NbNavigationModeTransition * tcopy = new NbNavigationModeTransition;
+    tcopy->type = origt->type;
+    tcopy->mode1 = NULL;
+    if (origt->mode1) {
+      int idx = PRIVATE(this)->modes->find(origt->mode1);
+      assert(idx != -1);
+      tcopy->mode1 = (*(PRIVATE(clone)->modes))[idx];
+    }
+    tcopy->mode2 = NULL;
+    if (origt->mode2) {
+      int idx = PRIVATE(this)->modes->find(origt->mode2);
+      assert(idx != -1);
+      tcopy->mode2 = (*(PRIVATE(clone)->modes))[idx];
+    }
+    tcopy->trigger = NULL;
+    if (origt->trigger) {
+      tcopy->trigger = SoEvent_Clone(origt->trigger);
+    }
+    tcopy->condition = NULL;
+    if (origt->condition) {
+      tcopy->condition = SoEvent_Clone(origt->condition);
+    }
+    PRIVATE(clone)->transitions->append(tcopy);
+    if (tcopy->type == INITIAL) {
+      PRIVATE(clone)->state->reset();
+      PRIVATE(clone)->state->push(tcopy->mode1, NULL);
+    }
+  }
+  return clone;
 }
 
 /*!
@@ -537,6 +633,39 @@ NbNavigationSystem::viewAll(void)
 }
 
 /*!
+  This method places the camera so that it has the best view
+  possible of the part \a path points to, given the in-vector and
+  up-vector constraints.
+*/
+
+void
+NbNavigationSystem::viewPart(SoPath * path, const SbVec3f & in, const SbVec3f & up)
+{
+  PRIVATE(this)->ctrl->viewPart(path, in, up);
+}
+
+/*!
+  This method finds the first path to \a node and invokes the
+  path-based viewPart() instead.  It's just a convenience function for
+  avoiding to have to find the path yourself.
+
+  \sa viewPart
+*/
+
+void
+NbNavigationSystem::viewPart(SoNode * node, const SbVec3f & in, const SbVec3f & up)
+{
+  SoNode * root = PRIVATE(this)->ctrl->getSceneGraph();
+  if (!root) return;
+  SoSearchAction sa;
+  sa.setInterest(SoSearchAction::FIRST);
+  sa.setNode(node);
+  sa.apply(root);
+  if (!sa.getPath()) return;
+  this->viewPart(sa.getPath(), in, up);
+}
+
+/*!
   Returns the navigation control class used by the navigation
   systems.
 */
@@ -549,7 +678,9 @@ NbNavigationSystem::getNavigationControl(void) const
 
 /*!
   Adds a callback that will be called each time the navigation
-  system switches navigation mode.
+  system switches navigation mode.  Intended usage for this is for the
+  application to switch mouse cursor representation and similar
+  things.
 
   \sa removeModeChangeCallback, getCurrentModeName
 */
@@ -623,23 +754,18 @@ NbNavigationSystem::processEvent(const SoEvent * event)
   assert(PRIVATE(this)->ctrl);
   NbNavigationMode * mode = PRIVATE(this)->state->getMode();
   if (mode == NULL) return FALSE;
-  // fprintf(stderr, "NbNavigationSystem::processEvent()\n");
 
-  const int max = PRIVATE(this)->transitions->getLength();
-  // fprintf(stderr, "system has %d transitions\n", max);
-
-  // check if we're doing a mode transition
   int i;
+  const int max = PRIVATE(this)->transitions->getLength();
+  // check if we're doing a mode transition
   for (i = 0; i < max; i++) {
     NbNavigationModeTransition * transition =
       (*(PRIVATE(this)->transitions))[i];
     if (transition->mode1 != mode) continue;
-    // fprintf(stderr, "trying transition %d\n", i);
     if (transition->type == INITIAL) continue; // trigger is NULL
     if (! SoEvent_Equals(transition->trigger, event)) continue;
 
     // we are doing a mode transition
-    // fprintf(stderr, "triggering transition %d\n", i);
     switch (transition->type) {
     case INITIAL:
       assert(0 && "crazy!");
@@ -649,36 +775,50 @@ NbNavigationSystem::processEvent(const SoEvent * event)
     case ABORT:
       mode->processEvent(event, PRIVATE(this)->ctrl);
       if (transition->type == FINISH) {
-	mode->finish(event, PRIVATE(this)->ctrl);
+        mode->finish(event, PRIVATE(this)->ctrl);
       } else {
-	mode->abort(event, PRIVATE(this)->ctrl);
+        mode->abort(event, PRIVATE(this)->ctrl);
       }
       PRIVATE(this)->state->pop();
       mode = PRIVATE(this)->state->getMode();
       if (mode) {
-	this->invokeModeChangeCallbacks();
-	mode->init(event, PRIVATE(this)->ctrl);
-	mode->processEvent(event, PRIVATE(this)->ctrl);
+        this->invokeModeChangeCallbacks();
+        mode->init(event, PRIVATE(this)->ctrl);
+        mode->processEvent(event, PRIVATE(this)->ctrl);
       }
-      return TRUE; // transitions should always be considered handling events
+      return TRUE; // transitions should always be considered handled events
 
     case STACK:
     case SWITCH:
       mode->processEvent(event, PRIVATE(this)->ctrl);
       mode->finish(event, PRIVATE(this)->ctrl);
       if (transition->type == SWITCH)
-	PRIVATE(this)->state->pop();
+        PRIVATE(this)->state->pop();
       PRIVATE(this)->state->push(transition->mode2, event);
       mode = PRIVATE(this)->state->getMode();
       this->invokeModeChangeCallbacks();
       mode->init(event, PRIVATE(this)->ctrl);
       mode->processEvent(event, PRIVATE(this)->ctrl);
-      return TRUE; // transitions should always be considered handling events
+      return TRUE; // transitions should always be considered handled events
     }
   }
 
   // no transition - just regular event processing
-  return mode->processEvent(event, PRIVATE(this)->ctrl);
+  SbBool retval = mode->processEvent(event, PRIVATE(this)->ctrl);
+  while ( mode->isAborted() || mode->isFinished() ) {
+    if ( mode->isAborted() ) {
+      mode->abort(event, PRIVATE(this)->ctrl);
+    } else {
+      mode->finish(event, PRIVATE(this)->ctrl);
+    }
+    PRIVATE(this)->state->pop();
+    this->invokeModeChangeCallbacks();
+    mode = PRIVATE(this)->state->getMode();
+    mode->init(event, PRIVATE(this)->ctrl);
+    mode->processEvent(event, PRIVATE(this)->ctrl);
+    retval = TRUE; // transition means handled...
+  }
+  return retval;
 }
 
 /*!
@@ -699,9 +839,9 @@ NbNavigationSystem::addMode(NbNavigationMode * mode)
 
 void
 NbNavigationSystem::addModeTransition(NbNavigationMode * mode,
-				      TransitionType type,
-				      const SoEvent * trigger,
-				      const SoEvent * condition)
+                                      TransitionType type,
+                                      const SoEvent * trigger,
+                                      const SoEvent * condition)
 {
   assert(PRIVATE(this)->modes);
   assert(PRIVATE(this)->modes->find(mode) != -1);
@@ -718,9 +858,14 @@ NbNavigationSystem::addModeTransition(NbNavigationMode * mode,
   transition->type = type;
   transition->mode1 = mode;
   transition->mode2 = NULL;
-  transition->trigger = trigger;
-  transition->condition = condition;
-
+  transition->trigger = NULL;
+  if (trigger) {
+    transition->trigger = SoEvent_Clone(trigger);
+  }
+  transition->condition = NULL;
+  if (condition) {
+    transition->condition = SoEvent_Clone(condition);
+  }
   PRIVATE(this)->transitions->append(transition);
 }
 
@@ -730,24 +875,27 @@ NbNavigationSystem::addModeTransition(NbNavigationMode * mode,
 
 void
 NbNavigationSystem::addModeTransition(NbNavigationMode * mode1,
-				      NbNavigationMode * mode2,
-				      TransitionType type,
-				      const SoEvent * trigger,
-				      const SoEvent * condition)
+                                      NbNavigationMode * mode2,
+                                      TransitionType type,
+                                      const SoEvent * trigger,
+                                      const SoEvent * condition)
 {
   assert(PRIVATE(this)->modes);
   assert(mode1); assert(mode2);
   assert(PRIVATE(this)->modes->find(mode1) != -1);
   assert(PRIVATE(this)->modes->find(mode2) != -1);
   assert(type == STACK || type == SWITCH);
+  assert(trigger);
 
   NbNavigationModeTransition * transition = new NbNavigationModeTransition;
   transition->type = type;
   transition->mode1 = mode1;
   transition->mode2 = mode2;
-  transition->trigger = trigger;
-  transition->condition = condition;
-
+  transition->trigger = SoEvent_Clone(trigger);
+  transition->condition = NULL;
+  if (condition) {
+    transition->condition = SoEvent_Clone(condition);
+  }
   PRIVATE(this)->transitions->append(transition);
 }
 
@@ -764,10 +912,30 @@ NbNavigationSystem::getCurrentModeName(void) const
 }
 
 /*!
+  Returns the submode with the given name.
+
+  NULL is returned if no mode with the given name exists in the system.
+*/
+
+NbNavigationMode *
+NbNavigationSystem::getMode(SbName name) const
+{
+  const int num = PRIVATE(this)->modes->getLength();
+  int i;
+  for ( i = 0; i < num; i++ ) {
+    NbNavigationMode * mode = (*(PRIVATE(this)->modes))[i];
+    if (mode->getModeName() == name) {
+      return mode;
+    }
+  }
+  return NULL;
+}
+
+/*!
   Returns the object for the current submode.
 */
 
-const NbNavigationMode *
+NbNavigationMode *
 NbNavigationSystem::getCurrentMode(void) const
 {
   return PRIVATE(this)->state->getMode();
@@ -798,13 +966,22 @@ NbNavigationSystemP::~NbNavigationSystemP(void)
     const int num = this->transitions->getLength();
     int i;
     for (i = 0; i < num; i++) {
-      NbNavigationModeTransition * transition =
-	(*(this->transitions))[i];
+      NbNavigationModeTransition * transition =	(*(this->transitions))[i];
+      if (transition->trigger) { delete transition->trigger; }
+      if (transition->condition) { delete transition->condition; }
       delete transition;
     }
     delete this->transitions;
   } while (FALSE);
-  delete this->modes;
+  do {
+    const int num = this->modes->getLength();
+    int i;
+    for (i = 0; i < num; i++) {
+      NbNavigationMode * mode = (*(this->modes))[i];
+      delete mode;
+    }
+    delete this->modes;
+  } while (FALSE);
   delete this->ctrl;
   delete this->state;
 }
