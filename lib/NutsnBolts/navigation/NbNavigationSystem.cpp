@@ -257,15 +257,27 @@ NbNavigationSystem::initClass(void)
   examiner->addModeTransition(examineridle, examinerwaitforzoom, STACK, shiftdown);
   examiner->addModeTransition(examineridle, examinerwaitforpan, STACK, ctrldown);
 
+  examiner->addModeTransition(examineridle, examinerzoom, STACK, button2down);
+  examiner->addModeTransition(examineridle, examinerpan, STACK, button3down);
 
-  examiner->addModeTransition(examinerrotate, FINISH, button1up);
+
+  examiner->addModeTransition(examinerrotate, FINISH, button1up, button1down);
   examiner->addModeTransition(examinerrotate, ABORT, escapedown);
 
-  examiner->addModeTransition(examinerzoom, FINISH, button1up);
+  examiner->addModeTransition(examinerzoom, FINISH, button1up, button1down);
+  examiner->addModeTransition(examinerzoom, FINISH, button2up, button2down);
   examiner->addModeTransition(examinerzoom, ABORT, escapedown);
+
+  examiner->addModeTransition(examinerpan, FINISH, button1up, button1down);
+  examiner->addModeTransition(examinerpan, FINISH, button3up, button3down);
+  examiner->addModeTransition(examinerpan, ABORT, escapedown);
+
+  examiner->addModeTransition(examinerwaitforzoom, ABORT, shiftup, shiftdown);
+  examiner->addModeTransition(examinerwaitforpan, ABORT, ctrlup, ctrldown);
 
 
   examiner->addModeTransition(examinerwaitforzoom, examinerzoom, SWITCH, button1down);
+  examiner->addModeTransition(examinerwaitforpan, examinerpan, SWITCH, button1down);
 
 
   NbNavigationSystem * rotater = new NbNavigationSystem(NB_ROTATER_SYSTEM);
@@ -308,7 +320,6 @@ NbNavigationSystem::initClass(void)
 			    SWITCH, spacedown);
   zoomer->addModeTransition(zoomer_zoom, FINISH, button1up);
   zoomer->addModeTransition(zoomer_zoom, ABORT, escapedown);
-
 
   NbNavigationSystem::registerSystem(examiner);
   NbNavigationSystem::registerSystem(rotater);
