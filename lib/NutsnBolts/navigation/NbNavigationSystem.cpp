@@ -41,6 +41,7 @@
 #include <NutsnBolts/navigation/NbRotateMode.h>
 #include <NutsnBolts/navigation/NbZoomMode.h>
 #include <NutsnBolts/navigation/NbPanMode.h>
+#include <NutsnBolts/navigation/NbCenterMode.h>
 
 #include <NutsnBolts/navigation/NbNavigationSystem.h>
 

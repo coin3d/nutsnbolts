@@ -27,7 +27,9 @@ SourceFiles = \
 	NbPanMode.cpp \
 	NbPanMode.h \
 	NbZoomMode.cpp \
-	NbZoomMode.h
+	NbZoomMode.h \
+	NbCenterMode.cpp \
+	NbCenterMode.h
 
 HeaderFiles = \
 	NbNavigationInfo.h \
@@ -38,7 +40,8 @@ HeaderFiles = \
 	NbIdleMode.h \
 	NbRotateMode.h \
 	NbPanMode.h \
-	NbZoomMode.h
+	NbZoomMode.h \
+	NbCenterMode.h
 
 libNutsnBoltsNavigation_la_SOURCES = $(SourceFiles)
 
