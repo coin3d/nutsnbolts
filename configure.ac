@@ -120,7 +120,7 @@ AC_SUBST([NUTSNBOLTS_EXTRA_LIBS], [$LIBS])
 
 # **************************************************************************
 
-AM_INIT_AUTOMAKE(NutsnBolts, $VERSION)
+AM_INIT_AUTOMAKE([foreign])
 
 #  Files to cram results from the configure tests into.
 AM_CONFIG_HEADER(lib/config.h lib/NutsnBolts/Basic.h)

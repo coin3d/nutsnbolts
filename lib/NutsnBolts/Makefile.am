@@ -1,14 +1,13 @@
 
 SUBDIRS = navigation nodes misc
 
-INCLUDES = -I$(top_srcdir)/lib
+AM_INCLUDES = -I$(top_srcdir)/lib
 
 CLEANFILES = .\#* *.bak *.pdb *.exp *.dll *~
 
 BUILT_SOURCES = Basic.h
 
 if BUILD_WITH_MSVC
-lib_LIBRARIES = nutsnbolts@NB_MAJOR_VERSION@.lib
 else
 lib_LTLIBRARIES = libNutsnBolts.la
 endif
@@ -20,6 +19,7 @@ SourceFiles = \
 	NbSceneManager.h
 
 HeaderFiles = \
+	Basic.h \
 	NutsnBolts.h \
 	NbSceneManager.h
 
@@ -59,6 +59,8 @@ nutsnbolts@NB_MAJOR_VERSION@.lib: Makefile \
 # **************************************************************************
 
 if BUILD_WITH_MSVC
+all-local: nutsnbolts@NB_MAJOR_VERSION@.lib
+
 install-exec-local: NutsnBolts@NB_MAJOR_VERSION@@SUFFIX@.lib
 	@basename="NutsnBolts@NB_MAJOR_VERSION@@SUFFIX@"; \
 	for ext in dll pdb; do \

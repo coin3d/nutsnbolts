@@ -4109,8 +4109,8 @@ fi
 
 
 # Define the identity of the package.
- PACKAGE=NutsnBolts
- VERSION=$VERSION
+ PACKAGE='nutsnbolts'
+ VERSION='0.1.0a'
 
 
 cat >>confdefs.h <<_ACEOF

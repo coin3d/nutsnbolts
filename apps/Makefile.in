@@ -231,7 +231,7 @@ target_alias = @target_alias@
 target_cpu = @target_cpu@
 target_os = @target_os@
 target_vendor = @target_vendor@
-INCLUDES = -I$(top_srcdir)/lib
+AM_INCLUDES = -I$(top_srcdir)/lib
 CLEANFILES = .\#* *.bak *.ilk *.lib *.exp *.pdb *~
 viewer_SOURCES = viewer.cpp
 viewer_LDADD = -lsowin1 -L../lib/NutsnBolts -lnutsnbolts0
@@ -248,9 +248,9 @@ $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__confi
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu  apps/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign  apps/Makefile'; \
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu  apps/Makefile
+	  $(AUTOMAKE) --foreign  apps/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \

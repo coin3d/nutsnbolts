@@ -1,5 +1,5 @@
 
-INCLUDES = -I$(top_srcdir)/lib
+AM_INCLUDES = -I$(top_srcdir)/lib
 
 CLEANFILES = .\#* *.bak *.ilk *.lib *.exp *.pdb *~
 

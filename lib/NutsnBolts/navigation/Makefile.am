@@ -1,12 +1,11 @@
 
-INCLUDES = -I$(top_srcdir)/lib
+AM_INCLUDES = -I$(top_srcdir)/lib
 
 CLEANFILES = .\#* *.bak *~
 
 if BUILD_WITH_MSVC
-lib_LIBRARIES = navigation.lst
 else
-lib_LTLIBRARIES = libNutsnBoltsNavigation.la
+noinst_LTLIBRARIES = libNutsnBoltsNavigation.la
 endif
 
 SourceFiles = \
@@ -43,16 +42,19 @@ HeaderFiles = \
 	NbZoomMode.h \
 	NbCenterMode.h
 
-libNutsnBoltsNavigation_la_SOURCES = $(SourceFiles)
-
 libNutsnBoltsNavigationincdir = $(includedir)/NutsnBolts/navigation
 libNutsnBoltsNavigationinc_HEADERS = $(HeaderFiles)
 
-navigation_lst_SOURCES = $(SourceFiles)
+libNutsnBoltsNavigation_la_SOURCES = $(SourceFiles)
 
-navigation.lst: $(navigation_lst_OBJECTS) $(navigation_lst_DEPENDENCIES)
+navigation.lst: $(libNutsnBoltsNavigation_la_OBJECTS)
+	@echo "Linking $@..."; \
 	rm -f navigation.lst; \
-	for file in $(navigation_lst_OBJECTS); do \
-	  echo $$file >> navigation.lst; \
+	for file in $(libNutsnBoltsNavigation_la_OBJECTS); do \
+	  echo $$file >> $@; \
 	done
+
+if BUILD_WITH_MSVC
+all-local: navigation.lst
+endif
 
