@@ -49,14 +49,6 @@
 
 // *************************************************************************
 
-class NbCenterModeP {
-public:
-  NbCenterModeP(NbCenterMode * api);
-
-  SoRayPickAction * rpaction;
-
-};
-
 #define PRIVATE(obj) ((obj)->pimpl)
 
 /*!
@@ -68,7 +60,7 @@ NbCenterMode::NbCenterMode(SbName name)
 {
   // we don't have the need for a private implementation, but we have
   // set off space for one if we ever need one in the future.
-  PRIVATE(this) = new NbCenterModeP(this);
+  PRIVATE(this) = NULL;
 }
 
 /*!
@@ -77,12 +69,6 @@ NbCenterMode::NbCenterMode(SbName name)
 
 NbCenterMode::~NbCenterMode(void)
 {
-  if (PRIVATE(this)->rpaction) {
-    delete PRIVATE(this)->rpaction;
-    PRIVATE(this)->rpaction = NULL;
-  }
-  delete PRIVATE(this);
-  PRIVATE(this) = NULL;
 }
 
 /*!
@@ -108,68 +94,12 @@ NbCenterMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctr
 
   if (hit) {
     ctrl->reorientCamera(pickpos);
-    ctrl->moveCamera(0.20f, TRUE);
+    // FIXME: this part should be factored out of this mode
+    ctrl->moveCamera(0.20f, TRUE); // zoom in 20%
   }
-
-  SoCamera * camera = ctrl->getCamera();
-  if (!camera) {
-    return FALSE;
-  }
-
-  SoNode * scene = ctrl->getSceneGraph();
-  if (!scene) {
-    return FALSE;
-  }
-
-  SbViewportRegion vp;
-  vp.setWindowSize(ctrl->getViewportSize());
-
-  if (!PRIVATE(this)->rpaction) {
-    PRIVATE(this)->rpaction = new SoRayPickAction(vp);
-  } else {
-    PRIVATE(this)->rpaction->reset();
-    PRIVATE(this)->rpaction->setViewportRegion(vp);
-  }
-  PRIVATE(this)->rpaction->setPoint(event->getPosition());
-
-  PRIVATE(this)->rpaction->apply(scene);
-
-  SoPickedPoint * pp = PRIVATE(this)->rpaction->getPickedPoint();
-  if (!pp) {
-    PRIVATE(this)->rpaction->reset();
-    return FALSE;
-  }
-
-  // FIXME: collect up all the relevant matrices, if necessary
-  SbVec3f point = pp->getPoint();
-
-  SbRotation rot = camera->orientation.getValue();
-  SbVec3f up;
-  rot.multVec(SbVec3f(0, 1, 0), up);
-  SbVec3f vec = point - camera->position.getValue();
-
-  camera->pointAt(point, up);
-  camera->focalDistance = vec.length();
-
-  // now, move in 20% closer to the focal point...
-#define ZOOM_FACTOR 20
-
-  camera->position = camera->position.getValue() +
-    (vec * (float(ZOOM_FACTOR) / 100.0f));
-  vec = point - camera->position.getValue();
-  camera->focalDistance = vec.length();
-
-  PRIVATE(this)->rpaction->reset();
   return TRUE;
 }
-
-#undef ZOOM_FACTOR
 
 #undef PRIVATE
 
 // *************************************************************************
-
-NbCenterModeP::NbCenterModeP(NbCenterMode * api)
-{
-  this->rpaction = NULL;
-}
