@@ -78,6 +78,18 @@
 */
 
 /*!
+  \file NutsnBolts/Basic.h
+  \brief Basic definitions used by the SIM Nuts'n'Bolts library.
+
+  This file defines the API export defines that makes sure the
+  public methods are exported from Windows DLLs, and later linked in
+  correctly when linking against the SIM Nuts'n'Bolts library.
+
+  It also contains defines that tell which version of the SIM
+  Nuts'n'Bolts library that has been installed.
+*/
+
+/*!
   \class NutsnBolts NutsnBolts/NutsnBolts.h
   \brief Static namespace class for global funtions related to the
   SIM Nuts'n'Bolts library on the whole.
