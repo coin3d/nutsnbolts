@@ -66,6 +66,7 @@ public:
   SbViewportRegion viewport;
   SoCamera * initcamera;
   SoCamera * cameraptr;
+  SbVec3f upvec;
 
   SoNode * scenegraph;
 
@@ -88,14 +89,6 @@ public:
 NbNavigationControl::NbNavigationControl(void)
 {
   PRIVATE(this) = new NbNavigationControlP(this);
-  PRIVATE(this)->initcamera = NULL;
-  PRIVATE(this)->cameraptr = NULL;
-  PRIVATE(this)->scenegraph = NULL;
-  PRIVATE(this)->rpaction = NULL;
-  // certain custom nodes
-  PRIVATE(this)->utmcamtype = SoType::fromName("UTMCamera");
-  PRIVATE(this)->utmpostype = SoType::fromName("UTMPosition");
-  PRIVATE(this)->frustumcamtype = SoType::fromName("FrustumCamera");
 }
 
 /*!
@@ -104,19 +97,6 @@ NbNavigationControl::NbNavigationControl(void)
 
 NbNavigationControl::~NbNavigationControl(void)
 {
-
-  if (PRIVATE(this)->initcamera) {
-    PRIVATE(this)->initcamera->unref();
-    PRIVATE(this)->initcamera = NULL;
-  }
-  if (PRIVATE(this)->cameraptr) {
-    PRIVATE(this)->cameraptr->unref();
-    PRIVATE(this)->cameraptr = NULL;
-  }
-  if (PRIVATE(this)->rpaction) {
-    delete PRIVATE(this)->rpaction;
-    PRIVATE(this)->rpaction = NULL;
-  }
   this->setSceneGraph(NULL);
   delete PRIVATE(this);
   PRIVATE(this) = NULL;
@@ -193,6 +173,32 @@ NbNavigationControl::getCamera(void) const
 }
 
 /*!
+  This method lets you set the up vector.  Default value is (0, 0, 0)
+  which means no up vector is set.
+
+  \sa getUpVector, resetRoll
+*/
+
+void
+NbNavigationControl::setUpVector(const SbVec3f & up)
+{
+  PRIVATE(this)->upvec = up;
+}
+
+/*!
+  This method returns the up vector.  Default value is (0, 0, 0) which
+  is interpreted as no up direction.
+
+  \sa setUpVector, resetRoll
+*/
+
+const SbVec3f &
+NbNavigationControl::getUpVector(void) const
+{
+  return PRIVATE(this)->upvec;
+}
+
+/*!
   This method <i>saves</i> the current camera position and orientation.
   You can later restore the camera back to this position by calling
   restoreCamera().
@@ -203,7 +209,6 @@ NbNavigationControl::getCamera(void) const
 void
 NbNavigationControl::saveCamera(void) const
 {
-  // fprintf(stderr, "NbNavigationControl::setCamera()\n");
   if (!PRIVATE(this)->cameraptr || !PRIVATE(this)->initcamera) return;
   PRIVATE(this)->initcamera->copyFieldValues(PRIVATE(this)->cameraptr);
 }
@@ -218,7 +223,6 @@ NbNavigationControl::saveCamera(void) const
 void
 NbNavigationControl::restoreCamera(void) const
 {
-  // fprintf(stderr, "NbNavigationControl::restoreCamera()\n");
   if (PRIVATE(this)->cameraptr == NULL) return;
   PRIVATE(this)->cameraptr->copyFieldValues(PRIVATE(this)->initcamera);
 }
@@ -236,18 +240,11 @@ SbBool
 NbNavigationControl::pick(SbVec2s pos, SbVec3f & pickpos) const
 {
   SoCamera * camera = this->getCamera();
-  if (!camera) {
-    return FALSE;
-  }
-
   SoNode * scene = this->getSceneGraph();
-  if (!scene) {
-    return FALSE;
-  }
+  if (!camera || !scene) return FALSE;
 
   SbViewportRegion vp;
   vp.setWindowSize(this->getViewportSize());
-
   if (!PRIVATE(this)->rpaction) {
     PRIVATE(this)->rpaction = new SoRayPickAction(vp);
   } else {
@@ -255,7 +252,6 @@ NbNavigationControl::pick(SbVec2s pos, SbVec3f & pickpos) const
     PRIVATE(this)->rpaction->setViewportRegion(vp);
   }
   PRIVATE(this)->rpaction->setPoint(pos);
-
   PRIVATE(this)->rpaction->apply(scene);
 
   SoPickedPoint * pp = PRIVATE(this)->rpaction->getPickedPoint();
@@ -264,9 +260,7 @@ NbNavigationControl::pick(SbVec2s pos, SbVec3f & pickpos) const
     return FALSE;
   }
 
-  // FIXME: collect up all the relevant matrices, if necessary
   pickpos = pp->getPoint();
-
   return TRUE;
 }
 
@@ -279,8 +273,10 @@ NbNavigationControl::viewAll(void) const
 {
   SoCamera * camera = this->getCamera();
   SoNode * root = this->getSceneGraph();
+  if (camera == NULL || root == NULL) return;
 
-  if (camera->isOfType(PRIVATE(this)->utmcamtype)) {
+  if (PRIVATE(this)->utmcamtype != SoType::badType() &&
+      camera->isOfType(PRIVATE(this)->utmcamtype)) {
     // we need to set UTMCamera->utmposition to some initial value not too far
     // off the world space limits to reduce floating point precision errors
     SoSearchAction sa;
@@ -306,7 +302,8 @@ NbNavigationControl::viewAll(void) const
   float slack = 0.001f;
   SbViewportRegion vp(this->getViewportSize());
   camera->viewAll(root, vp, slack);
-  if (camera->isOfType(PRIVATE(this)->utmcamtype)) {
+  if (PRIVATE(this)->utmcamtype != SoType::badType() &&
+      camera->isOfType(PRIVATE(this)->utmcamtype)) {
     // move from position to utmposition and set position to (0,0,0)
     // introspective code since we don't #include class declarations
     SoSFVec3d * camposfield = (SoSFVec3d *) camera->getField("utmposition");
@@ -326,9 +323,11 @@ NbNavigationControl::viewAll(void) const
 */
 
 void
-NbNavigationControl::pointDir(const SbVec3f & dir, SbBool resetroll) const
+NbNavigationControl::pointDir(const SbVec3f & dir) const
 {
-  // FIXME: implement
+  SoCamera * camera = this->getCamera();
+  if (camera == NULL) return;
+  camera->orientation = SbRotation(SbVec3f(0.0f, 0.0f, -1.0f), dir);
 }
 
 /*!
@@ -358,23 +357,26 @@ NbNavigationControl::reorientCamera(const SbRotation & rot) const
 }
 
 /*!
+  This method reorients the camera to point at the \a pointat location.
 */
 
 void
 NbNavigationControl::reorientCamera(const SbVec3f & pointat) const
 {
   SoCamera * camera = this->getCamera();
+  if (camera == NULL) return;
   SbRotation rot = camera->orientation.getValue();
   SbVec3f up;
   rot.multVec(SbVec3f(0, 1, 0), up);
-
   SbVec3f vec = pointat - camera->position.getValue();
-
   camera->pointAt(pointat, up);
   camera->focalDistance = vec.length();
 }
 
 /*!
+  This method reorients the camera in the pitch plane.
+
+  \sa rollCamera, yawCamera
 */
 
 void
@@ -382,10 +384,8 @@ NbNavigationControl::pitchCamera(float angle) const
 {
   SoCamera * camera = this->getCamera();
   if (camera == NULL) return;
-
   SbMatrix camerarot;
   camerarot.setRotate(camera->orientation.getValue());
-
   SbMatrix pitchmat;
   pitchmat.setRotate(SbRotation(SbVec3f(0.0f, 1.0f, 0.0f), angle));
   camerarot.multLeft(pitchmat);
@@ -393,6 +393,9 @@ NbNavigationControl::pitchCamera(float angle) const
 }
 
 /*!
+  This method reorients the camera in the yaw plane.
+
+  \sa pitchCamera, rollCamera
 */
 
 void
@@ -400,10 +403,8 @@ NbNavigationControl::yawCamera(float angle) const
 {
   SoCamera * camera = this->getCamera();
   if (camera == NULL) return;
-
   SbMatrix camerarot;
   camerarot.setRotate(camera->orientation.getValue());
-
   SbMatrix yawmat;
   yawmat.setRotate(SbRotation(SbVec3f(1.0f, 0.0f, 0.0f), angle));
   camerarot.multLeft(yawmat);
@@ -411,6 +412,9 @@ NbNavigationControl::yawCamera(float angle) const
 }
 
 /*!
+  This method reorients the camera in the roll plane.
+
+  \sa pitchCamera, yawCamera
 */
 
 void
@@ -421,10 +425,51 @@ NbNavigationControl::rollCamera(float angle) const
 
   SbMatrix camerarot;
   camerarot.setRotate(camera->orientation.getValue());
-
   SbMatrix rollmat;
   rollmat.setRotate(SbRotation(SbVec3f(0.0f, 0.0f, 1.0f), angle));
   camerarot.multLeft(rollmat);
+  camera->orientation = SbRotation(camerarot);
+}
+
+/*!
+  This method resets the roll of the camera.  If no up vector has been
+  set, this method does nothing.
+
+  \sa rollCamera, setUpVector, getUpVector
+*/
+
+void
+NbNavigationControl::resetRoll(void) const
+{
+  SoCamera * camera = this->getCamera();
+  if (!camera) return;
+
+  SbVec3f newy = PRIVATE(this)->upvec;
+  if (newy == SbVec3f(0.0f, 0.0f, 0.0f)) return;
+
+  SbMatrix camerarot;
+  camerarot.setRotate(camera->orientation.getValue());
+
+  SbVec3f Z;
+  Z[0] = camerarot[2][0];
+  Z[1] = camerarot[2][1];
+  Z[2] = camerarot[2][2];
+
+  if (fabs(Z.dot(newy)) > 0.99f) {
+    // just give up
+    return;
+  }
+  SbVec3f newx = newy.cross(Z);
+  newy = Z.cross(newx);
+
+  newx.normalize();
+  newy.normalize();
+  camerarot[0][0] = newx[0];
+  camerarot[0][1] = newx[1];
+  camerarot[0][2] = newx[2];
+  camerarot[1][0] = newy[0];
+  camerarot[1][1] = newy[1];
+  camerarot[1][2] = newy[2];
   camera->orientation = SbRotation(camerarot);
 }
 
@@ -440,7 +485,14 @@ NbNavigationControl::moveCamera(const SbVec3f & distance) const
   SoCamera * camera = this->getCamera();
   if (camera == NULL) return;
 
-  camera->position = camera->position.getValue() + distance;
+  if (PRIVATE(this)->utmcamtype != SoType::badType() &&
+      camera->isOfType(PRIVATE(this)->utmcamtype)) {
+    SoSFVec3d * utmposfield = (SoSFVec3d *) camera->getField("utmposition");
+    assert(utmposfield);
+    *utmposfield = utmposfield->getValue() + SbVec3d(distance);
+  } else {
+    camera->position = camera->position.getValue() + distance;
+  }
 }
 
 /*!
@@ -456,15 +508,20 @@ NbNavigationControl::moveCamera(float factor, SbBool keepfocalpoint) const
   if (camera == NULL) return;
 
   SbVec3f vec;
-  camera->orientation.getValue().multVec(SbVec3f(0, 0, 1), vec);
+  camera->orientation.getValue().multVec(SbVec3f(0, 0, -1), vec);
   vec.normalize();
-  SbVec3f point = camera->position.getValue() +
-    (vec * camera->focalDistance.getValue());
-  camera->position = camera->position.getValue() + (vec * factor);
+  vec = vec * camera->focalDistance.getValue();
+  if (PRIVATE(this)->utmcamtype != SoType::badType() &&
+      camera->isOfType(PRIVATE(this)->utmcamtype)) {
+    SoSFVec3d * utmposfield = (SoSFVec3d *) camera->getField("utmposition");
+    assert(utmposfield);
+    *utmposfield = utmposfield->getValue() + SbVec3d(vec * factor);
+  } else {
+    camera->position = camera->position.getValue() + (vec * factor);
+  }
 
   if (keepfocalpoint) {
-    vec = point - camera->position.getValue();
-    camera->focalDistance = vec.length();
+    camera->focalDistance = camera->focalDistance.getValue() * (1.0f - factor);
   }
 }
 
@@ -505,10 +562,31 @@ NbNavigationControl::getViewportAspect(void) const
 
 NbNavigationControlP::NbNavigationControlP(NbNavigationControl * api)
 {
+  this->scenegraph = NULL; 
+  this->initcamera = NULL;
+  this->cameraptr = NULL;
+  this->upvec.setValue(0.0f, 0.0f, 0.0f);
+  this->rpaction = NULL;
+  // to identify certain custom nodes
+  this->utmcamtype = SoType::fromName("UTMCamera");
+  this->utmpostype = SoType::fromName("UTMPosition");
+  this->frustumcamtype = SoType::fromName("FrustumCamera");
 }
 
 NbNavigationControlP::~NbNavigationControlP(void)
 {
+  if (this->initcamera) {
+    this->initcamera->unref();
+    this->initcamera = NULL;
+  }
+  if (this->cameraptr) {
+    this->cameraptr->unref();
+    this->cameraptr = NULL;
+  }
+  if (this->rpaction) {
+    delete this->rpaction;
+    this->rpaction = NULL;
+  }
 }
 
 // *************************************************************************

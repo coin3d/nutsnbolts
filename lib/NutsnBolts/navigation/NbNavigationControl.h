@@ -46,19 +46,23 @@ public:
   void setCamera(SoCamera * camera);
   SoCamera * getCamera(void) const;
 
+  void setUpVector(const SbVec3f & up);
+  const SbVec3f & getUpVector(void) const;
+
   void saveCamera(void) const;
   void restoreCamera(void) const;
 
   SbBool pick(SbVec2s pos, SbVec3f & pickpos) const;
 
   void viewAll(void) const;
-  void pointDir(const SbVec3f & dir, SbBool resetroll) const;
+  void pointDir(const SbVec3f & dir) const;
 
   void reorientCamera(const SbRotation & rot) const;
   void reorientCamera(const SbVec3f & pointat) const;
   void pitchCamera(float angle) const;
   void yawCamera(float angle) const;
   void rollCamera(float angle) const;
+  void resetRoll(void) const;
 
   void moveCamera(const SbVec3f & distance) const;
   void moveCamera(float factor, const SbBool keepfocalpoint = TRUE) const;
