@@ -28,6 +28,7 @@
 
 #include <NutsnBolts/Basic.h>
 
+class SoPath;
 class SoCamera;
 class SoNode;
 class SbRotation;
@@ -52,9 +53,13 @@ public:
   void saveCamera(void) const;
   void restoreCamera(void) const;
 
-  SbBool pick(SbVec2s pos, SbVec3f & pickpos) const;
+  SoPath * pick(SbVec2s pos, SbVec3f & pickpos) const;
 
   void viewAll(void) const;
+
+  void viewPart(const SoPath * path,
+                const SbVec3f & in, const SbVec3f & up) const;
+
   void pointDir(const SbVec3f & dir) const;
 
   void reorientCamera(const SbRotation & rot) const;

@@ -233,15 +233,16 @@ NbNavigationControl::restoreCamera(void) const
   \a pos is the 2D locationon the viewport.
   \a pickpos is the returned 3D pick position.
 
-  The method returns TRUE if a point was picked, and FALSE otherwise.
+  The method returns the SoPath to the picked object if a point was
+  picked, and NULL otherwise.
 */
 
-SbBool
+SoPath *
 NbNavigationControl::pick(SbVec2s pos, SbVec3f & pickpos) const
 {
   SoCamera * camera = this->getCamera();
   SoNode * scene = this->getSceneGraph();
-  if (!camera || !scene) return FALSE;
+  if (!camera || !scene) return NULL;
 
   SbViewportRegion vp;
   vp.setWindowSize(this->getViewportSize());
@@ -257,11 +258,11 @@ NbNavigationControl::pick(SbVec2s pos, SbVec3f & pickpos) const
   SoPickedPoint * pp = PRIVATE(this)->rpaction->getPickedPoint();
   if (!pp) {
     PRIVATE(this)->rpaction->reset();
-    return FALSE;
+    return NULL;
   }
 
   pickpos = pp->getPoint();
-  return TRUE;
+  return pp->getPath();
 }
 
 /*!
@@ -314,6 +315,11 @@ NbNavigationControl::viewAll(void) const
     camera->position = SbVec3f(0.0f, 0.0f, 0.0f);
     camposfield->setValue(utmpos);
   }
+}
+
+void
+NbNavigationControl::viewPart(const SoPath * path, const SbVec3f & in, const SbVec3f & up) const
+{
 }
 
 /*!
