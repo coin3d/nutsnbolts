@@ -29,6 +29,7 @@
 #include <Inventor/SbViewportRegion.h>
 
 #include <NutsnBolts/Basic.h>
+#include <NutsnBolts/navigation/NbSubMode.h>
 
 class SbRotation;
 class SoNode;
@@ -46,6 +47,8 @@ typedef SbVec2f NbNavigation2DInputValueFunc(void * closure, const NbNavigationM
 typedef SbVec3f NbNavigation3DInputValueFunc(void * closure, const NbNavigationMode * mode, const NbNavigationControl * ctrl);
 
 class NB_DLL_API NbNavigationMode {
+  NB_NAVIGATION_MODE_HEADER(NbNavigationMode);
+
 public:
   static void initClass(void);
   static void cleanClass(void);
@@ -68,6 +71,8 @@ public:
   NbNavigationMode(SbName modename);
   virtual ~NbNavigationMode(void);
 
+  virtual NbNavigationMode * clone(void) const = 0;
+
   SbName getModeName(void) const;
 
   void set1DValueFunc(NbNavigation1DInputValueFunc * func, void * closure);
@@ -87,6 +92,9 @@ public:
   virtual void abort(const SoEvent * event, const NbNavigationControl * ctrl);
   virtual void finish(const SoEvent * event, const NbNavigationControl * ctrl);
 
+  SbBool isAborted(void) const;
+  SbBool isFinished(void) const;
+
 protected:
   float get1DValue(const NbNavigationControl * ctrl) const;
   SbVec2f get2DValue(const NbNavigationControl * ctrl) const;
@@ -99,6 +107,9 @@ protected:
   SbVec2f getInitialNormalizedPosition(const NbNavigationControl * ctrl) const;
   SbVec2f getPreviousNormalizedPosition(const NbNavigationControl * ctrl) const;
   SbVec2f getCurrentNormalizedPosition(const NbNavigationControl * ctrl) const;
+
+  void abort(void);
+  void finish(void);
 
 private:
   NbNavigationModeP * pimpl;

@@ -63,6 +63,15 @@
   \ingroup navigation
 */
 
+/*
+  FIXME: the internal mode state data is still flawed since the same mode
+  object can potentially go on the stack multiple times. Need to only put
+  clones on the stack or something, because data must be initialized on
+  push, not on original object creation, and each stack-level needs
+  its own data.
+*/
+
+
 // *************************************************************************
 
 struct Transition {
@@ -87,9 +96,13 @@ public:
   NbNavigation3DInputValueFunc * valuefunc3d;
   void * valuefuncclosure;
 
+  SbBool aborted;
+  SbBool finished;
 }; // NbNavigationModeP
 
 // *************************************************************************
+
+NB_NAVIGATION_MODE_SOURCE(NbNavigationMode);
 
 /*!
   Static class initializer.
@@ -98,6 +111,13 @@ public:
 void
 NbNavigationMode::initClass(void)
 {
+  assert(NbNavigationMode::classTypeId == SoType::badType() &&
+         "don't init() twice!");
+  /* Set up entry in the type system. */
+  NbNavigationMode::classTypeId = SoType::createType(SoType::badType(),
+                                                     "NbNavigationMode",
+                                                     NULL /* createfunc */,
+                                                     0 /* data */);
 }
 
 #define PRIVATE(obj) ((obj)->pimpl)
@@ -269,6 +289,8 @@ NbNavigationMode::init(const SoEvent * event, const NbNavigationControl * ctrl)
   PRIVATE(this)->initpos = event->getPosition();
   PRIVATE(this)->prevpos = event->getPosition();
   PRIVATE(this)->currentpos = event->getPosition();
+  PRIVATE(this)->aborted = FALSE;
+  PRIVATE(this)->finished = FALSE;
 }
 
 /*!
@@ -400,8 +422,6 @@ NbNavigationMode::getCurrentNormalizedPosition(const NbNavigationControl * ctrl)
   return SbVec2f(float(pos[0])/float(vp[0]-1), float(pos[1]/float(vp[1]-1)));
 }
 
-#undef PRIVATE
-
 // *************************************************************************
 
 float
@@ -484,6 +504,34 @@ NbNavigationMode::getMouseMoveCenterAngle(void * closure, const NbNavigationMode
   return 0.0f;
 }
 
+void
+NbNavigationMode::abort(void)
+{
+  if (this->isFinished()) return;
+  PRIVATE(this)->aborted = TRUE;
+}
+
+void
+NbNavigationMode::finish(void)
+{
+  if (this->isAborted()) return;
+  PRIVATE(this)->finished = TRUE;
+}
+
+SbBool
+NbNavigationMode::isAborted(void) const
+{
+  return PRIVATE(this)->aborted;
+}
+
+SbBool
+NbNavigationMode::isFinished(void) const
+{
+  return PRIVATE(this)->finished;
+}
+
+#undef PRIVATE
+
 // *************************************************************************
 // private class implementation
 
@@ -496,4 +544,6 @@ NbNavigationModeP::NbNavigationModeP(void)
   this->valuefunc2d = NULL;
   this->valuefunc3d = NULL;
   this->valuefuncclosure = NULL;
+  this->aborted = FALSE;
+  this->finished = FALSE;
 }
