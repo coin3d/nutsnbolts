@@ -336,7 +336,6 @@ WARN_LOGFILE           =
 # directories like "/usr/src/myproject". Separate the files or directories 
 # with spaces.
 
-# FIXME: srcdir/builddir problems
 INPUT                  = \
   lib/NutsnBolts/Basic.h \
   lib/NutsnBolts/NutsnBolts.h \
@@ -358,7 +357,13 @@ INPUT                  = \
   lib/NutsnBolts/navigation/NbPanMode.h \
   lib/NutsnBolts/navigation/NbPanMode.cpp \
   lib/NutsnBolts/navigation/NbZoomMode.h \
-  lib/NutsnBolts/navigation/NbZoomMode.cpp
+  lib/NutsnBolts/navigation/NbZoomMode.cpp \
+  lib/NutsnBolts/navigation/NbNavigationVehicle.h \
+  lib/NutsnBolts/navigation/NbNavigationVehicle.cpp \
+  lib/NutsnBolts/navigation/NbNavigationState.h \
+  lib/NutsnBolts/navigation/NbNavigationState.cpp \
+  lib/NutsnBolts/misc/SoEvent.h \
+  lib/NutsnBolts/misc/SoEvent.cpp
 
 # Internal files goes last, and are only included for developer reasons.
 # They are commented out when producing production documentation, etc.
