@@ -464,7 +464,7 @@ NbNavigationSystem::addModeChangeCallback(NbNavigationModeChangeCB * cb, void * 
   if ( !PRIVATE(this)->modechangecbs ) {
     PRIVATE(this)->modechangecbs = new SbPList;
   }
-  PRIVATE(this)->modechangecbs->append(cb);
+  PRIVATE(this)->modechangecbs->append((void *) cb);
   PRIVATE(this)->modechangecbs->append(closure);
 }
 
@@ -545,6 +545,9 @@ NbNavigationSystem::processEvent(const SoEvent * event)
     // we are doing a mode transition
     // fprintf(stderr, "triggering transition %d\n", i);
     switch ( transition->type ) {
+    case INITIAL:
+      assert(0 && "crazy!");
+      break;
     case FINISH:
     case ABORT:
       mode->processEvent(event, PRIVATE(this)->info);
