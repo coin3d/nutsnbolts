@@ -35,7 +35,8 @@ public:
   ~NbPitchMode(void);
 
 protected:
-  virtual SbBool handleEvent(const SoEvent * event, const NbNavigationControl * ctrl);
+  virtual SbBool handleEvent(const SoEvent * event, 
+                             const NbNavigationControl * ctrl);
 
 private:
   NbPitchModeP * pimpl;

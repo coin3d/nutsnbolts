@@ -659,7 +659,7 @@ NbSceneManager::processEvent(const SoEvent * const event)
     break;
   case NbSceneManager::JUST_NAVIGATION:
     if (PRIVATE(this)->navigationsystem != NULL &&
-	 PRIVATE(this)->navigationsystem->processEvent(event))
+        PRIVATE(this)->navigationsystem->processEvent(event))
       return TRUE;
     break;
   case NbSceneManager::MIXED_NAVIGATION:
@@ -667,7 +667,7 @@ NbSceneManager::processEvent(const SoEvent * const event)
     if (inherited::processEvent(event))
       return TRUE;
     if (PRIVATE(this)->navigationsystem != NULL &&
-	 PRIVATE(this)->navigationsystem->processEvent(event))
+        PRIVATE(this)->navigationsystem->processEvent(event))
       return TRUE;
     break;
   }
@@ -775,14 +775,14 @@ NbSceneManager::setSceneGraph(SoNode * const root)
       SbString modestring = mode->mode.getValue();
       path->unref();
       if (modestring.getLength() > 0) {
-	NbNavigationSystem * system =
-	  NbNavigationSystem::getByName(modestring.getString());
-	this->setNavigationSystem(system);
+        NbNavigationSystem * system =
+          NbNavigationSystem::getByName(modestring.getString());
+        this->setNavigationSystem(system);
       } else {
-	// node but no string - use a default system
-	NbNavigationSystem * system =
-	  NbNavigationSystem::getByName(NB_DEFAULT_SYSTEM);
-	this->setNavigationSystem(system);
+        // node but no string - use a default system
+        NbNavigationSystem * system =
+          NbNavigationSystem::getByName(NB_DEFAULT_SYSTEM);
+        this->setNavigationSystem(system);
       }
     }
   }

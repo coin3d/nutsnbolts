@@ -130,6 +130,7 @@ NutsnBolts::init(void)
   NbViewerNavigationMode::initClass();
   NbNavigationMode::initClass();
   NbNavigationSystem::initClass();
+  // FIXME: Put back before release (kintel 20050310)
 #if 0
   coin_atexit(NutsnBolts::Clean);
 #endif
