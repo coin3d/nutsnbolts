@@ -1,9 +1,10 @@
 
 AM_INCLUDES = -I$(top_srcdir)/lib
 
-CLEANFILES = .\#* *.bak *~
+CLEANFILES = .\#* *.bak *~ *.lst
 
 if BUILD_WITH_MSVC
+noinst_LIBRARIES = navigation.lst
 else
 noinst_LTLIBRARIES = libNutsnBoltsNavigation.la
 endif
@@ -47,14 +48,16 @@ libNutsnBoltsNavigationinc_HEADERS = $(HeaderFiles)
 
 libNutsnBoltsNavigation_la_SOURCES = $(SourceFiles)
 
-navigation.lst: $(libNutsnBoltsNavigation_la_OBJECTS)
+navigation_lst_SOURCES = $(SourceFiles)
+
+navigation.lst: $(navigation_lst_OBJECTS)
 	@echo "Linking $@..."; \
-	rm -f navigation.lst; \
-	for file in $(libNutsnBoltsNavigation_la_OBJECTS); do \
-	  echo $$file >> $@; \
+	rm -f $@; \
+	for obj in $(navigation_lst_OBJECTS); do \
+	  echo $$obj >> $@; \
 	done
 
-if BUILD_WITH_MSVC
-all-local: navigation.lst
-endif
+# if BUILD_WITH_MSVC
+# all-local: navigation.lst
+# endif
 

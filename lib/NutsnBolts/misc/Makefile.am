@@ -1,9 +1,10 @@
 
 AM_INCLUDES = -I$(top_srcdir)/lib
 
-CLEANFILES = .\#* *.bak *~
+CLEANFILES = .\#* *.bak *~ *.lst
 
 if BUILD_WITH_MSVC
+noinst_LIBRARIES = misc.lst
 else
 noinst_LTLIBRARIES = libNutsnBoltsMisc.la
 endif
@@ -14,14 +15,16 @@ SourceFiles = \
 
 libNutsnBoltsMisc_la_SOURCES = $(SourceFiles)
 
-misc.lst: $(libNutsnBoltsMisc_la_OBJECTS)
+misc_lst_SOURCES = $(SourceFiles)
+
+misc.lst: $(misc_lst_OBJECTS)
 	@echo "Linking $@..."; \
-	rm -f misc.lst; \
-	for file in $(libNutsnBoltsMisc_la_OBJECTS); do \
-	  echo $$file >> $@; \
+	rm -f $@; \
+	for obj in $(misc_lst_OBJECTS); do \
+	  echo $$obj >> $@; \
 	done
 
-if BUILD_WITH_MSVC
-all-local: misc.lst
-endif
+# if BUILD_WITH_MSVC
+# all-local: misc.lst
+# endif
 

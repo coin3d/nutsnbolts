@@ -1,9 +1,10 @@
 
 AM_INCLUDES = -I$(top_srcdir)/lib -I$(top_builddir)/lib
 
-CLEANFILES = .\#* *.bak *~
+CLEANFILES = .\#* *.bak *~ *.lst
 
 if BUILD_WITH_MSVC
+noinst_LIBRARIES = nodes.lst
 else
 noinst_LTLIBRARIES = libNutsnBoltsNodes.la
 endif
@@ -20,14 +21,16 @@ libNutsnBoltsNodesinc_HEADERS = $(HeaderFiles)
 
 libNutsnBoltsNodes_la_SOURCES = $(SourceFiles)
 
-nodes.lst: $(libNutsnBoltsNodes_la_OBJECTS)
+nodes_lst_SOURCES = $(SourceFiles)
+
+nodes.lst: $(nodes_lst_OBJECTS)
 	@echo "Linking $@..."; \
 	rm -f $@; \
-	for i in $(libNutsnBoltsNodes_la_OBJECTS); do \
-	  echo $$i >>$@; \
+	for obj in $(nodes_lst_OBJECTS); do \
+	  echo $$obj >>$@; \
 	done
 
-if BUILD_WITH_MSVC
-all-local: libnodes.lst
-endif
+# if BUILD_WITH_MSVC
+# all-local: nodes.lst
+# endif
 

@@ -1,5 +1,5 @@
 
-SUBDIRS = navigation nodes misc
+SUBDIRS = misc navigation nodes
 
 AM_INCLUDES = -I$(top_srcdir)/lib
 
@@ -8,6 +8,7 @@ CLEANFILES = .\#* *.bak *.pdb *.exp *.dll *~
 BUILT_SOURCES = Basic.h
 
 if BUILD_WITH_MSVC
+lib_LIBRARIES = nutsnbolts@NB_MAJOR_VERSION@.lib
 else
 lib_LTLIBRARIES = libNutsnBolts.la
 endif
@@ -29,9 +30,9 @@ libNutsnBoltsincdir = $(includedir)/NutsnBolts
 libNutsnBoltsinc_HEADERS = $(HeaderFiles)
 
 libNutsnBolts_la_LIBADD = \
+	misc/libNutsnBoltsMisc.la \
 	navigation/libNutsnBoltsNavigation.la \
-	nodes/libNutsnBoltsNodes.la \
-	misc/libNutsnBoltsMisc.la
+	nodes/libNutsnBoltsNodes.la
 
 libNutsnBolts_la_LDFLAGS = \
 	-no-undefined \
@@ -39,9 +40,9 @@ libNutsnBolts_la_LDFLAGS = \
 
 nutsnbolts@NB_MAJOR_VERSION@_lib_SOURCES = $(SourceFiles)
 nutsnbolts@NB_MAJOR_VERSION@_lib_LIBADD = \
+	misc/misc.lst \
 	navigation/navigation.lst \
-	nodes/nodes.lst \
-	misc/misc.lst
+	nodes/nodes.lst
 
 nutsnbolts@NB_MAJOR_VERSION@.lib: Makefile \
 	$(nutsnbolts@NB_MAJOR_VERSION@_lib_OBJECTS) \
