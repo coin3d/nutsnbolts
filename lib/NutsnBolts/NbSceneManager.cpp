@@ -1117,7 +1117,7 @@ NbSceneManagerP::setClippingPlanes(void)
   SbBool oldfar = camera->farDistance.enableNotify(FALSE);
 
   camera->nearDistance = nearval * (1.0f - SLACK);
-  camera->farDistance = farval * (1.0f - SLACK);
+  camera->farDistance = farval * (1.0f + SLACK);
 
   if (oldnear) {
     camera->nearDistance.enableNotify(TRUE);
