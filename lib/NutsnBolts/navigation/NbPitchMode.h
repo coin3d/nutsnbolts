@@ -29,10 +29,15 @@ class NbPitchModeP;
 
 class NB_DLL_API NbPitchMode : public NbNavigationMode {
   typedef NbNavigationMode inherited;
+  NB_NAVIGATION_MODE_HEADER(NbPitchMode);
 
 public:
+  static void initClass(void);
+
   NbPitchMode(SbName name);
   virtual ~NbPitchMode(void);
+
+  virtual NbNavigationMode * clone(void) const;
 
 protected:
   virtual SbBool handleEvent(const SoEvent * event, 

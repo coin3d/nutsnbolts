@@ -29,10 +29,15 @@ class NbZoomModeP;
 
 class NB_DLL_API NbZoomMode : public NbNavigationMode {
   typedef NbNavigationMode inherited;
+  NB_NAVIGATION_MODE_HEADER(NbZoomMode);
 
 public:
+  static void initClass(void);
+
   NbZoomMode(SbName name);
   virtual ~NbZoomMode(void);
+
+  virtual NbNavigationMode * clone(void) const;
 
 protected:
   virtual SbBool handleEvent(const SoEvent * event, const NbNavigationControl * ctrl);

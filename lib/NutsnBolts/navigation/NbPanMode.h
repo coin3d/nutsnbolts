@@ -29,10 +29,15 @@ class NbPanModeP;
 
 class NB_DLL_API NbPanMode : public NbNavigationMode {
   typedef NbNavigationMode inherited;
+  NB_NAVIGATION_MODE_HEADER(NbPanMode);
 
 public:
+  static void initClass(void);
+
   NbPanMode(SbName name);
   virtual ~NbPanMode(void);
+
+  virtual NbNavigationMode * clone(void) const;
 
 protected:
   virtual SbBool handleEvent(const SoEvent * event, const NbNavigationControl * ctrl);

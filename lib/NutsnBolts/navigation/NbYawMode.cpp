@@ -31,6 +31,14 @@
 
 #define PRIVATE(obj) ((obj)->pimpl)
 
+NB_NAVIGATION_MODE_SOURCE(NbYawMode);
+
+void
+NbYawMode::initClass(void)
+{
+  NB_NAVIGATION_MODE_INIT_CLASS(NbYawMode, NbNavigationMode);
+}
+
 NbYawMode::NbYawMode(SbName name)
  : inherited(name)
 {
@@ -40,6 +48,12 @@ NbYawMode::NbYawMode(SbName name)
 
 NbYawMode::~NbYawMode(void)
 {
+}
+
+NbNavigationMode *
+NbYawMode::clone(void) const
+{
+  return new NbYawMode(this->getModeName());
 }
 
 SbBool

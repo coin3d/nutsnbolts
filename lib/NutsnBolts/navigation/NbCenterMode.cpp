@@ -48,6 +48,14 @@
 
 #define PRIVATE(obj) ((obj)->pimpl)
 
+NB_NAVIGATION_MODE_SOURCE(NbCenterMode);
+
+void
+NbCenterMode::initClass(void)
+{
+  NB_NAVIGATION_MODE_INIT_CLASS(NbCenterMode, NbNavigationMode);
+}
+
 /*!
   Constructor.
 */
@@ -69,6 +77,15 @@ NbCenterMode::~NbCenterMode(void)
 }
 
 /*!
+*/
+
+NbNavigationMode *
+NbCenterMode::clone(void) const
+{
+  return new NbCenterMode(this->getModeName());
+}
+
+/*!
   This method implements the panning operation.
 
   Returns FALSE for events that are not used, and TRUE for events that
@@ -87,12 +104,14 @@ NbCenterMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctr
   }
 
   SbVec3f pickpos;
-  SbBool hit = ctrl->pick(event->getPosition(), pickpos);
-
-  if (hit) {
+  SoPath * path = ctrl->pick(event->getPosition(), pickpos);
+  if (path != NULL) {
     ctrl->reorientCamera(pickpos);
     // FIXME: this part should be factored out of this mode
     ctrl->moveCamera(0.20f, TRUE); // zoom in 20%
+    this->finish();
+  } else {
+    this->abort();
   }
   return TRUE;
 }

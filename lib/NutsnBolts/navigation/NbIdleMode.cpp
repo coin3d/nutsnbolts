@@ -36,6 +36,14 @@
   \ingroup navigation
 */
 
+NB_NAVIGATION_MODE_SOURCE(NbIdleMode);
+
+void
+NbIdleMode::initClass(void)
+{
+  NB_NAVIGATION_MODE_INIT_CLASS(NbIdleMode, NbNavigationMode);
+}
+
 /*!
   Constructor.
 */
@@ -52,6 +60,15 @@ NbIdleMode::NbIdleMode(SbName modename)
 
 NbIdleMode::~NbIdleMode(void)
 {
+}
+
+/*!
+*/
+
+NbNavigationMode *
+NbIdleMode::clone(void) const
+{
+  return new NbIdleMode(this->getModeName());
 }
 
 /*!

@@ -32,6 +32,14 @@
 
 #define PRIVATE(obj) ((obj)->pimpl)
 
+NB_NAVIGATION_MODE_SOURCE(NbRollMode);
+
+void
+NbRollMode::initClass(void)
+{
+  NB_NAVIGATION_MODE_INIT_CLASS(NbRollMode, NbNavigationMode);
+}
+
 NbRollMode::NbRollMode(SbName name)
 : inherited(name)
 {
@@ -41,6 +49,12 @@ NbRollMode::NbRollMode(SbName name)
 
 NbRollMode::~NbRollMode(void)
 {
+}
+
+NbNavigationMode *
+NbRollMode::clone(void) const
+{
+  return new NbRollMode(this->getModeName());
 }
 
 SbBool

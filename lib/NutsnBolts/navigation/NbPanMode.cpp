@@ -44,6 +44,14 @@
   \ingroup navigation
 */
 
+NB_NAVIGATION_MODE_SOURCE(NbPanMode);
+
+void
+NbPanMode::initClass(void)
+{
+  NB_NAVIGATION_MODE_INIT_CLASS(NbPanMode, NbNavigationMode);
+}
+
 /*!
   Constructor.
 */
@@ -62,6 +70,12 @@ NbPanMode::NbPanMode(SbName name)
 
 NbPanMode::~NbPanMode(void)
 {
+}
+
+NbNavigationMode *
+NbPanMode::clone(void) const
+{
+  return new NbPanMode(this->getModeName());
 }
 
 /*!

@@ -49,6 +49,14 @@
 
 #define PRIVATE(obj) ((obj)->pimpl)
 
+NB_NAVIGATION_MODE_SOURCE(NbOrthoCenterMode);
+
+void
+NbOrthoCenterMode::initClass(void)
+{
+  NB_NAVIGATION_MODE_INIT_CLASS(NbOrthoCenterMode, NbNavigationMode);
+}
+
 /*!
   Constructor.
 */
@@ -67,6 +75,15 @@ NbOrthoCenterMode::NbOrthoCenterMode(SbName name)
 
 NbOrthoCenterMode::~NbOrthoCenterMode(void)
 {
+}
+
+/*!
+*/
+
+NbNavigationMode *
+NbOrthoCenterMode::clone(void) const
+{
+  return new NbOrthoCenterMode(this->getModeName());
 }
 
 /*!
@@ -93,9 +110,9 @@ NbOrthoCenterMode::handleEvent(const SoEvent * event, const NbNavigationControl 
   }
 
   SbVec3f pickpos;
-  SbBool hit = ctrl->pick(event->getPosition(), pickpos);
+  SoPath * path = ctrl->pick(event->getPosition(), pickpos);
 
-  if (hit) {
+  if (path != NULL) {
     SbRotation rot = camera->orientation.getValue();
     SbVec3f up(0, 1, 0);
     SbVec3f right(1, 0, 0);
@@ -113,8 +130,10 @@ NbOrthoCenterMode::handleEvent(const SoEvent * event, const NbNavigationControl 
     camera->position.setValue(newpos);
     // fprintf(stderr, "orthomode move from <%f %f %f> to <%f %f %f>\n",
     //         pos[0], pos[1], pos[2], newpos[0], newpos[1], newpos[2]);
+    this->finish();
+  } else {
+    this->abort();
   }
-
   return TRUE;
 }
 

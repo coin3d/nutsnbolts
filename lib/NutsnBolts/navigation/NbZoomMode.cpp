@@ -46,6 +46,15 @@
 
 // *************************************************************************
 
+#define PRIVATE(obj) ((obj)->pimpl)
+
+NB_NAVIGATION_MODE_SOURCE(NbZoomMode);
+
+void
+NbZoomMode::initClass(void)
+{
+  NB_NAVIGATION_MODE_INIT_CLASS(NbZoomMode, NbNavigationMode);
+}
 
 /*!
   Constructor.
@@ -56,7 +65,7 @@ NbZoomMode::NbZoomMode(SbName name)
 {
   // no need for a private implementation now, but we've set off room for
   // it if we ever need one in the future.
-  this->pimpl = NULL;
+  PRIVATE(this) = NULL;
   this->set1DValueFunc(NbNavigationMode::getMouseMoveVerticalNormalizedDistance,
 		       NULL);
 }
@@ -69,12 +78,18 @@ NbZoomMode::~NbZoomMode(void)
 {
 }
 
+NbNavigationMode *
+NbZoomMode::clone(void) const
+{
+  return new NbZoomMode(this->getModeName());
+}
+
 /*!
   This method handles the zooming operation.
 
   Returns FALSE for unused events, and TRUE for events that are used.
 */
-
+// FIXME: use NbNavigationControl::moveCamera() instead
 SbBool
 NbZoomMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctrl)
 {
@@ -140,5 +155,7 @@ NbZoomMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctrl)
 
   return TRUE;
 }
+
+#undef PRIVATE
 
 // *************************************************************************

@@ -29,10 +29,15 @@ class NbIdleModeP;
 
 class NB_DLL_API NbIdleMode : public NbNavigationMode {
   typedef NbNavigationMode inherited;
+  NB_NAVIGATION_MODE_HEADER(NbIdleMode);
 
 public:
+  static void initClass(void);
+
   NbIdleMode(SbName modename);
   virtual ~NbIdleMode(void);
+
+  virtual NbNavigationMode * clone(void) const;
 
 protected:
   virtual SbBool handleEvent(const SoEvent * event, 

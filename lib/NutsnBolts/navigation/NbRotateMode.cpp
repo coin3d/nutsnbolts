@@ -69,6 +69,14 @@ public:
 
 #define PRIVATE(obj) ((obj)->pimpl)
 
+NB_NAVIGATION_MODE_SOURCE(NbRotateMode);
+
+void
+NbRotateMode::initClass(void)
+{
+  NB_NAVIGATION_MODE_INIT_CLASS(NbRotateMode, NbNavigationMode);
+}
+
 /*!
   Constructor.
 */
@@ -88,6 +96,12 @@ NbRotateMode::~NbRotateMode(void)
 {
   delete PRIVATE(this);
   PRIVATE(this) = NULL;
+}
+
+NbNavigationMode *
+NbRotateMode::clone(void) const
+{
+  return new NbRotateMode(this->getModeName());
 }
 
 /*!

@@ -29,10 +29,15 @@ class NbCenterModeP;
 
 class NB_DLL_API NbCenterMode : public NbNavigationMode {
   typedef NbNavigationMode inherited;
+  NB_NAVIGATION_MODE_HEADER(NbCenterMode);
 
 public:
+  static void initClass(void);
+
   NbCenterMode(SbName name);
   virtual ~NbCenterMode(void);
+
+  virtual NbNavigationMode * clone(void) const;
 
 protected:
   virtual SbBool handleEvent(const SoEvent * event, const NbNavigationControl * ctrl);

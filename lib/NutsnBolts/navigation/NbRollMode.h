@@ -29,10 +29,15 @@ class NbRollModeP;
 
 class NB_DLL_API NbRollMode : public NbNavigationMode {
   typedef NbNavigationMode inherited;
+  NB_NAVIGATION_MODE_HEADER(NbRollMode);
 
 public:
+  static void initClass(void);
+
   NbRollMode(SbName name);
   virtual ~NbRollMode(void);
+
+  virtual NbNavigationMode * clone(void) const;
 
 protected:
   virtual SbBool handleEvent(const SoEvent * event, const NbNavigationControl * ctrl);

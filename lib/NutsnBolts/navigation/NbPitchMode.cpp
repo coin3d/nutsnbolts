@@ -32,6 +32,18 @@
 
 #define PRIVATE(obj) ((obj)->pimpl)
 
+NB_NAVIGATION_MODE_SOURCE(NbPitchMode);
+
+void
+NbPitchMode::initClass(void)
+{
+  NB_NAVIGATION_MODE_INIT_CLASS(NbPitchMode, NbNavigationMode);
+}
+
+/*!
+  Constructor.
+*/
+
 NbPitchMode::NbPitchMode(SbName name)
 : inherited(name)
 {
@@ -39,9 +51,23 @@ NbPitchMode::NbPitchMode(SbName name)
   this->set1DValueFunc(NbNavigationMode::getMouseMoveVerticalNormalizedDistance, NULL);
 }
 
+/*!
+  Destructor.
+*/
+
 NbPitchMode::~NbPitchMode(void)
 {
 }
+
+NbNavigationMode *
+NbPitchMode::clone(void) const
+{
+  return new NbPitchMode(this->getModeName());
+}
+
+/*!
+  This method handles the pitching motion of the camera, based on user input.
+*/
 
 SbBool
 NbPitchMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctrl)
