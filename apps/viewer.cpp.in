@@ -2,7 +2,9 @@
 #include <assert.h>
 #include <stdio.h>
 
+#include <Inventor/SbVec3f.h>
 #include <Inventor/SoDB.h>
+#include <Inventor/SoPath.h>
 #include <Inventor/nodes/SoSeparator.h>
 #include <Inventor/nodes/SoRotor.h>
 #include <Inventor/nodes/SoCube.h>
@@ -16,6 +18,7 @@
 #include <NutsnBolts/NbSceneManager.h>
 #include <NutsnBolts/navigation/NbNavigationMode.h>
 #include <NutsnBolts/navigation/NbNavigationSystem.h>
+#include <NutsnBolts/navigation/NbPickMode.h>
 
 // *************************************************************************
 
@@ -25,6 +28,14 @@ modechange(void * closure, NbNavigationSystem * system)
   fprintf(stderr, "mode change: %s\n",
     system->getCurrentModeName().getString());
 }
+
+void
+pick_cb(void * closure, const SbVec3f & pos, const SoPath * path)
+{
+  fprintf(stderr, "pick: <%f %f %f>  [%s]\n",
+          pos[0], pos[1], pos[2], path->getTail()->getTypeId().getName().getString());
+}
+
 
 int
 main(int argc, char ** argv)
@@ -42,9 +53,20 @@ main(int argc, char ** argv)
 
   sm->setNavigationState(NbSceneManager::JUST_NAVIGATION);
 
+#if 1
   NbNavigationSystem * nav =
     NbNavigationSystem::createByName(NB_EXAMINER_SYSTEM);
   assert(nav);
+#else // PICKER EXAMPLE
+  NbNavigationSystem * nav =
+    NbNavigationSystem::createByName(NB_PICKER_SYSTEM);
+  assert(nav);
+	NbNavigationMode * mode = nav->getMode(NB_PICKER_PICK_MODE);
+  assert(mode);
+  NbPickMode * pickmode = (NbPickMode *) mode;
+  pickmode->addPickCallback(pick_cb, NULL);
+#endif
+
   nav->addModeChangeCallback(modechange, NULL);
   sm->setNavigationSystem(nav);
 
