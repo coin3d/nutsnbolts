@@ -26,6 +26,8 @@ SourceFiles = \
 	NbRotateMode.h \
 	NbPanMode.cpp \
 	NbPanMode.h \
+	NbPickMode.cpp \
+	NbPickMode.h \
 	NbZoomMode.cpp \
 	NbZoomMode.h \
 	NbCenterMode.cpp \
@@ -48,12 +50,14 @@ HeaderFiles = \
 	NbIdleMode.h \
 	NbRotateMode.h \
 	NbPanMode.h \
+	NbPickMode.h \
 	NbZoomMode.h \
 	NbCenterMode.h \
 	NbOrthoCenterMode.h \
 	NbRollMode.h \
 	NbPitchMode.h \
-	NbYawMode.h
+	NbYawMode.h \
+	NbSubMode.h
 
 libNutsnBoltsNavigationincdir = $(includedir)/NutsnBolts/navigation
 libNutsnBoltsNavigationinc_HEADERS = $(HeaderFiles)
