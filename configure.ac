@@ -4,6 +4,14 @@ m4_define([NB_MINOR], [1])
 m4_define([NB_MICRO], [0])
 m4_define([NB_BETA], [a])
 
+m4_define([NB_ABI_CURRENT], [1])
+m4_define([NB_ABI_REVISION], [NB_MICRO])
+m4_define([NB_ABI_AGE], [NB_MINOR])
+
+# only used on Linux for debian packages
+m4_define([SO_NUMBER], [m4_eval(COIN_MAJOR*20)])
+
+
 AC_INIT([NutsnBolts], [NB_MAJOR.NB_MINOR.NB_MICRO[]NB_BETA],
   [coin-bugs@coin3d.org])
 
@@ -43,9 +51,9 @@ AC_SUBST([NB_VERSION], [NB_MAJOR.NB_MINOR.NB_MICRO[]NB_BETA])
 VERSION=$NB_VERSION
 
 # Libtool versioning
-# AC_SUBST([LT_CURRENT], [NB_ABI_CURRENT])
-# AC_SUBST([LT_REVISION], [NB_ABI_REVISION])
-# AC_SUBST([LT_AGE], [NB_ABI_AGE])
+AC_SUBST([LT_CURRENT], [NB_ABI_CURRENT])
+AC_SUBST([LT_REVISION], [NB_ABI_REVISION])
+AC_SUBST([LT_AGE], [NB_ABI_AGE])
 
 AC_DEFINE_UNQUOTED([NB_MAJOR_VERSION], [$NB_MAJOR_VERSION],
   [define this to the libSmallchange major version number])
