@@ -31,7 +31,7 @@ class NB_DLL_API NbRotateMode : public NbNavigationMode {
   typedef NbNavigationMode inherited;
 
 public:
-  NbRotateMode(NbNavigationSystem * system, SbName modename);
+  NbRotateMode(SbName modename);
   virtual ~NbRotateMode(void);
 
 protected:

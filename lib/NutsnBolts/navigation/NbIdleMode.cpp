@@ -37,8 +37,8 @@
 */
 
 
-NbIdleMode::NbIdleMode(NbNavigationSystem * system, SbName modename)
-  : inherited(system, modename)
+NbIdleMode::NbIdleMode(SbName modename)
+  : inherited(modename)
 {
   this->pimpl = NULL;
 }

@@ -49,8 +49,8 @@
   \a name the name of the navigation mode.
 */
 
-NbPanMode::NbPanMode(NbNavigationSystem * system, SbName name)
-  : inherited(system, name)
+NbPanMode::NbPanMode(SbName name)
+  : inherited(name)
 {
   // we don't have the need for a private implementation, but we have
   // set off space for one if we ever need one in the future.

@@ -47,36 +47,102 @@
 // *************************************************************************
 
 /*!
+  \page navigation Navigation
+
+  The SIM Nuts'n'Bolts NbSceneManager class implements a navigation
+  system that allows for user interaction without having to deploy a
+  full GUI toolkit viewer.
+
+  This is done by atatching an object of type NbNavigationSystem to
+  the NbSceneManager that will listen to all events sent to the scene
+  and perform user-based camera navigation based on those events.
+
+  A set of builtin navigation systems can be used for certain common
+  navigation setups, but it is also possible to create ones own navigation
+  modes, or  patch together a new one from existing navigation submodes.
+
+  Builtin modes are named in the following set of defines:
+  \li NB_EXAMINER_SYSTEM
+  \li NB_PANNER_SYSTEM
+  \li NB_ZOOMER_SYSTEM
+  \li NB_ROTATER_SYSTEM
+
+  The NB_EXAMINER_SYSTEM is a navigation system that implements most of
+  the examiner viewer navigation.  Not complete yet, but that is the
+  goal.
+
+  The NB_PANNER_SYSTEM just implements panning when the mouse button
+  is pressed.  Similarly, the NB_ZOOMER_SYSTEM and NB_ROTATER_SYSTEM
+  implements just zooming and rotating when the mouse is pressed.
+*/
+
+
+/*!
   \class NbNavigationSystem NutsnBolts/navigation/NbNavigationSystem.h
   \brief Class for managing user-based viewer navigation.
+
+  Container class for navigation systems.
 
   \ingroup navigation
 */
 
 /*!
-  \page navigation Navigation
+  \enum NbNavigationSystem::TransitionType
 
-  The Nuts'n'Bolts NbSceneManager class implements a navigation system
-  that allows for user interaction without having to deploy a full GUI
-  toolkit viewer.
-
+  This enum defines the types of mode transitions supported by the
+  NbNavigationSystem class.
 */
-// \ingroup navigation
 
-// examinermode
-// idle
-// examinermode:wait_to_seek
-// examinermode:wait_to_pan
-// examinermode:wait_to_zoom
-// examiner:wait_to_dolly
-// examiner:rotate
-// examiner:spin
-// examiner:pan
-// examiner:zoom
-// examiner:dolly
-// examiner:seek
+/*!
+  \enum NbNavigationSystem::INITIAL
+  
+  This transition is used to set the default/initial submode of the
+  navigation system.
+*/
+
+/*!
+  \enum NbNavigationSystem::STACK
+
+  This mode transition means that the target mode of the transition is
+  stacked on top of the current mode, and this mode will be returned
+  to when the target mode is done.
+*/
+
+/*!
+  \enum NbNavigationSystem::SWITCH
+
+  This mode transition means that the target mode will replace the
+  current mode in the mode stack so the current mode is not the mode
+  returned to when the new mode finishes.
+*/
+
+/*!
+  \enum NbNavigationSystem::FINISH
+
+  This mode transition will make the system return to the previous
+  mode - the mode under it on the mode stack.
+*/
+
+/*!
+  \enum NbNavigationSystem::ABORT
+
+  This mode transition will abort the current mode and make the system
+  return to the previous mode - the mode under it on the mode stack.
+*/
+
+/*!
+  \typedef void NbNavigationModeChangeCB(void * closure, NbNavigationSystem * system)
+
+  This function type defines the signature the NbNavigationSystem mode
+  change callbacks must use.
+
+  \relates NbNavigationSystem
+
+  \sa NbNavigationSystem::addModeChangeCallback, NbNavigationSystem::removeModeChangeCallback
+*/
 
 // *************************************************************************
+// private type declarations
 
 struct NbNavigationModeTransition {
   NbNavigationSystem::TransitionType type;
@@ -105,13 +171,18 @@ SbDict * NbNavigationSystemP::namedict = NULL;
 
 // *************************************************************************
 
+/*!
+  Initializes the builtin navigation systems.
+
+  \sa NbNavigationSystem::cleanClass
+*/
+
 void
 NbNavigationSystem::initClass(void)
 {
   NbNavigationSystemP::namedict = new SbDict;
 
   // create events to listen for
-
   SoKeyboardEvent * escapedown = new SoKeyboardEvent;
   escapedown->setKey(SoKeyboardEvent::ESCAPE);
   escapedown->setState(SoButtonEvent::DOWN);
@@ -161,17 +232,17 @@ NbNavigationSystem::initClass(void)
     new NbNavigationSystem(NB_EXAMINER_SYSTEM);
 
   NbIdleMode * examineridle =
-    new NbIdleMode(examiner, NB_EXAMINER_IDLE_MODE);
+    new NbIdleMode(NB_EXAMINER_IDLE_MODE);
   NbRotateMode * examinerrotate =
-    new NbRotateMode(examiner, NB_EXAMINER_ROTATE_MODE);
+    new NbRotateMode(NB_EXAMINER_ROTATE_MODE);
   NbIdleMode * examinerwaitforzoom =
-    new NbIdleMode(examiner, NB_EXAMINER_WAITFORZOOM_MODE);
+    new NbIdleMode(NB_EXAMINER_WAITFORZOOM_MODE);
   NbZoomMode * examinerzoom =
-    new NbZoomMode(examiner, NB_EXAMINER_ZOOM_MODE);
+    new NbZoomMode(NB_EXAMINER_ZOOM_MODE);
   NbIdleMode * examinerwaitforpan =
-    new NbIdleMode(examiner, NB_EXAMINER_WAITFORPAN_MODE);
+    new NbIdleMode(NB_EXAMINER_WAITFORPAN_MODE);
   NbPanMode * examinerpan =
-    new NbPanMode(examiner, NB_EXAMINER_PAN_MODE);
+    new NbPanMode(NB_EXAMINER_PAN_MODE);
 
   examiner->addMode(examineridle);
   examiner->addMode(examinerrotate);
@@ -197,8 +268,8 @@ NbNavigationSystem::initClass(void)
 
 
   NbNavigationSystem * rotater = new NbNavigationSystem(NB_ROTATER_SYSTEM);
-  NbIdleMode * rotater_idle = new NbIdleMode(rotater, NB_ROTATER_IDLE_MODE);
-  NbRotateMode * rotater_rotate = new NbRotateMode(rotater, NB_ROTATER_ROTATE_MODE);
+  NbIdleMode * rotater_idle = new NbIdleMode(NB_ROTATER_IDLE_MODE);
+  NbRotateMode * rotater_rotate = new NbRotateMode(NB_ROTATER_ROTATE_MODE);
   rotater->addMode(rotater_idle);
   rotater->addMode(rotater_rotate);
   rotater->addModeTransition(rotater_idle, INITIAL);
@@ -211,8 +282,8 @@ NbNavigationSystem::initClass(void)
 
 
   NbNavigationSystem * panner = new NbNavigationSystem(NB_PANNER_SYSTEM);
-  NbIdleMode * panner_idle = new NbIdleMode(panner, NB_PANNER_IDLE_MODE);
-  NbPanMode * panner_pan = new NbPanMode(panner, NB_PANNER_PAN_MODE);
+  NbIdleMode * panner_idle = new NbIdleMode(NB_PANNER_IDLE_MODE);
+  NbPanMode * panner_pan = new NbPanMode(NB_PANNER_PAN_MODE);
   panner->addMode(panner_idle);
   panner->addMode(panner_pan);
   panner->addModeTransition(panner_idle, INITIAL);
@@ -225,8 +296,8 @@ NbNavigationSystem::initClass(void)
 
 
   NbNavigationSystem * zoomer = new NbNavigationSystem(NB_ZOOMER_SYSTEM);
-  NbIdleMode * zoomer_idle = new NbIdleMode(zoomer, NB_ZOOMER_IDLE_MODE);
-  NbZoomMode * zoomer_zoom = new NbZoomMode(zoomer, NB_ZOOMER_ZOOM_MODE);
+  NbIdleMode * zoomer_idle = new NbIdleMode(NB_ZOOMER_IDLE_MODE);
+  NbZoomMode * zoomer_zoom = new NbZoomMode(NB_ZOOMER_ZOOM_MODE);
   zoomer->addMode(zoomer_idle);
   zoomer->addMode(zoomer_zoom);
   zoomer->addModeTransition(zoomer_idle, INITIAL);
@@ -242,7 +313,15 @@ NbNavigationSystem::initClass(void)
   NbNavigationSystem::registerSystem(rotater);
   NbNavigationSystem::registerSystem(panner);
   NbNavigationSystem::registerSystem(zoomer);
+
+  // FIXME: delete events
 }
+
+/*!
+  Thisfunction cleans up after the NbNavigationSystem class.
+
+  \sa NbNavigationSystem::initClass
+*/
 
 void
 NbNavigationSystem::cleanClass(void)
@@ -256,6 +335,16 @@ NbNavigationSystem::cleanClass(void)
   NbNavigationSystemP::namedict = NULL;
 }
 
+/*!
+  This function registers a navigation system object so it can later
+  be fetched by name through NbNavigationSystem::getByName().
+
+  Registered navigation systems can be enabled for an NbSceneManager
+  through use of an NbViewerNavigationMode node in the scene graph.
+
+  \sa NbNavigationSystem::unregisterSystem, NbNavigationSystem::getByName
+*/
+
 SbBool
 NbNavigationSystem::registerSystem(NbNavigationSystem * system)
 {
@@ -267,6 +356,12 @@ NbNavigationSystem::registerSystem(NbNavigationSystem * system)
   NbNavigationSystemP::namedict->enter((uintptr_t) name.getString(), system);
   return TRUE;
 }
+
+/*!
+  This function unregisters a navigation system from the dictionary.
+
+  \sa NbNavigationSystem::registerSystem, NbNavigationSystem::getByName
+*/
 
 SbBool
 NbNavigationSystem::unregisterSystem(NbNavigationSystem * system)
@@ -280,6 +375,14 @@ NbNavigationSystem::unregisterSystem(NbNavigationSystem * system)
   return TRUE;
 }
 
+/*!
+  This function returns the navigation system that has been registered
+  under the given name.  NULL is returned if no such system has been
+  registered.
+
+  \sa NbNavigationSystem::registerSystem, NbNavigationSystem::unregisterSystem
+*/
+
 NbNavigationSystem *
 NbNavigationSystem::getByName(SbName name)
 {
@@ -290,6 +393,291 @@ NbNavigationSystem::getByName(SbName name)
 }
 
 // *************************************************************************
+
+#define PRIVATE(obj) ((obj)->pimpl)
+
+/*!
+  Constructor.  The \a name argument is the name of the system, the
+  name it will be registered under with
+  NbSceneManager::registerSystem().
+*/
+
+NbNavigationSystem::NbNavigationSystem(SbName name)
+{
+  PRIVATE(this) = new NbNavigationSystemP(this);
+  PRIVATE(this)->name = SbName(name);
+}
+
+/*!
+  Destructor.
+*/
+
+NbNavigationSystem::~NbNavigationSystem(void)
+{
+  delete PRIVATE(this);
+  PRIVATE(this) = NULL;
+}
+
+/*!
+  Returns the name of the navigation system.
+*/
+
+SbName
+NbNavigationSystem::getName(void) const
+{
+  return PRIVATE(this)->name;
+}
+
+/*!
+  Sets the pointer to the camera that the navigation system should
+  manipulate.
+*/
+
+void
+NbNavigationSystem::setCamera(SoCamera * camera)
+{
+  PRIVATE(this)->info->setCamera(camera);
+}
+
+/*!
+  Sets the viewport region information needed for interpreting mouse events
+  correctly.
+*/
+
+void
+NbNavigationSystem::setViewport(const SbViewportRegion & vp)
+{
+  PRIVATE(this)->info->setViewport(vp);
+}
+
+/*!
+  Adds a callback that will be called each time the navigation
+  system switches navigation mode.
+
+  \sa removeModeChangeCallback, getCurrentModeName
+*/
+
+void
+NbNavigationSystem::addModeChangeCallback(NbNavigationModeChangeCB * cb, void * closure)
+{
+  if ( !PRIVATE(this)->modechangecbs ) {
+    PRIVATE(this)->modechangecbs = new SbPList;
+  }
+  PRIVATE(this)->modechangecbs->append(cb);
+  PRIVATE(this)->modechangecbs->append(closure);
+}
+
+/*!
+  Removes a callback set with addModeChangeCallback().
+
+  \sa addModeChangeCallback
+*/
+
+void
+NbNavigationSystem::removeModeChangeCallback(NbNavigationModeChangeCB * cb, void * closure)
+{
+  if ( !PRIVATE(this)->modechangecbs ) return;
+  const int max = PRIVATE(this)->modechangecbs->getLength();
+  assert((max % 2) == 0);
+  int i;
+  for ( i = 0; i < max; i += 2 ) {
+    NbNavigationModeChangeCB * cb2 =
+      (NbNavigationModeChangeCB *) (*(PRIVATE(this)->modechangecbs))[i];
+    void * closure2 = (*(PRIVATE(this)->modechangecbs))[i+1];
+    if ( cb == cb2 && closure == closure2 ) {
+      PRIVATE(this)->modechangecbs->remove(i+1);
+      PRIVATE(this)->modechangecbs->remove(i);
+      return;
+    }
+  }
+}
+
+/*!
+  Invokes all the mode change callbacks.
+
+  \sa addModeChangeCallback, removeModeChangeCallback
+*/
+
+void
+NbNavigationSystem::invokeModeChangeCallbacks(void)
+{
+  if ( !PRIVATE(this)->modechangecbs ) return;
+  const int max = PRIVATE(this)->modechangecbs->getLength();
+  assert((max % 2) == 0);
+  int i;
+  for ( i = 0; i < max; i += 2 ) {
+    NbNavigationModeChangeCB * cb =
+      (NbNavigationModeChangeCB *) (*(PRIVATE(this)->modechangecbs))[i];
+    void * closure = (*(PRIVATE(this)->modechangecbs))[i+1];
+    cb(closure, this);
+  }
+}
+
+/*!
+  Processes an event.  Returns TRUE if a mode used the event, and FALSE
+  if the event didn't result in anything.
+*/
+
+SbBool
+NbNavigationSystem::processEvent(const SoEvent * event)
+{
+  assert(event);
+  assert(PRIVATE(this)->state);
+  assert(PRIVATE(this)->info);
+  NbNavigationMode * mode = PRIVATE(this)->state->getMode();
+  if ( mode == NULL ) return FALSE;
+  // fprintf(stderr, "NbNavigationSystem::processEvent()\n");
+
+  const int max = PRIVATE(this)->transitions->getLength();
+  // fprintf(stderr, "system has %d transitions\n", max);
+
+  // check if we're doing a mode transition
+  int i;
+  for ( i = 0; i < max; i++ ) {
+    NbNavigationModeTransition * transition =
+      (*(PRIVATE(this)->transitions))[i];
+    if ( transition->mode1 != mode ) continue;
+    // fprintf(stderr, "trying transition %d\n", i);
+    if ( transition->type == INITIAL ) continue; // trigger is NULL
+    if ( ! SoEvent_Equals(transition->trigger, event) ) continue;
+
+    // we are doing a mode transition
+    // fprintf(stderr, "triggering transition %d\n", i);
+    switch ( transition->type ) {
+    case FINISH:
+    case ABORT:
+      mode->processEvent(event, PRIVATE(this)->info);
+      if ( transition->type == FINISH ) {
+	mode->finish(event, PRIVATE(this)->info);
+      } else {
+	mode->abort(event, PRIVATE(this)->info);
+      }
+      PRIVATE(this)->state->pop();
+      mode = PRIVATE(this)->state->getMode();
+      if ( mode ) {
+	this->invokeModeChangeCallbacks();
+	mode->init(event, PRIVATE(this)->info);
+	mode->processEvent(event, PRIVATE(this)->info);
+      }
+      return TRUE;
+
+    case STACK:
+    case SWITCH:
+      mode->processEvent(event, PRIVATE(this)->info);
+      mode->finish(event, PRIVATE(this)->info);
+      if ( transition->type == SWITCH )
+	PRIVATE(this)->state->pop();
+      PRIVATE(this)->state->push(transition->mode2, event);
+      mode = PRIVATE(this)->state->getMode();
+      this->invokeModeChangeCallbacks();
+      mode->init(event, PRIVATE(this)->info);
+      mode->processEvent(event, PRIVATE(this)->info);
+      return TRUE;
+    }
+  }
+
+  // no transition - just regular event processing
+  return mode->processEvent(event, PRIVATE(this)->info);
+}
+
+/*!
+  Adds a submode to a navigation system.
+*/
+
+void
+NbNavigationSystem::addMode(NbNavigationMode * mode)
+{
+  assert(PRIVATE(this)->modes);
+  if ( PRIVATE(this)->modes->find(mode) != -1 ) return;
+  PRIVATE(this)->modes->append(mode);
+}
+
+/*!
+  Adds a mode transition.
+*/
+
+void
+NbNavigationSystem::addModeTransition(NbNavigationMode * mode,
+				      TransitionType type,
+				      const SoEvent * trigger,
+				      const SoEvent * condition)
+{
+  assert(PRIVATE(this)->modes);
+  assert(PRIVATE(this)->modes->find(mode) != -1);
+  assert(mode);
+  assert(type == INITIAL || type == ABORT || type == FINISH);
+  assert(trigger || type == INITIAL);
+
+  if ( type == INITIAL ) {
+    PRIVATE(this)->state->reset();
+    PRIVATE(this)->state->push(mode, NULL);
+  }
+
+  NbNavigationModeTransition * transition = new NbNavigationModeTransition;
+  transition->type = type;
+  transition->mode1 = mode;
+  transition->mode2 = NULL;
+  transition->trigger = trigger;
+  transition->condition = condition;
+
+  PRIVATE(this)->transitions->append(transition);
+}
+
+/*!
+  Ads a mode transition.
+*/
+
+void
+NbNavigationSystem::addModeTransition(NbNavigationMode * mode1,
+				      NbNavigationMode * mode2,
+				      TransitionType type,
+				      const SoEvent * trigger,
+				      const SoEvent * condition)
+{
+  assert(PRIVATE(this)->modes);
+  assert(mode1); assert(mode2);
+  assert(PRIVATE(this)->modes->find(mode1) != -1);
+  assert(PRIVATE(this)->modes->find(mode2) != -1);
+  assert(type == STACK || type == SWITCH);
+
+  NbNavigationModeTransition * transition = new NbNavigationModeTransition;
+  transition->type = type;
+  transition->mode1 = mode1;
+  transition->mode2 = mode2;
+  transition->trigger = trigger;
+  transition->condition = condition;
+
+  PRIVATE(this)->transitions->append(transition);
+}
+
+/*!
+  Returns the name of the current submode.
+*/
+
+SbName
+NbNavigationSystem::getCurrentModeName(void) const
+{
+  NbNavigationMode * mode = PRIVATE(this)->state->getMode();
+  if ( !mode ) return SbName("");
+  return mode->getModeName();
+}
+
+/*!
+  Returns the object for the current submode.
+*/
+
+const NbNavigationMode *
+NbNavigationSystem::getCurrentMode(void) const
+{
+  return PRIVATE(this)->state->getMode();
+}
+ 
+// *************************************************************************
+
+#undef PRIVATE
+
+// *************************************************************************
+// private implementation
 
 NbNavigationSystemP::NbNavigationSystemP(NbNavigationSystem * api)
 {
@@ -321,219 +709,3 @@ NbNavigationSystemP::~NbNavigationSystemP(void)
 }
 
 // *************************************************************************
-
-#define PRIVATE(obj) ((obj)->pimpl)
-
-NbNavigationSystem::NbNavigationSystem(SbName name)
-{
-  PRIVATE(this) = new NbNavigationSystemP(this);
-  PRIVATE(this)->name = SbName(name);
-}
-
-NbNavigationSystem::~NbNavigationSystem(void)
-{
-  delete PRIVATE(this);
-  PRIVATE(this) = NULL;
-}
-
-SbName
-NbNavigationSystem::getName(void) const
-{
-  return PRIVATE(this)->name;
-}
-
-void
-NbNavigationSystem::setCamera(SoCamera * camera)
-{
-  PRIVATE(this)->info->setCamera(camera);
-}
-
-void
-NbNavigationSystem::setViewport(const SbViewportRegion & vp)
-{
-  PRIVATE(this)->info->setViewport(vp);
-}
-
-void
-NbNavigationSystem::addModeChangeCallback(NbNavigationModeChangeCB * cb, void * closure)
-{
-  if ( !PRIVATE(this)->modechangecbs ) {
-    PRIVATE(this)->modechangecbs = new SbPList;
-  }
-  PRIVATE(this)->modechangecbs->append(cb);
-  PRIVATE(this)->modechangecbs->append(closure);
-}
-
-void
-NbNavigationSystem::removeModeChangeCallback(NbNavigationModeChangeCB * cb, void * closure)
-{
-  if ( !PRIVATE(this)->modechangecbs ) return;
-  const int max = PRIVATE(this)->modechangecbs->getLength();
-  assert((max % 2) == 0);
-  int i;
-  for ( i = 0; i < max; i += 2 ) {
-    NbNavigationModeChangeCB * cb2 =
-      (NbNavigationModeChangeCB *) (*(PRIVATE(this)->modechangecbs))[i];
-    void * closure2 = (*(PRIVATE(this)->modechangecbs))[i+1];
-    if ( cb == cb2 && closure == closure2 ) {
-      PRIVATE(this)->modechangecbs->remove(i+1);
-      PRIVATE(this)->modechangecbs->remove(i);
-      return;
-    }
-  }
-}
-
-void
-NbNavigationSystem::invokeModeChangeCallbacks(void)
-{
-  if ( !PRIVATE(this)->modechangecbs ) return;
-  const int max = PRIVATE(this)->modechangecbs->getLength();
-  assert((max % 2) == 0);
-  int i;
-  for ( i = 0; i < max; i += 2 ) {
-    NbNavigationModeChangeCB * cb =
-      (NbNavigationModeChangeCB *) (*(PRIVATE(this)->modechangecbs))[i];
-    void * closure = (*(PRIVATE(this)->modechangecbs))[i+1];
-    cb(closure, this);
-  }
-}
-
-SbBool
-NbNavigationSystem::processEvent(const SoEvent * event)
-{
-  assert(event);
-  assert(PRIVATE(this)->state);
-  assert(PRIVATE(this)->info);
-  NbNavigationMode * mode = PRIVATE(this)->state->getMode();
-  if ( mode == NULL ) return FALSE;
-  // fprintf(stderr, "NbNavigationSystem::processEvent()\n");
-
-  SbBool retval = FALSE;
-  const int max = PRIVATE(this)->transitions->getLength();
-  // fprintf(stderr, "system has %d transitions\n", max);
-
-  // check if we're doing a mode transition
-  int i;
-  for ( i = 0; i < max; i++ ) {
-    NbNavigationModeTransition * transition =
-      (*(PRIVATE(this)->transitions))[i];
-    if ( transition->mode1 != mode ) continue;
-    // fprintf(stderr, "trying transition %d\n", i);
-    if ( transition->type == INITIAL ) continue; // trigger is NULL
-    if ( ! SoEvent_Equals(transition->trigger, event) ) continue;
-    // fprintf(stderr, "triggering transition %d\n", i);
-    switch ( transition->type ) {
-    case FINISH:
-    case ABORT:
-      if ( mode->processEvent(event, PRIVATE(this)->info) ) retval = TRUE;
-      if ( transition->type == FINISH ) {
-	mode->finish(event, PRIVATE(this)->info);
-      } else {
-	mode->abort(event, PRIVATE(this)->info);
-      }
-      PRIVATE(this)->state->pop();
-      mode = PRIVATE(this)->state->getMode();
-      if ( mode ) {
-	this->invokeModeChangeCallbacks();
-	mode->init(event, PRIVATE(this)->info);
-	if ( mode->processEvent(event, PRIVATE(this)->info) ) retval = TRUE;
-      }
-      return retval;
-
-    case STACK:
-    case SWITCH:
-      if ( mode->processEvent(event, PRIVATE(this)->info) ) retval = TRUE;
-      mode->finish(event, PRIVATE(this)->info);
-      if ( transition->type == SWITCH )
-	PRIVATE(this)->state->pop();
-      PRIVATE(this)->state->push(transition->mode2, event);
-      mode = PRIVATE(this)->state->getMode();
-      this->invokeModeChangeCallbacks();
-      mode->init(event, PRIVATE(this)->info);
-      if ( mode->processEvent(event, PRIVATE(this)->info) ) retval = TRUE;
-      return retval;
-    }
-  }
-
-  // no transition - just regular event
-  if ( mode->processEvent(event, PRIVATE(this)->info) ) retval = TRUE;
-
-  return retval;
-}
-
-void
-NbNavigationSystem::addMode(NbNavigationMode * mode)
-{
-  assert(PRIVATE(this)->modes);
-  if ( PRIVATE(this)->modes->find(mode) != -1 ) return;
-  PRIVATE(this)->modes->append(mode);
-}
-
-void
-NbNavigationSystem::addModeTransition(NbNavigationMode * mode,
-				      TransitionType type,
-				      const SoEvent * trigger,
-				      const SoEvent * condition)
-{
-  assert(PRIVATE(this)->modes);
-  assert(PRIVATE(this)->modes->find(mode) != -1);
-  assert(mode);
-  assert(type == INITIAL || type == ABORT || type == FINISH);
-  assert(trigger || type == INITIAL);
-
-  if ( type == INITIAL ) {
-    PRIVATE(this)->state->reset();
-    PRIVATE(this)->state->push(mode, NULL);
-  }
-
-  NbNavigationModeTransition * transition = new NbNavigationModeTransition;
-  transition->type = type;
-  transition->mode1 = mode;
-  transition->mode2 = NULL;
-  transition->trigger = trigger;
-  transition->condition = condition;
-
-  PRIVATE(this)->transitions->append(transition);
-}
-
-
-void
-NbNavigationSystem::addModeTransition(NbNavigationMode * mode1,
-				      NbNavigationMode * mode2,
-				      TransitionType type,
-				      const SoEvent * trigger,
-				      const SoEvent * condition)
-{
-  assert(PRIVATE(this)->modes);
-  assert(mode1); assert(mode2);
-  assert(PRIVATE(this)->modes->find(mode1) != -1);
-  assert(PRIVATE(this)->modes->find(mode2) != -1);
-  assert(type == STACK || type == SWITCH);
-
-  NbNavigationModeTransition * transition = new NbNavigationModeTransition;
-  transition->type = type;
-  transition->mode1 = mode1;
-  transition->mode2 = mode2;
-  transition->trigger = trigger;
-  transition->condition = condition;
-
-  PRIVATE(this)->transitions->append(transition);
-}
-
-SbName
-NbNavigationSystem::getCurrentModeName(void) const
-{
-  NbNavigationMode * mode = PRIVATE(this)->state->getMode();
-  if ( !mode ) return SbName("");
-  return mode->getModeName();
-}
-
-const NbNavigationMode *
-NbNavigationSystem::getCurrentMode(void) const
-{
-  return PRIVATE(this)->state->getMode();
-}
- 
-// *************************************************************************
-
-#undef PRIVATE

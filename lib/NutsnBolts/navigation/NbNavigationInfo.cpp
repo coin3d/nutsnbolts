@@ -36,8 +36,15 @@
   \class NbNavigationInfo NutsnBolts/navigation/NbNavigationInfo.h
   \brief Helper class for classes implementing navigation modes.
 
+  This class contains helper functions for implementing navigation modes.
+
+  Consider this class internal unless you are implementing your own
+  navigation modes.
+
   \ingroup navigation
 */
+
+// *************************************************************************
 
 class NbNavigationInfoP {
 public:
@@ -49,17 +56,13 @@ public:
   SoCamera * cameraptr;
 }; // NbNavigationInfoP
 
-NbNavigationInfoP::NbNavigationInfoP(NbNavigationInfo * api)
-{
-}
-
-NbNavigationInfoP::~NbNavigationInfoP(void)
-{
-}
-
 // *************************************************************************
 
 #define PRIVATE(obj) ((obj)->pimpl)
+
+/*!
+  Constructor.
+*/
 
 NbNavigationInfo::NbNavigationInfo(void)
 {
@@ -68,11 +71,21 @@ NbNavigationInfo::NbNavigationInfo(void)
   PRIVATE(this)->cameraptr = NULL;
 }
 
+/*!
+  Destructor.
+*/
+
 NbNavigationInfo::~NbNavigationInfo(void)
 {
   delete PRIVATE(this);
   PRIVATE(this) = NULL;
 }
+
+/*!
+  Sets the pointer to the camera that is to be manipulated.
+
+  \sa getCamera
+*/
 
 void
 NbNavigationInfo::setCamera(SoCamera * camera)
@@ -94,24 +107,48 @@ NbNavigationInfo::setCamera(SoCamera * camera)
   }
 }
 
+/*!
+  Returns the pointer the the camera that is to be manipulated.
+
+  \sa setCamera
+*/
+
 SoCamera *
 NbNavigationInfo::getCamera(void) const
 {
   return PRIVATE(this)->cameraptr;
 }
 
-void
-NbNavigationInfo::setCamera(void) const
-{
-  // fprintf(stderr, "NbNavigationInfo::setCamera()\n");
-  if ( !PRIVATE(this)->cameraptr || !PRIVATE(this)->initcamera ) return;
-  PRIVATE(this)->initcamera->copyFieldValues(PRIVATE(this)->cameraptr);}
+/*!
+  This method sets the viewport information.
+*/
 
 void
 NbNavigationInfo::setViewport(const SbViewportRegion & vp)
 {
   PRIVATE(this)->viewport = vp;
 }
+
+/*!
+  This method <i>sets</i> the camera to its current position.
+  You can later restore the camera back to this position by calling
+  restoreCamera().
+
+  \sa restoreCamera
+*/
+
+void
+NbNavigationInfo::setCamera(void) const
+{
+  // fprintf(stderr, "NbNavigationInfo::setCamera()\n");
+  if ( !PRIVATE(this)->cameraptr || !PRIVATE(this)->initcamera ) return;
+  PRIVATE(this)->initcamera->copyFieldValues(PRIVATE(this)->cameraptr);
+}
+
+/*!
+  This method restores the camera back to its last <i>set</i> position,
+  or its initial position if setCamera() has not been used yet.
+*/
 
 void
 NbNavigationInfo::restoreCamera(void) const
@@ -120,6 +157,12 @@ NbNavigationInfo::restoreCamera(void) const
   if ( PRIVATE(this)->cameraptr == NULL ) return;
   PRIVATE(this)->cameraptr->copyFieldValues(PRIVATE(this)->initcamera);
 }
+
+/*!
+  This method reorients the camera according to the given rotation.
+
+  \sa setCamera, restoreCamera, moveCamera
+*/
 
 void
 NbNavigationInfo::reorientCamera(const SbRotation & rot) const
@@ -143,6 +186,10 @@ NbNavigationInfo::reorientCamera(const SbRotation & rot) const
   cam->position = focalpoint - cam->focalDistance.getValue() * direction;
 }
 
+/*!
+  This method moves the camera.
+*/
+
 void
 NbNavigationInfo::moveCamera(const SbVec3f & vec) const
 {
@@ -152,11 +199,19 @@ NbNavigationInfo::moveCamera(const SbVec3f & vec) const
     PRIVATE(this)->cameraptr->position.getValue() + vec;
 }
 
+/*!
+  Returns the size of the viewport in pixels.
+*/
+
 SbVec2s
 NbNavigationInfo::getViewportSize(void) const
 {
   return PRIVATE(this)->viewport.getWindowSize();
 }
+
+/*!
+  Returns the aspect ratio of the viewport - width divided by height.
+*/
 
 float
 NbNavigationInfo::getViewportAspect(void) const
@@ -164,6 +219,17 @@ NbNavigationInfo::getViewportAspect(void) const
   return PRIVATE(this)->viewport.getViewportAspectRatio();
 }
 
-// *************************************************************************
-
 #undef PRIVATE
+
+// *************************************************************************
+// private implementation
+
+NbNavigationInfoP::NbNavigationInfoP(NbNavigationInfo * api)
+{
+}
+
+NbNavigationInfoP::~NbNavigationInfoP(void)
+{
+}
+
+// *************************************************************************

@@ -66,8 +66,8 @@ public:
 
 #define PRIVATE(obj) ((obj)->pimpl)
 
-NbRotateMode::NbRotateMode(NbNavigationSystem * system, SbName modename)
-  : inherited(system, modename)
+NbRotateMode::NbRotateMode(SbName modename)
+  : inherited(modename)
 {
   PRIVATE(this) = new NbRotateModeP(this);
 }

@@ -30,12 +30,14 @@
   \class NbNavigationState NutsnBolts/navigation/NbNavigationState.h
   \brief Internal class.
 
-  This class is only used by NbNavigationSystem to track the current
-  navigation state (current mode).
+  This class is only used internally in the NbNavigationSystem class
+  to track the current navigation state (current mode).  It isn't
+  exposed anywhere.
 
   \ingroup navigation
 */
 
+// *************************************************************************
 
 class NbNavigationStateP {
 public:
@@ -45,24 +47,34 @@ public:
   SbList<const SoEvent *> triggerstack;
 };
 
-NbNavigationStateP::NbNavigationStateP(NbNavigationState * api)
-{
-}
-
 // *************************************************************************
 
 #define PRIVATE(obj) ((obj)->pimpl)
+
+/*!
+  Constructor.
+*/
 
 NbNavigationState::NbNavigationState(void)
 {
   PRIVATE(this) = new NbNavigationStateP(this);
 }
+/*!
+  Destructor.
+*/
 
 NbNavigationState::~NbNavigationState(void)
 {
   delete PRIVATE(this);
   PRIVATE(this) = NULL;
 }
+
+/*!
+  Pushes a new mode on the state stack.  \a trigger is the event that
+  triggered the mode change.
+
+  \sa pop, getMode, getTrigger
+*/
 
 void
 NbNavigationState::push(NbNavigationMode * mode, const SoEvent * trigger)
@@ -71,12 +83,20 @@ NbNavigationState::push(NbNavigationMode * mode, const SoEvent * trigger)
   PRIVATE(this)->triggerstack.append(trigger);
 }
 
+/*!
+  Pops the mode state stack.
+*/
+
 void
 NbNavigationState::pop(void)
 {
   PRIVATE(this)->modestack.pop();
   PRIVATE(this)->triggerstack.pop();
 }
+
+/*!
+  Resets the mode state stack.
+*/
 
 void
 NbNavigationState::reset(void)
@@ -85,12 +105,27 @@ NbNavigationState::reset(void)
   PRIVATE(this)->triggerstack.truncate(0);
 }
 
+/*!
+  Returns the mode at the top of the mode state stack.
+
+  \sa push, pop, getTrigger
+*/
+
 NbNavigationMode *
 NbNavigationState::getMode(void) const
 {
   if ( PRIVATE(this)->modestack.getLength() == 0 ) return NULL;
   return PRIVATE(this)->modestack[PRIVATE(this)->modestack.getLength()-1];
 }
+
+/*!
+  Returns the event that triggered the current mode.
+
+  NULL is returned in the case of the initial mode and if the mode
+  state stack has been popped empty.
+
+  \sa getMode, push, pop
+*/
 
 const SoEvent *
 NbNavigationState::getTrigger(void) const
@@ -99,6 +134,11 @@ NbNavigationState::getTrigger(void) const
   return PRIVATE(this)->triggerstack[PRIVATE(this)->triggerstack.getLength()-1];
 }
 
+#undef PRIVATE
+
 // *************************************************************************
 
-#undef PRIVATE
+NbNavigationStateP::NbNavigationStateP(NbNavigationState * api)
+{
+}
+

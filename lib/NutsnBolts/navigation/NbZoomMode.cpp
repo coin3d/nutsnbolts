@@ -49,8 +49,8 @@
   Constructor.  Needs to know its container navigation system and mode name.
 */
 
-NbZoomMode::NbZoomMode(NbNavigationSystem * system, SbName name)
-  : inherited(system, name)
+NbZoomMode::NbZoomMode(SbName name)
+  : inherited(name)
 {
   // no need for a private implementation now, but we've set off room for
   // it if we ever need one in the future.

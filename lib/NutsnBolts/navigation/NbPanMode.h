@@ -31,7 +31,7 @@ class NB_DLL_API NbPanMode : public NbNavigationMode {
   typedef NbNavigationMode inherited;
 
 public:
-  NbPanMode(NbNavigationSystem * system, SbName name);
+  NbPanMode(SbName name);
   ~NbPanMode(void);
 
 protected:

@@ -31,7 +31,7 @@ class NB_DLL_API NbZoomMode : public NbNavigationMode {
   typedef NbNavigationMode inherited;
 
 public:
-  NbZoomMode(NbNavigationSystem * system, SbName name);
+  NbZoomMode(SbName name);
   virtual ~NbZoomMode(void);
 
 protected:

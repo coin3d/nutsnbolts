@@ -31,7 +31,7 @@ class NB_DLL_API NbIdleMode : public NbNavigationMode {
   typedef NbNavigationMode inherited;
 
 public:
-  NbIdleMode(NbNavigationSystem * system, SbName modename);
+  NbIdleMode(SbName modename);
   virtual ~NbIdleMode(void);
 
 protected:

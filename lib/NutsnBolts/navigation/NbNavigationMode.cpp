@@ -51,10 +51,14 @@
 
 /*!
   \class NbNavigationMode NutsnBolts/navigation/NbNavigationMode.h
-  \brief Abstract base class for handling one navigation mode.
+  \brief Abstract base class for implementing a navigation submode.
 
   This class is internal and should mostly be of interest for developers
-  planning on implementing their own navigation modes.
+  planning on implementing their own navigation systems with new navigation
+  submodes.
+
+  It is abstract.  The handleEvent method needs to be reimplemented
+  by subclasses.
 
   \ingroup navigation
 */
@@ -76,7 +80,6 @@ public:
 public:
   NbNavigationModeP(void);
 
-  NbNavigationSystem * system;
   SbName modename;
 
   SbBool active;
@@ -95,65 +98,34 @@ public:
 
 SbDict * NbNavigationModeP::namedict = NULL;
 
-NbNavigationModeP::NbNavigationModeP(void)
-{
-  this->system = NULL;
-  this->trigger = NULL;
-  this->submode = NULL;
-  this->active = FALSE;
-
-  this->initpos.setValue(0, 0);
-  this->prevpos.setValue(0, 0);
-  this->currentpos.setValue(0, 0);
-
-  this->transitions = NULL;
-  this->finishes = NULL;
-  this->aborts = NULL;
-}
-
 // *************************************************************************
+
+/*!
+  Static class initializer.
+*/
 
 void
 NbNavigationMode::initClass(void)
 {
 }
 
-
-#if 0
-NbNavigationMode *
-NbNavigationMode::get(SbName name)
-{
-  assert(NbNavigationModeP::namedict != NULL);
-  void * ptr = NULL;
-  if ( NbNavigationModeP::namedict->find((unsigned long) name.getString(), ptr) )
-    return (NbNavigationMode *) ptr;
-  return NULL;
-}
-
-void
-NbNavigationMode::add(SbName name, NbNavigationMode * mode)
-{
-  assert(NbNavigationModeP::namedict != NULL);
-  NbNavigationModeP::namedict->enter((unsigned long) name.getString(), mode);
-}
-
-void
-NbNavigationMode::remove(SbName name, NbNavigationMode * mode)
-{
-  assert(0);
-}
-#endif
-
-// *************************************************************************
-
 #define PRIVATE(obj) ((obj)->pimpl)
 
-NbNavigationMode::NbNavigationMode(NbNavigationSystem * system, SbName modename)
+/*!
+  Constructor.  The \a modename argument is the name of the mode.
+  It is often useful to create multiple instances of the same mode
+  but with different names in a navigation system.
+*/
+
+NbNavigationMode::NbNavigationMode(SbName modename)
 {
   PRIVATE(this) = new NbNavigationModeP;
   PRIVATE(this)->modename = modename;
-  PRIVATE(this)->system = system;
 }
+
+/*!
+  Destructor.
+*/
 
 NbNavigationMode::~NbNavigationMode(void)
 {
@@ -208,12 +180,6 @@ SbName
 NbNavigationMode::getModeName(void) const
 {
   return PRIVATE(this)->modename;
-}
-
-NbNavigationSystem *
-NbNavigationMode::getNavigationSystem(void) const
-{
-  return PRIVATE(this)->system;
 }
 
 SbBool
@@ -391,6 +357,22 @@ NbNavigationMode::getCurrentNormalizedPosition(const NbNavigationInfo * info) co
   return SbVec2f(float(pos[0])/float(vp[0]-1), float(pos[1]/float(vp[1]-1)));
 }
 
-// *************************************************************************
-
 #undef PRIVATE
+
+// *************************************************************************
+// private class implementation
+
+NbNavigationModeP::NbNavigationModeP(void)
+{
+  this->trigger = NULL;
+  this->submode = NULL;
+  this->active = FALSE;
+
+  this->initpos.setValue(0, 0);
+  this->prevpos.setValue(0, 0);
+  this->currentpos.setValue(0, 0);
+
+  this->transitions = NULL;
+  this->finishes = NULL;
+  this->aborts = NULL;
+}

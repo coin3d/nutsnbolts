@@ -44,11 +44,10 @@ public:
   static void cleanClass(void);
 
 public:
-  NbNavigationMode(NbNavigationSystem * system, SbName modename);
+  NbNavigationMode(SbName modename);
   virtual ~NbNavigationMode(void);
 
   SbName getModeName(void) const;
-  NbNavigationSystem * getNavigationSystem(void) const;
 
   SbBool processEvent(const SoEvent * event, const NbNavigationInfo * info);
 
