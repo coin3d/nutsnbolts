@@ -382,7 +382,13 @@ AC_ARG_WITH([sogui-config],
 
 AC_SUBST([sim_ac_enable_gui_progs])
 AC_SUBST([sim_ac_prog_sogui_config])
-SIM_AC_CONFIGURATION_SETTING([GUI toolkit tool], [$sim_ac_prog_sogui_config])
+
+
+if $sim_ac_enable_gui_progs; then
+  SIM_AC_CONFIGURATION_SETTING([GUI toolkit tool], [$sim_ac_prog_sogui_config])
+else
+  SIM_AC_CONFIGURATION_SETTING([GUI toolkit tool], [none])
+fi
 
 AM_CONDITIONAL([ENABLE_SOGUI], [$sim_ac_enable_gui_progs])
 

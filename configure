@@ -25481,12 +25481,24 @@ fi;
 
 
 
+
+if $sim_ac_enable_gui_progs; then
+
 if test x"${sim_ac_configuration_settings+set}" = x"set"; then
   sim_ac_configuration_settings="$sim_ac_configuration_settings|GUI toolkit tool:$sim_ac_prog_sogui_config"
 else
   sim_ac_configuration_settings="GUI toolkit tool:$sim_ac_prog_sogui_config"
 fi
 
+else
+
+if test x"${sim_ac_configuration_settings+set}" = x"set"; then
+  sim_ac_configuration_settings="$sim_ac_configuration_settings|GUI toolkit tool:none"
+else
+  sim_ac_configuration_settings="GUI toolkit tool:none"
+fi
+
+fi
 
 
 
