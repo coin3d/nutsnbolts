@@ -1,5 +1,5 @@
-#ifndef NB_NAVIGATIONINFO_H
-#define NB_NAVIGATIONINFO_H
+#ifndef NB_NAVIGATIONCONTROL_H
+#define NB_NAVIGATIONCONTROL_H
 
 /**************************************************************************\
  *
@@ -24,6 +24,7 @@
 \**************************************************************************/
 
 #include <Inventor/SbVec2s.h>
+#include <Inventor/SbVec3f.h>
 
 #include <NutsnBolts/Basic.h>
 
@@ -32,12 +33,12 @@ class SoNode;
 class SbRotation;
 class SbViewportRegion;
 
-class NbNavigationInfoP;
+class NbNavigationControlP;
 
-class NB_DLL_API NbNavigationInfo {
+class NB_DLL_API NbNavigationControl {
 public:
-  NbNavigationInfo(void);
-  virtual ~NbNavigationInfo(void);
+  NbNavigationControl(void);
+  virtual ~NbNavigationControl(void);
 
   void setSceneGraph(SoNode * scene);
   SoNode * getSceneGraph(void) const;
@@ -48,8 +49,16 @@ public:
   void saveCamera(void) const;
   void restoreCamera(void) const;
 
+  SbBool pick(SbVec2s pos, SbVec3f & pickpos) const;
+
   void reorientCamera(const SbRotation & rot) const;
-  void moveCamera(const SbVec3f & vec) const;
+  void reorientCamera(const SbVec3f & pointat) const;
+  void pitchCamera(float angle) const;
+  void yawCamera(float angle) const;
+  void rollCamera(float angle) const;
+
+  void moveCamera(const SbVec3f & distance) const;
+  void moveCamera(float factor, const SbBool keepfocalpoint = TRUE) const;
 
   void setViewport(const SbViewportRegion & vp);
   SbVec2s getViewportSize(void) const;
@@ -58,8 +67,8 @@ public:
 protected:
 
 private:
-  NbNavigationInfoP * pimpl;
+  NbNavigationControlP * pimpl;
 
-}; // NbNavigationInfo
+}; // NbNavigationControl
 
-#endif  // !NB_NAVIGATIONINFO_H
+#endif  // !NB_NAVIGATIONCONTROL_H

@@ -25,10 +25,13 @@
 
 #include <Inventor/SbVec2s.h>
 #include <Inventor/SbVec2f.h>
+#include <Inventor/SbRotation.h>
+#include <Inventor/SbMatrix.h>
 #include <Inventor/SbViewportRegion.h>
-#include <Inventor/nodes/SoCamera.h>
+#include <Inventor/nodes/SoPerspectiveCamera.h>
+#include <Inventor/actions/SoRayPickAction.h>
 
-#include <NutsnBolts/navigation/NbNavigationInfo.h>
+#include <NutsnBolts/navigation/NbNavigationControl.h>
 
 // *************************************************************************
 
@@ -46,17 +49,17 @@
 
 // *************************************************************************
 
-class NbNavigationInfoP {
+class NbNavigationControlP {
 public:
-  NbNavigationInfoP(NbNavigationInfo * api);
-  ~NbNavigationInfoP(void);
+  NbNavigationControlP(NbNavigationControl * api);
+  ~NbNavigationControlP(void);
 
   SbViewportRegion viewport;
   SoCamera * initcamera;
   SoCamera * cameraptr;
 
   SoNode * scenegraph;
-}; // NbNavigationInfoP
+}; // NbNavigationControlP
 
 // *************************************************************************
 
@@ -66,9 +69,9 @@ public:
   Constructor.
 */
 
-NbNavigationInfo::NbNavigationInfo(void)
+NbNavigationControl::NbNavigationControl(void)
 {
-  PRIVATE(this) = new NbNavigationInfoP(this);
+  PRIVATE(this) = new NbNavigationControlP(this);
   PRIVATE(this)->initcamera = NULL;
   PRIVATE(this)->cameraptr = NULL;
   PRIVATE(this)->scenegraph = NULL;
@@ -78,7 +81,7 @@ NbNavigationInfo::NbNavigationInfo(void)
   Destructor.
 */
 
-NbNavigationInfo::~NbNavigationInfo(void)
+NbNavigationControl::~NbNavigationControl(void)
 {
 
   if ( PRIVATE(this)->initcamera ) {
@@ -102,7 +105,7 @@ NbNavigationInfo::~NbNavigationInfo(void)
 */
 
 void
-NbNavigationInfo::setSceneGraph(SoNode * scenegraph)
+NbNavigationControl::setSceneGraph(SoNode * scenegraph)
 {
   if ( PRIVATE(this)->scenegraph ) {
     PRIVATE(this)->scenegraph->unref();
@@ -121,7 +124,7 @@ NbNavigationInfo::setSceneGraph(SoNode * scenegraph)
 */
 
 SoNode *
-NbNavigationInfo::getSceneGraph(void) const
+NbNavigationControl::getSceneGraph(void) const
 {
   return PRIVATE(this)->scenegraph;
 }
@@ -133,9 +136,9 @@ NbNavigationInfo::getSceneGraph(void) const
 */
 
 void
-NbNavigationInfo::setCamera(SoCamera * camera)
+NbNavigationControl::setCamera(SoCamera * camera)
 {
-  // fprintf(stderr, "NbNavigationInfo::setCamera(SoCamera *)\n");
+  // fprintf(stderr, "NbNavigationControl::setCamera(SoCamera *)\n");
   if ( PRIVATE(this)->initcamera ) {
     PRIVATE(this)->initcamera->unref();
     PRIVATE(this)->initcamera = NULL;
@@ -159,7 +162,7 @@ NbNavigationInfo::setCamera(SoCamera * camera)
 */
 
 SoCamera *
-NbNavigationInfo::getCamera(void) const
+NbNavigationControl::getCamera(void) const
 {
   return PRIVATE(this)->cameraptr;
 }
@@ -173,9 +176,9 @@ NbNavigationInfo::getCamera(void) const
 */
 
 void
-NbNavigationInfo::saveCamera(void) const
+NbNavigationControl::saveCamera(void) const
 {
-  // fprintf(stderr, "NbNavigationInfo::setCamera()\n");
+  // fprintf(stderr, "NbNavigationControl::setCamera()\n");
   if ( !PRIVATE(this)->cameraptr || !PRIVATE(this)->initcamera ) return;
   PRIVATE(this)->initcamera->copyFieldValues(PRIVATE(this)->cameraptr);
 }
@@ -188,11 +191,17 @@ NbNavigationInfo::saveCamera(void) const
 */
 
 void
-NbNavigationInfo::restoreCamera(void) const
+NbNavigationControl::restoreCamera(void) const
 {
-  // fprintf(stderr, "NbNavigationInfo::restoreCamera()\n");
+  // fprintf(stderr, "NbNavigationControl::restoreCamera()\n");
   if ( PRIVATE(this)->cameraptr == NULL ) return;
   PRIVATE(this)->cameraptr->copyFieldValues(PRIVATE(this)->initcamera);
+}
+
+SbBool
+NbNavigationControl::pick(SbVec2s pos, SbVec3f & pickpos) const
+{
+  return FALSE;
 }
 
 /*!
@@ -202,25 +211,85 @@ NbNavigationInfo::restoreCamera(void) const
 */
 
 void
-NbNavigationInfo::reorientCamera(const SbRotation & rot) const
+NbNavigationControl::reorientCamera(const SbRotation & rot) const
 {
-  // fprintf(stderr, "NbNavigationInfo::reorientCamera()\n");
-  if ( PRIVATE(this)->cameraptr == NULL ) return;
-
-  SoCamera * cam = PRIVATE(this)->cameraptr;
+  SoCamera * camera = this->getCamera();
+  if ( camera == NULL ) return;
 
   // Find global coordinates of focal point.
   SbVec3f direction;
-  cam->orientation.getValue().multVec(SbVec3f(0, 0, -1), direction);
-  SbVec3f focalpoint = cam->position.getValue() +
-    cam->focalDistance.getValue() * direction;
+  camera->orientation.getValue().multVec(SbVec3f(0, 0, -1), direction);
+  SbVec3f focalpoint = camera->position.getValue() +
+    camera->focalDistance.getValue() * direction;
 
   // Set new orientation value by accumulating the new rotation.
-  cam->orientation = rot * cam->orientation.getValue();
+  camera->orientation = rot * camera->orientation.getValue();
 
   // Reposition camera so we are still pointing at the same old focal point.
-  cam->orientation.getValue().multVec(SbVec3f(0, 0, -1), direction);
-  cam->position = focalpoint - cam->focalDistance.getValue() * direction;
+  camera->orientation.getValue().multVec(SbVec3f(0, 0, -1), direction);
+  camera->position = focalpoint - camera->focalDistance.getValue() * direction;
+}
+
+/*!
+*/
+
+void
+NbNavigationControl::reorientCamera(const SbVec3f & pointat) const
+{
+}
+
+/*!
+*/
+
+void
+NbNavigationControl::pitchCamera(float angle) const
+{
+  SoCamera * camera = this->getCamera();
+  if ( camera == NULL ) return;
+
+  SbMatrix camerarot;
+  camerarot.setRotate(camera->orientation.getValue());
+
+  SbMatrix pitchmat;
+  pitchmat.setRotate(SbRotation(SbVec3f(0.0f, 1.0f, 0.0f), angle));
+  camerarot.multLeft(pitchmat);
+  camera->orientation = SbRotation(camerarot);
+}
+
+/*!
+*/
+
+void
+NbNavigationControl::yawCamera(float angle) const
+{
+  SoCamera * camera = this->getCamera();
+  if ( camera == NULL ) return;
+
+  SbMatrix camerarot;
+  camerarot.setRotate(camera->orientation.getValue());
+
+  SbMatrix yawmat;
+  yawmat.setRotate(SbRotation(SbVec3f(1.0f, 0.0f, 0.0f), angle));
+  camerarot.multLeft(yawmat);
+  camera->orientation = SbRotation(camerarot);
+}
+
+/*!
+*/
+
+void
+NbNavigationControl::rollCamera(float angle) const
+{
+  SoCamera * camera = this->getCamera();
+  if ( camera == NULL ) return;
+
+  SbMatrix camerarot;
+  camerarot.setRotate(camera->orientation.getValue());
+
+  SbMatrix rollmat;
+  rollmat.setRotate(SbRotation(SbVec3f(0.0f, 0.0f, 1.0f), angle));
+  camerarot.multLeft(rollmat);
+  camera->orientation = SbRotation(camerarot);
 }
 
 /*!
@@ -230,12 +299,34 @@ NbNavigationInfo::reorientCamera(const SbRotation & rot) const
 */
 
 void
-NbNavigationInfo::moveCamera(const SbVec3f & vec) const
+NbNavigationControl::moveCamera(const SbVec3f & distance) const
 {
-  // fprintf(stderr, "NbNavigationInfo::moveCamera()\n");
-  if ( PRIVATE(this)->cameraptr == NULL ) return;
-  PRIVATE(this)->cameraptr->position =
-    PRIVATE(this)->cameraptr->position.getValue() + vec;
+  SoCamera * camera = this->getCamera();
+  if ( camera == NULL ) return;
+
+  camera->position = camera->position.getValue() + distance;
+}
+
+/*!
+*/
+
+void
+NbNavigationControl::moveCamera(float factor, SbBool keepfocalpoint) const
+{
+  SoCamera * camera = this->getCamera();
+  if ( camera == NULL ) return;
+
+  SbVec3f vec;
+  camera->orientation.getValue().multVec(SbVec3f(0, 0, 1), vec);
+  vec.normalize();
+  SbVec3f point = camera->position.getValue() +
+    (vec * camera->focalDistance.getValue());
+  camera->position = camera->position.getValue() + (vec * factor);
+
+  if ( keepfocalpoint ) {
+    vec = point - camera->position.getValue();
+    camera->focalDistance = vec.length();
+  }
 }
 
 /*!
@@ -243,7 +334,7 @@ NbNavigationInfo::moveCamera(const SbVec3f & vec) const
 */
 
 void
-NbNavigationInfo::setViewport(const SbViewportRegion & vp)
+NbNavigationControl::setViewport(const SbViewportRegion & vp)
 {
   PRIVATE(this)->viewport = vp;
 }
@@ -253,7 +344,7 @@ NbNavigationInfo::setViewport(const SbViewportRegion & vp)
 */
 
 SbVec2s
-NbNavigationInfo::getViewportSize(void) const
+NbNavigationControl::getViewportSize(void) const
 {
   return PRIVATE(this)->viewport.getWindowSize();
 }
@@ -263,7 +354,7 @@ NbNavigationInfo::getViewportSize(void) const
 */
 
 float
-NbNavigationInfo::getViewportAspect(void) const
+NbNavigationControl::getViewportAspect(void) const
 {
   return PRIVATE(this)->viewport.getViewportAspectRatio();
 }
@@ -273,11 +364,11 @@ NbNavigationInfo::getViewportAspect(void) const
 // *************************************************************************
 // private implementation
 
-NbNavigationInfoP::NbNavigationInfoP(NbNavigationInfo * api)
+NbNavigationControlP::NbNavigationControlP(NbNavigationControl * api)
 {
 }
 
-NbNavigationInfoP::~NbNavigationInfoP(void)
+NbNavigationControlP::~NbNavigationControlP(void)
 {
 }
 
