@@ -1,5 +1,5 @@
 
-AM_INCLUDES = -I$(top_srcdir)/lib
+DEFAULT_INCLUDES = -I$(top_builddir) -I$(top_srcdir)/lib
 
 CLEANFILES = .\#* *.bak *~ *.lst
 
