@@ -371,6 +371,8 @@ NbSceneManager::NbSceneManager(void)
   PRIVATE(this)->autoclipsensor =
     new SoNodeSensor(NbSceneManagerP::update_clipping_planes, PRIVATE(this));
   PRIVATE(this)->autoclipsensor->setPriority(this->getRedrawPriority() - 1);
+  PRIVATE(this)->navigationsystem =
+    NbNavigationSystem::getByName(NB_IDLER_SYSTEM);
 }
 
 /*!
@@ -495,8 +497,8 @@ NbSceneManager::setCamera(SoCamera * camera)
   }
   PRIVATE(this)->camera = camera;
   if (camera) camera->ref();
-  if (PRIVATE(this)->navigationsystem)
-    PRIVATE(this)->navigationsystem->setCamera(this->getCamera());
+  assert(PRIVATE(this)->navigationsystem);
+  PRIVATE(this)->navigationsystem->setCamera(this->getCamera());
 }
 
 /*!
@@ -647,10 +649,9 @@ NbSceneManager::processEvent(const SoEvent * const event)
 {
   // fprintf(stderr, "NbSceneManager::processEvent()\n");
   const SbViewportRegion & vp = this->getViewportRegion();
-  if (PRIVATE(this)->navigationsystem != NULL) {
-    PRIVATE(this)->navigationsystem->setViewport(vp);
-    PRIVATE(this)->navigationsystem->setSceneGraph(this->getSceneGraph());
-  }
+  assert(PRIVATE(this)->navigationsystem);
+  // PRIVATE(this)->navigationsystem->setViewport(vp);
+  // PRIVATE(this)->navigationsystem->setSceneGraph(this->getSceneGraph());
 
   switch (PRIVATE(this)->navigationstate) {
   case NbSceneManager::NO_NAVIGATION:
@@ -658,16 +659,14 @@ NbSceneManager::processEvent(const SoEvent * const event)
       return TRUE;
     break;
   case NbSceneManager::JUST_NAVIGATION:
-    if (PRIVATE(this)->navigationsystem != NULL &&
-        PRIVATE(this)->navigationsystem->processEvent(event))
+    if (PRIVATE(this)->navigationsystem->processEvent(event))
       return TRUE;
     break;
   case NbSceneManager::MIXED_NAVIGATION:
     // see if dragger is used first, then do navigation if not
     if (inherited::processEvent(event))
       return TRUE;
-    if (PRIVATE(this)->navigationsystem != NULL &&
-        PRIVATE(this)->navigationsystem->processEvent(event))
+    if (PRIVATE(this)->navigationsystem->processEvent(event))
       return TRUE;
     break;
   }
@@ -709,10 +708,15 @@ NbSceneManager::getNavigationState(void) const
 void
 NbSceneManager::setNavigationSystem(NbNavigationSystem * system)
 {
-  PRIVATE(this)->navigationsystem = system;
   if (system) {
-    PRIVATE(this)->navigationsystem->setCamera(this->getCamera());
+    PRIVATE(this)->navigationsystem = system;
+  } else {
+    PRIVATE(this)->navigationsystem =
+      NbNavigationSystem::getByName(NB_IDLER_SYSTEM);
   }
+  PRIVATE(this)->navigationsystem->setCamera(this->getCamera());
+  PRIVATE(this)->navigationsystem->setSceneGraph(this->getSceneGraph());
+  PRIVATE(this)->navigationsystem->setViewport(this->getViewportRegion());
 }
 
 /*!
@@ -788,9 +792,9 @@ NbSceneManager::setSceneGraph(SoNode * const root)
   }
   PRIVATE(this)->searchaction.reset();
 
-  if (PRIVATE(this)->navigationsystem) {
-    PRIVATE(this)->navigationsystem->setCamera(this->getCamera());
-  }
+  assert(PRIVATE(this)->navigationsystem);
+  PRIVATE(this)->navigationsystem->setSceneGraph(root);
+  PRIVATE(this)->navigationsystem->setCamera(this->getCamera());
 }
 
 /*!
