@@ -28,9 +28,6 @@
 #include <Inventor/SbViewVolume.h>
 #include <Inventor/events/SoLocation2Event.h>
 #include <Inventor/events/SoMouseButtonEvent.h>
-#include <Inventor/nodes/SoCamera.h>
-#include <Inventor/actions/SoRayPickAction.h>
-#include <Inventor/SoPickedPoint.h>
 
 #include <NutsnBolts/navigation/NbNavigationControl.h>
 
