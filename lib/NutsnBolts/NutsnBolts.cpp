@@ -32,6 +32,16 @@
 #include <NutsnBolts/nodes/NbViewerNavigationMode.h>
 #include <NutsnBolts/navigation/NbNavigationSystem.h>
 #include <NutsnBolts/navigation/NbNavigationMode.h>
+#include <NutsnBolts/navigation/NbCenterMode.h>
+#include <NutsnBolts/navigation/NbIdleMode.h>
+#include <NutsnBolts/navigation/NbOrthoCenterMode.h>
+#include <NutsnBolts/navigation/NbPanMode.h>
+#include <NutsnBolts/navigation/NbPickMode.h>
+#include <NutsnBolts/navigation/NbPitchMode.h>
+#include <NutsnBolts/navigation/NbRollMode.h>
+#include <NutsnBolts/navigation/NbRotateMode.h>
+#include <NutsnBolts/navigation/NbYawMode.h>
+#include <NutsnBolts/navigation/NbZoomMode.h>
 
 // *************************************************************************
 
@@ -128,10 +138,21 @@ void
 NutsnBolts::init(void)
 {
   NbViewerNavigationMode::initClass();
-  NbNavigationMode::initClass();
   NbNavigationSystem::initClass();
-  // FIXME: Put back before release (kintel 20050310)
+  NbNavigationMode::initClass();
+  NbCenterMode::initClass();
+  NbIdleMode::initClass();
+  NbOrthoCenterMode::initClass();
+  NbPanMode::initClass();
+  NbPickMode::initClass();
+  NbPitchMode::initClass();
+  NbRollMode::initClass();
+  NbRotateMode::initClass();
+  NbYawMode::initClass();
+  NbZoomMode::initClass();
+
 #if 0
+  // FIXME: Put back before release (kintel 20050310)
   coin_atexit(NutsnBolts::Clean);
 #endif
 }
