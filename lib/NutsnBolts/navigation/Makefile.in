@@ -183,8 +183,8 @@ CLEANFILES = .\#* *.bak *~ *.lst
 @BUILD_WITH_MSVC_FALSE@noinst_LTLIBRARIES = libNutsnBoltsNavigation.la
 
 SourceFiles = \
-	NbNavigationInfo.cpp \
-	NbNavigationInfo.h \
+	NbNavigationControl.cpp \
+	NbNavigationControl.h \
 	NbNavigationMode.cpp \
 	NbNavigationMode.h \
 	NbNavigationState.cpp \
@@ -202,11 +202,17 @@ SourceFiles = \
 	NbZoomMode.cpp \
 	NbZoomMode.h \
 	NbCenterMode.cpp \
-	NbCenterMode.h
+	NbCenterMode.h \
+	NbRollMode.cpp \
+	NbRollMode.h \
+	NbPitchMode.cpp \
+	NbPitchMode.h \
+	NbYawMode.cpp \
+	NbYawMode.h
 
 
 HeaderFiles = \
-	NbNavigationInfo.h \
+	NbNavigationControl.h \
 	NbNavigationMode.h \
 	NbNavigationState.h \
 	NbNavigationSystem.h \
@@ -215,7 +221,10 @@ HeaderFiles = \
 	NbRotateMode.h \
 	NbPanMode.h \
 	NbZoomMode.h \
-	NbCenterMode.h
+	NbCenterMode.h \
+	NbRollMode.h \
+	NbPitchMode.h \
+	NbYawMode.h
 
 
 libNutsnBoltsNavigationincdir = $(includedir)/NutsnBolts/navigation
@@ -234,21 +243,23 @@ LIBRARIES = $(noinst_LIBRARIES)
 
 navigation_lst_AR = $(AR) cru
 navigation_lst_LIBADD =
-am__objects_1 = NbNavigationInfo.$(OBJEXT) NbNavigationMode.$(OBJEXT) \
+am__objects_1 = NbNavigationControl.$(OBJEXT) NbNavigationMode.$(OBJEXT) \
 	NbNavigationState.$(OBJEXT) NbNavigationSystem.$(OBJEXT) \
 	NbNavigationVehicle.$(OBJEXT) NbIdleMode.$(OBJEXT) \
 	NbRotateMode.$(OBJEXT) NbPanMode.$(OBJEXT) NbZoomMode.$(OBJEXT) \
-	NbCenterMode.$(OBJEXT)
+	NbCenterMode.$(OBJEXT) NbRollMode.$(OBJEXT) \
+	NbPitchMode.$(OBJEXT) NbYawMode.$(OBJEXT)
 am_navigation_lst_OBJECTS = $(am__objects_1)
 navigation_lst_OBJECTS = $(am_navigation_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 libNutsnBoltsNavigation_la_LDFLAGS =
 libNutsnBoltsNavigation_la_LIBADD =
-am__objects_2 = NbNavigationInfo.lo NbNavigationMode.lo \
+am__objects_2 = NbNavigationControl.lo NbNavigationMode.lo \
 	NbNavigationState.lo NbNavigationSystem.lo \
 	NbNavigationVehicle.lo NbIdleMode.lo NbRotateMode.lo \
-	NbPanMode.lo NbZoomMode.lo NbCenterMode.lo
+	NbPanMode.lo NbZoomMode.lo NbCenterMode.lo NbRollMode.lo \
+	NbPitchMode.lo NbYawMode.lo
 am_libNutsnBoltsNavigation_la_OBJECTS = $(am__objects_2)
 libNutsnBoltsNavigation_la_OBJECTS = \
 	$(am_libNutsnBoltsNavigation_la_OBJECTS)
@@ -260,8 +271,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/NbCenterMode.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/NbIdleMode.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/NbIdleMode.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/NbNavigationInfo.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/NbNavigationInfo.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/NbNavigationControl.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/NbNavigationControl.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/NbNavigationMode.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/NbNavigationMode.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/NbNavigationState.Plo \
@@ -271,8 +282,13 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/NbNavigationVehicle.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/NbNavigationVehicle.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/NbPanMode.Plo ./$(DEPDIR)/NbPanMode.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/NbPitchMode.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/NbPitchMode.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/NbRollMode.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/NbRollMode.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/NbRotateMode.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/NbRotateMode.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/NbYawMode.Plo ./$(DEPDIR)/NbYawMode.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/NbZoomMode.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/NbZoomMode.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
@@ -332,8 +348,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbCenterMode.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbIdleMode.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbIdleMode.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbNavigationInfo.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbNavigationInfo.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbNavigationControl.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbNavigationControl.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbNavigationMode.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbNavigationMode.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbNavigationState.Plo@am__quote@
@@ -344,8 +360,14 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbNavigationVehicle.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbPanMode.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbPanMode.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbPitchMode.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbPitchMode.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbRollMode.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbRollMode.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbRotateMode.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbRotateMode.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbYawMode.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbYawMode.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbZoomMode.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbZoomMode.Po@am__quote@
 
@@ -598,10 +620,6 @@ navigation.lst: $(navigation_lst_OBJECTS)
 	for obj in $(navigation_lst_OBJECTS); do \
 	  echo $$obj >> $@; \
 	done
-
-# if BUILD_WITH_MSVC
-# all-local: navigation.lst
-# endif
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

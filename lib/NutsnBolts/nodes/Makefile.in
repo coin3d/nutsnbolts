@@ -525,10 +525,6 @@ nodes.lst: $(nodes_lst_OBJECTS)
 	for obj in $(nodes_lst_OBJECTS); do \
 	  echo $$obj >>$@; \
 	done
-
-# if BUILD_WITH_MSVC
-# all-local: nodes.lst
-# endif
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
