@@ -85,7 +85,20 @@ NbPickMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctrl)
   if (!event->isOfType(SoMouseButtonEvent::getClassTypeId())) {
     return FALSE;
   }
-  return TRUE;
+  SoMouseButtonEvent * mbevent = (SoMouseButtonEvent *) event;
+  if (mbevent->getButton() == SoMouseButtonEvent::BUTTON1) {
+    if (mbevent->getState() == SoButtonEvent::DOWN) {
+      SbVec3f pos;
+      SoPath * path = ctrl->pick(event->getPosition(), pos);
+      if ( path ) {
+        this->invokePickCallbacks(pos, path);
+      }
+    } else {
+      // button up - do nothing, but don't pass event on
+    }
+    return TRUE;
+  }
+  return FALSE;
 }
 
 void
