@@ -57,7 +57,7 @@ public:
 
   void viewAll(void) const;
 
-  void viewPart(const SoPath * path,
+  void viewPart(SoPath * path,
                 const SbVec3f & in, const SbVec3f & up) const;
 
   void pointDir(const SbVec3f & dir) const;

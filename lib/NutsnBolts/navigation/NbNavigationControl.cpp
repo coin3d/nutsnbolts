@@ -25,6 +25,7 @@
 
 #include <Inventor/SbVec2s.h>
 #include <Inventor/SbVec2f.h>
+#include <Inventor/SbBox3f.h>
 #include <Inventor/SbRotation.h>
 #include <Inventor/SbMatrix.h>
 #include <Inventor/SbViewportRegion.h>
@@ -36,6 +37,7 @@
 #include <Inventor/fields/SoSFVec3d.h>
 #include <Inventor/actions/SoRayPickAction.h>
 #include <Inventor/actions/SoSearchAction.h>
+#include <Inventor/actions/SoGetBoundingBoxAction.h>
 
 #include <NutsnBolts/navigation/NbNavigationControl.h>
 
@@ -300,7 +302,7 @@ NbNavigationControl::viewAll(void) const
                                 "UTMPosition node in your scene graph.");
     }
   }
-  float slack = 0.001f;
+  const float slack = 0.001f;
   SbViewportRegion vp(this->getViewportSize());
   camera->viewAll(root, vp, slack);
   if (PRIVATE(this)->utmcamtype != SoType::badType() &&
@@ -318,8 +320,61 @@ NbNavigationControl::viewAll(void) const
 }
 
 void
-NbNavigationControl::viewPart(const SoPath * path, const SbVec3f & in, const SbVec3f & up) const
+NbNavigationControl::viewPart(SoPath * path, const SbVec3f & in, const SbVec3f & up) const
 {
+  SoCamera * camera = this->getCamera();
+  if (camera == NULL || path == NULL) return;
+
+  if (PRIVATE(this)->utmcamtype != SoType::badType() &&
+      camera->isOfType(PRIVATE(this)->utmcamtype)) {
+    // we need to set UTMCamera->utmposition to some initial value not too far
+    // off the world space limits to reduce floating point precision errors
+    SoSearchAction sa;
+    sa.setSearchingAll(TRUE);
+    sa.setInterest(SoSearchAction::FIRST);
+    sa.setType(PRIVATE(this)->utmpostype);
+    sa.apply(path);
+    if (sa.getPath()) {
+      // introspective code since we don't #include class declarations
+      SoFieldContainer * utmpos = ((SoFullPath *) sa.getPath())->getTail();
+      SoSFVec3d * utmposfield = (SoSFVec3d *) utmpos->getField("utmposition");
+      SoSFVec3d * camposfield = (SoSFVec3d *) camera->getField("utmposition");
+      assert(camposfield && utmposfield);
+      *camposfield = *utmposfield;
+    }
+    else {
+      SoDebugError::postWarning("NbNavigationControl::viewAll",
+                                "You're using UTMCamera. "
+                                "Please consider supplying at least one "
+                                "UTMPosition node in your scene graph.");
+    }
+  }
+  SbViewportRegion vp(this->getViewportSize());
+
+  SoGetBoundingBoxAction gbba(vp);
+  gbba.apply(path);
+  SbBox3f bb = gbba.getBoundingBox();
+  camera->position.setValue(bb.getCenter() - in); // will be moved further
+
+  const float slack = 0.001f;
+  camera->viewAll(path, vp, slack);
+  if (PRIVATE(this)->utmcamtype != SoType::badType() &&
+      camera->isOfType(PRIVATE(this)->utmcamtype)) {
+    // move from position to utmposition and set position to (0,0,0)
+    // introspective code since we don't #include class declarations
+    SoSFVec3d * camposfield = (SoSFVec3d *) camera->getField("utmposition");
+    SbVec3d utmpos = camposfield->getValue();
+    SbVec3d tmp;
+    tmp.setValue(camera->position.getValue());
+    utmpos += tmp;
+    camera->position = SbVec3f(0.0f, 0.0f, 0.0f);
+    camposfield->setValue(utmpos);
+  }
+
+  SbVec3f oldup = PRIVATE(this)->upvec;
+  PRIVATE(this)->upvec = up;
+  this->resetRoll();
+  PRIVATE(this)->upvec = oldup;
 }
 
 /*!
