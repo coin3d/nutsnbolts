@@ -32,7 +32,7 @@ class NB_DLL_API NbPitchMode : public NbNavigationMode {
 
 public:
   NbPitchMode(SbName name);
-  ~NbPitchMode(void);
+  virtual ~NbPitchMode(void);
 
 protected:
   virtual SbBool handleEvent(const SoEvent * event, 

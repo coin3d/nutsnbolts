@@ -32,7 +32,7 @@ class NB_DLL_API NbCenterMode : public NbNavigationMode {
 
 public:
   NbCenterMode(SbName name);
-  ~NbCenterMode(void);
+  virtual ~NbCenterMode(void);
 
 protected:
   virtual SbBool handleEvent(const SoEvent * event, const NbNavigationControl * ctrl);

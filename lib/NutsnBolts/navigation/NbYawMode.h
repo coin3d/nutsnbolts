@@ -32,7 +32,7 @@ class NB_DLL_API NbYawMode : public NbNavigationMode {
 
 public:
   NbYawMode(SbName name);
-  ~NbYawMode(void);
+  virtual ~NbYawMode(void);
 
 protected:
   virtual SbBool handleEvent(const SoEvent * event, const NbNavigationControl * ctrl);

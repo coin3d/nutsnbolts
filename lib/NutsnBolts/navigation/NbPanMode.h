@@ -32,7 +32,7 @@ class NB_DLL_API NbPanMode : public NbNavigationMode {
 
 public:
   NbPanMode(SbName name);
-  ~NbPanMode(void);
+  virtual ~NbPanMode(void);
 
 protected:
   virtual SbBool handleEvent(const SoEvent * event, const NbNavigationControl * ctrl);
