@@ -46,7 +46,7 @@ NbRollMode::~NbRollMode(void)
 SbBool
 NbRollMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctrl)
 {
-  if ( ! event->isOfType(SoLocation2Event::getClassTypeId()) ) {
+  if (! event->isOfType(SoLocation2Event::getClassTypeId())) {
     return FALSE;
   }
 

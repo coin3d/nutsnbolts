@@ -251,7 +251,7 @@
 /*!
   \enum NbSceneManager::MIXED_NAVIGATION
 
-  Make all events be pased first to the scene graph.  If an
+  Make all events be passed first to the scene graph.  If an
   interactive compomnent in the scene graph, such as a dragger or a
   selection node, uses the event, then the navigation system will be
   ignored.  If no component in the scene graph uses the event, then
@@ -354,7 +354,7 @@ protected:
 NbSceneManager::NbSceneManager(void)
 {
   PRIVATE(this) = new NbSceneManagerP(this);
-  if ( NbViewerNavigationMode::getClassTypeId() == SoType::badType() ) {
+  if (NbViewerNavigationMode::getClassTypeId() == SoType::badType()) {
     SoDebugError::post("NbSceneManager::NbSceneManager",
 		       "SIM Nuts'n'Bolts library is not initialized. "
 		       "See NutsnBolts::init().");
@@ -380,19 +380,19 @@ NbSceneManager::NbSceneManager(void)
 NbSceneManager::~NbSceneManager(void)
 {
   PRIVATE(this)->dummynode->unref();
-  if ( PRIVATE(this)->autoclipsensor ) {
+  if (PRIVATE(this)->autoclipsensor) {
     delete PRIVATE(this)->autoclipsensor;
     PRIVATE(this)->autoclipsensor = NULL;
   }
-  if ( PRIVATE(this)->camera ) {
+  if (PRIVATE(this)->camera) {
     PRIVATE(this)->camera->unref();
     PRIVATE(this)->camera = NULL;
   }
-  if ( PRIVATE(this)->getbboxaction ) {
+  if (PRIVATE(this)->getbboxaction) {
     delete PRIVATE(this)->getbboxaction;
     PRIVATE(this)->getbboxaction = NULL;
   }
-  if ( PRIVATE(this)->getmatrixaction ) {
+  if (PRIVATE(this)->getmatrixaction) {
     delete PRIVATE(this)->getmatrixaction;
     PRIVATE(this)->getmatrixaction = NULL;
   }
@@ -404,7 +404,7 @@ void
 NbSceneManager::render(const SbBool clearwindow,
                        const SbBool clearzbuffer)
 {
-  if ( PRIVATE(this)->depthbits < 0 ) {
+  if (PRIVATE(this)->depthbits < 0) {
     GLint depthbits[1];
     glGetIntegerv(GL_DEPTH_BITS, depthbits);
     PRIVATE(this)->depthbits = depthbits[0];
@@ -420,23 +420,23 @@ NbSceneManager::render(SoGLRenderAction * action,
                        const SbBool clearwindow,
                        const SbBool clearzbuffer)
 {
-  if ( PRIVATE(this)->depthbits < 0 ) {
+  if (PRIVATE(this)->depthbits < 0) {
     GLint depthbits[1];
     glGetIntegerv(GL_DEPTH_BITS, depthbits);
     PRIVATE(this)->depthbits = depthbits[0];
   }
 
-  if ( PRIVATE(this)->stereomode == MONO ) {
+  if (PRIVATE(this)->stereomode == MONO) {
     PRIVATE(this)->renderSingle(action, initmatrices, clearwindow, clearzbuffer);
   } else {
     SoCamera * camera = PRIVATE(this)->getCamera();
-    if ( !camera ) return;
+    if (!camera) return;
 
     PRIVATE(this)->clearBuffers(TRUE, TRUE);
     camera->setStereoAdjustment(PRIVATE(this)->stereooffset);
     camera->setStereoMode(SoCamera::LEFT_VIEW);
     
-    switch ( PRIVATE(this)->stereomode ) {      
+    switch (PRIVATE(this)->stereomode) {      
     case RED_CYAN:
     case RED_BLUE:
       glColorMask(GL_TRUE, GL_FALSE, GL_FALSE, GL_TRUE);
@@ -453,7 +453,7 @@ NbSceneManager::render(SoGLRenderAction * action,
     PRIVATE(this)->renderSingle(action, initmatrices, FALSE, FALSE);
 
     camera->setStereoMode(SoCamera::RIGHT_VIEW);
-    switch ( PRIVATE(this)->stereomode ) {      
+    switch (PRIVATE(this)->stereomode) {      
     case RED_CYAN:      
       glClear(GL_DEPTH_BUFFER_BIT);
       glColorMask(GL_FALSE, GL_TRUE, GL_TRUE, GL_TRUE);
@@ -490,12 +490,12 @@ NbSceneManager::render(SoGLRenderAction * action,
 void 
 NbSceneManager::setCamera(SoCamera * camera)
 {
-  if ( PRIVATE(this)->camera ) {
+  if (PRIVATE(this)->camera) {
     PRIVATE(this)->camera->unref();
   }
   PRIVATE(this)->camera = camera;
-  if ( camera ) camera->ref();
-  if ( PRIVATE(this)->navigationsystem )
+  if (camera) camera->ref();
+  if (PRIVATE(this)->navigationsystem)
     PRIVATE(this)->navigationsystem->setCamera(this->getCamera());
 }
 
@@ -512,7 +512,7 @@ NbSceneManager::getCamera(void) const
 }
 
 /*!
-  Sets the render mode.
+  Sets the render mode. Defaults to AS_IS.
 
   \sa NbSceneManager::RenderMode, getRenderMode
 */
@@ -536,7 +536,7 @@ NbSceneManager::getRenderMode(void) const
 }
 
 /*!
-  Sets the stereo rendering mode.
+  Sets the stereo rendering mode. Defaults to MONO.
 
   \sa getStereoMode
 */
@@ -563,6 +563,7 @@ NbSceneManager::getStereoMode(void) const
 /*!
   Sets the stereo offset - the distance between the viewpoint each
   eye uses - used when doing stereo rendering.
+  Defaults to 0.1.
 
   \sa getStereoOffset
 */
@@ -588,6 +589,7 @@ NbSceneManager::getStereoOffset(void) const
 
 /*!
   Enable/disable textures when rendering.
+  Defaults to TRUE.
 
   \sa isTexturesEnabled
 */
@@ -613,6 +615,7 @@ NbSceneManager::isTexturesEnabled(void) const
 
 /*!
   Sets the color of the lines in WIREFRAME_OVERLAY rendering mode.
+  Defaults to red [1.0 0.0 0.0].
 
   \sa getWireframeOverlayColor
 */
@@ -644,27 +647,27 @@ NbSceneManager::processEvent(const SoEvent * const event)
 {
   // fprintf(stderr, "NbSceneManager::processEvent()\n");
   const SbViewportRegion & vp = this->getViewportRegion();
-  if ( PRIVATE(this)->navigationsystem != NULL ) {
+  if (PRIVATE(this)->navigationsystem != NULL) {
     PRIVATE(this)->navigationsystem->setViewport(vp);
     PRIVATE(this)->navigationsystem->setSceneGraph(this->getSceneGraph());
   }
 
-  switch ( PRIVATE(this)->navigationstate ) {
+  switch (PRIVATE(this)->navigationstate) {
   case NbSceneManager::NO_NAVIGATION:
-    if ( inherited::processEvent(event) )
+    if (inherited::processEvent(event))
       return TRUE;
     break;
   case NbSceneManager::JUST_NAVIGATION:
-    if ( PRIVATE(this)->navigationsystem != NULL &&
-	 PRIVATE(this)->navigationsystem->processEvent(event) )
+    if (PRIVATE(this)->navigationsystem != NULL &&
+	 PRIVATE(this)->navigationsystem->processEvent(event))
       return TRUE;
     break;
   case NbSceneManager::MIXED_NAVIGATION:
     // see if dragger is used first, then do navigation if not
-    if ( inherited::processEvent(event) )
+    if (inherited::processEvent(event))
       return TRUE;
-    if ( PRIVATE(this)->navigationsystem != NULL &&
-	 PRIVATE(this)->navigationsystem->processEvent(event) )
+    if (PRIVATE(this)->navigationsystem != NULL &&
+	 PRIVATE(this)->navigationsystem->processEvent(event))
       return TRUE;
     break;
   }
@@ -707,8 +710,9 @@ void
 NbSceneManager::setNavigationSystem(NbNavigationSystem * system)
 {
   PRIVATE(this)->navigationsystem = system;
-  PRIVATE(this)->navigationsystem->setCamera(this->getCamera());
-
+  if (system) {
+    PRIVATE(this)->navigationsystem->setCamera(this->getCamera());
+  }
 }
 
 /*!
@@ -734,18 +738,18 @@ void
 NbSceneManager::setSceneGraph(SoNode * const root)
 {
   // re-connect autoclipping update sensor
-  if ( PRIVATE(this)->autoclipsensor->isScheduled() ) {
+  if (PRIVATE(this)->autoclipsensor->isScheduled()) {
     PRIVATE(this)->autoclipsensor->unschedule();
   }
-  if ( PRIVATE(this)->autoclipsensor->getAttachedNode() ) {
+  if (PRIVATE(this)->autoclipsensor->getAttachedNode()) {
     PRIVATE(this)->autoclipsensor->detach();
   }
 
   inherited::setSceneGraph(root);
 
-  if ( root ) {
+  if (root) {
     PRIVATE(this)->autoclipsensor->attach(root);
-    if ( PRIVATE(this)->autoclipping != NbSceneManager::NO_AUTO_CLIPPING ) {
+    if (PRIVATE(this)->autoclipping != NbSceneManager::NO_AUTO_CLIPPING) {
       PRIVATE(this)->setClippingPlanes();
     }
   }
@@ -756,7 +760,7 @@ NbSceneManager::setSceneGraph(SoNode * const root)
   PRIVATE(this)->searchaction.setInterest(SoSearchAction::FIRST);
   PRIVATE(this)->searchaction.apply(root);
   SoPath * path = PRIVATE(this)->searchaction.getPath();
-  if ( path ) {
+  if (path) {
     path->ref();
     PRIVATE(this)->searchaction.reset();
     PRIVATE(this)->searchaction.setType(NbViewerNavigationMode::getClassTypeId());
@@ -764,13 +768,13 @@ NbSceneManager::setSceneGraph(SoNode * const root)
     PRIVATE(this)->searchaction.apply(path);
     path->unref();
     path = PRIVATE(this)->searchaction.getPath();
-    if ( path ) {
+    if (path) {
       path->ref();
       NbViewerNavigationMode * mode = (NbViewerNavigationMode *) path->getTail();
       assert(mode && mode->isOfType(NbViewerNavigationMode::getClassTypeId()));
       SbString modestring = mode->mode.getValue();
       path->unref();
-      if ( modestring.getLength() > 0 ) {
+      if (modestring.getLength() > 0) {
 	NbNavigationSystem * system =
 	  NbNavigationSystem::getByName(modestring.getString());
 	this->setNavigationSystem(system);
@@ -784,7 +788,7 @@ NbSceneManager::setSceneGraph(SoNode * const root)
   }
   PRIVATE(this)->searchaction.reset();
 
-  if ( PRIVATE(this)->navigationsystem ) {
+  if (PRIVATE(this)->navigationsystem) {
     PRIVATE(this)->navigationsystem->setCamera(this->getCamera());
   }
 }
@@ -837,18 +841,18 @@ void
 NbSceneManager::setAutoClipping(AutoClippingStrategy strategy)
 {
   PRIVATE(this)->autoclipping = strategy;
-  switch ( strategy ) {
+  switch (strategy) {
   case NO_AUTO_CLIPPING:
-    if ( PRIVATE(this)->autoclipsensor->isScheduled() ) {
+    if (PRIVATE(this)->autoclipsensor->isScheduled()) {
       PRIVATE(this)->autoclipsensor->unschedule();
     }
-    if ( PRIVATE(this)->autoclipsensor->getAttachedNode() ) {
+    if (PRIVATE(this)->autoclipsensor->getAttachedNode()) {
       PRIVATE(this)->autoclipsensor->detach();
     }
     break;
   case FIXED_NEAR_PLANE:
   case VARIABLE_NEAR_PLANE:
-    if ( !PRIVATE(this)->autoclipsensor->getAttachedNode() ) {
+    if (!PRIVATE(this)->autoclipsensor->getAttachedNode()) {
       PRIVATE(this)->autoclipsensor->attach(this->getSceneGraph());
     }
     PRIVATE(this)->autoclipsensor->schedule();
@@ -928,7 +932,7 @@ NbSceneManagerP::clearBuffers(SbBool color, SbBool depth)
 SoCamera *
 NbSceneManagerP::getCamera(void)
 {
-  if ( this->camera ) return this->camera;
+  if (this->camera) return this->camera;
   this->searchaction.setType(SoCamera::getClassTypeId());
   this->searchaction.setInterest(SoSearchAction::FIRST);
   SbBool old = SoBaseKit::isSearchingChildren();
@@ -936,7 +940,7 @@ NbSceneManagerP::getCamera(void)
   this->searchaction.apply(master->getSceneGraph());
   SoBaseKit::setSearchingChildren(old);
   SoFullPath * path = (SoFullPath *) this->searchaction.getPath();
-  if ( path ) {
+  if (path) {
     SoNode * tail = path->getTail();
     this->searchaction.reset();
     return (SoCamera *) tail;
@@ -970,7 +974,7 @@ NbSceneManagerP::renderSingle(SoGLRenderAction * action,
     SoTextureOverrideElement::setQualityOverride(state, TRUE);
   }
   
-  switch ( this->rendermode ) {
+  switch (this->rendermode) {
   case NbSceneManager::AS_IS:
     master->SoSceneManager::render(action, initmatrices, clearwindow, clearzbuffer);
     break;
@@ -1050,17 +1054,17 @@ void
 NbSceneManagerP::setClippingPlanes(void)
 {
   SoCamera * camera = this->getCamera();
-  if ( !camera ) {
+  if (!camera) {
     return;
   }
   SoNode * root = this->master->getSceneGraph();
-  if ( !root ) {
+  if (!root) {
     return;
   }
 
   SbViewportRegion vp = this->master->getViewportRegion();
 
-  if ( !this->getbboxaction ) {
+  if (!this->getbboxaction) {
     this->getbboxaction =
       new SoGetBoundingBoxAction(this->master->getViewportRegion());
   } else {
@@ -1084,25 +1088,25 @@ NbSceneManagerP::setClippingPlanes(void)
   float nearval = -box.getMax()[2];
   float farval = -box.getMin()[2];
 
-  if ( farval <= 0.0f ) return;
+  if (farval <= 0.0f) return;
 
-  if ( camera->isOfType(SoPerspectiveCamera::getClassTypeId()) ) {
+  if (camera->isOfType(SoPerspectiveCamera::getClassTypeId())) {
     float nearlimit;
-    if ( this->autoclipping == NbSceneManager::FIXED_NEAR_PLANE ) {
+    if (this->autoclipping == NbSceneManager::FIXED_NEAR_PLANE) {
       nearlimit = this->nearplanevalue;
     } else {
       int depthbits = this->depthbits;
-      if ( depthbits < 0 ) depthbits = 32;
+      if (depthbits < 0) depthbits = 32;
       int use_bits = (int) (float(depthbits) * (1.0f - this->nearplanevalue));
       float r = (float) pow(2.0, double(use_bits));
       nearlimit = farval / r;
     }
 
-    if ( nearlimit >= farval ) {
+    if (nearlimit >= farval) {
       nearlimit = farval / 5000.0f;
     }
 
-    if ( nearval < nearlimit ) {
+    if (nearval < nearlimit) {
       nearval = nearlimit;
     }
   }
@@ -1115,10 +1119,10 @@ NbSceneManagerP::setClippingPlanes(void)
   camera->nearDistance = nearval * (1.0f - SLACK);
   camera->farDistance = farval * (1.0f - SLACK);
 
-  if ( oldnear ) {
+  if (oldnear) {
     camera->nearDistance.enableNotify(TRUE);
   }
-  if ( oldfar ) {
+  if (oldfar) {
     camera->farDistance.enableNotify(TRUE);
   }
 
@@ -1139,8 +1143,8 @@ NbSceneManagerP::getCameraCoordinateSystem(SbMatrix & matrix, SbMatrix & inverse
   this->searchaction.setNode(camera);
   this->searchaction.apply(root);
 
-  if ( this->searchaction.getPath() ) {
-    if ( !this->getmatrixaction ) {
+  if (this->searchaction.getPath()) {
+    if (!this->getmatrixaction) {
       this->getmatrixaction =
 	new SoGetMatrixAction(this->master->getViewportRegion());
     } else {
@@ -1157,7 +1161,7 @@ void
 NbSceneManagerP::update_clipping_planes(void * closure, SoSensor * sensor)
 {
   NbSceneManagerP * mgrp = (NbSceneManagerP *) closure;
-  if ( mgrp->autoclipping != NbSceneManager::NO_AUTO_CLIPPING ) {
+  if (mgrp->autoclipping != NbSceneManager::NO_AUTO_CLIPPING) {
     mgrp->setClippingPlanes();
   }
 }

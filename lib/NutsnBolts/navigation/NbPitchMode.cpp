@@ -46,7 +46,7 @@ NbPitchMode::~NbPitchMode(void)
 SbBool
 NbPitchMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctrl)
 {
-  if ( ! event->isOfType(SoLocation2Event::getClassTypeId()) ) {
+  if (! event->isOfType(SoLocation2Event::getClassTypeId())) {
     return FALSE;
   }
   ctrl->restoreCamera();

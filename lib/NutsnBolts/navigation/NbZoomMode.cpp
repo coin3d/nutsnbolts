@@ -78,11 +78,11 @@ NbZoomMode::~NbZoomMode(void)
 SbBool
 NbZoomMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctrl)
 {
-  if ( ! event->isOfType(SoLocation2Event::getClassTypeId()) ) {
+  if (! event->isOfType(SoLocation2Event::getClassTypeId())) {
     return FALSE;
   }
   SoCamera * camera = ctrl->getCamera();
-  if ( !camera ) {
+  if (!camera) {
     return FALSE;
   }
 
@@ -91,10 +91,10 @@ NbZoomMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctrl)
 
   ctrl->restoreCamera();
 
-  if ( camera->isOfType(SoOrthographicCamera::getClassTypeId()) ) {
+  if (camera->isOfType(SoOrthographicCamera::getClassTypeId())) {
     SoOrthographicCamera * oc = (SoOrthographicCamera *) camera;
     oc->height = oc->height.getValue() * multiplicator;
-  } else if ( camera->isOfType(SoPerspectiveCamera::getClassTypeId()) ) {
+  } else if (camera->isOfType(SoPerspectiveCamera::getClassTypeId())) {
 
     const float oldfocaldist = camera->focalDistance.getValue();
     const float newfocaldist = oldfocaldist * multiplicator;
@@ -123,7 +123,7 @@ NbZoomMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctrl)
     const float distorigo = newpos.length();
     // sqrt(FLT_MAX) == ~ 1e+19, which should be both safe for further
     // calculations and ok for the end-user and app-programmer.
-    if ( distorigo > float(sqrt(FLT_MAX)) ) {
+    if (distorigo > float(sqrt(FLT_MAX))) {
 #if 0 // debug
       fprintf(stderr, "zoomed too far (distance to origo==%f (%e))",
 	      distorigo, distorigo);

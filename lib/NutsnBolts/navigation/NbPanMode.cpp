@@ -74,12 +74,12 @@ NbPanMode::~NbPanMode(void)
 SbBool
 NbPanMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctrl)
 {
-  if ( ! event->isOfType(SoLocation2Event::getClassTypeId()) ) {
+  if (! event->isOfType(SoLocation2Event::getClassTypeId())) {
     return FALSE;
   }
 
   SoCamera * camera = ctrl->getCamera();
-  if ( !camera ) {
+  if (!camera) {
     return FALSE;
   }
 

@@ -114,7 +114,7 @@ NbNavigationState::reset(void)
 NbNavigationMode *
 NbNavigationState::getMode(void) const
 {
-  if ( PRIVATE(this)->modestack.getLength() == 0 ) return NULL;
+  if (PRIVATE(this)->modestack.getLength() == 0) return NULL;
   return PRIVATE(this)->modestack[PRIVATE(this)->modestack.getLength()-1];
 }
 
@@ -130,7 +130,7 @@ NbNavigationState::getMode(void) const
 const SoEvent *
 NbNavigationState::getTrigger(void) const
 {
-  if ( PRIVATE(this)->modestack.getLength() == 0 ) return NULL;
+  if (PRIVATE(this)->modestack.getLength() == 0) return NULL;
   return PRIVATE(this)->triggerstack[PRIVATE(this)->triggerstack.getLength()-1];
 }
 

@@ -84,11 +84,11 @@ NbNavigationControl::NbNavigationControl(void)
 NbNavigationControl::~NbNavigationControl(void)
 {
 
-  if ( PRIVATE(this)->initcamera ) {
+  if (PRIVATE(this)->initcamera) {
     PRIVATE(this)->initcamera->unref();
     PRIVATE(this)->initcamera = NULL;
   }
-  if ( PRIVATE(this)->cameraptr ) {
+  if (PRIVATE(this)->cameraptr) {
     PRIVATE(this)->cameraptr->unref();
     PRIVATE(this)->cameraptr = NULL;
   }
@@ -107,11 +107,11 @@ NbNavigationControl::~NbNavigationControl(void)
 void
 NbNavigationControl::setSceneGraph(SoNode * scenegraph)
 {
-  if ( PRIVATE(this)->scenegraph ) {
+  if (PRIVATE(this)->scenegraph) {
     PRIVATE(this)->scenegraph->unref();
     PRIVATE(this)->scenegraph = NULL;
   }
-  if ( scenegraph ) {
+  if (scenegraph) {
     PRIVATE(this)->scenegraph = scenegraph;
     PRIVATE(this)->scenegraph->ref();
   }
@@ -139,15 +139,15 @@ void
 NbNavigationControl::setCamera(SoCamera * camera)
 {
   // fprintf(stderr, "NbNavigationControl::setCamera(SoCamera *)\n");
-  if ( PRIVATE(this)->initcamera ) {
+  if (PRIVATE(this)->initcamera) {
     PRIVATE(this)->initcamera->unref();
     PRIVATE(this)->initcamera = NULL;
   }
-  if ( PRIVATE(this)->cameraptr ) {
+  if (PRIVATE(this)->cameraptr) {
     PRIVATE(this)->cameraptr->unref();
     PRIVATE(this)->cameraptr = NULL;
   }
-  if ( camera ) {
+  if (camera) {
     PRIVATE(this)->initcamera = (SoCamera *) camera->copy(FALSE);
     PRIVATE(this)->initcamera->ref();
     PRIVATE(this)->cameraptr = camera;
@@ -179,7 +179,7 @@ void
 NbNavigationControl::saveCamera(void) const
 {
   // fprintf(stderr, "NbNavigationControl::setCamera()\n");
-  if ( !PRIVATE(this)->cameraptr || !PRIVATE(this)->initcamera ) return;
+  if (!PRIVATE(this)->cameraptr || !PRIVATE(this)->initcamera) return;
   PRIVATE(this)->initcamera->copyFieldValues(PRIVATE(this)->cameraptr);
 }
 
@@ -194,7 +194,7 @@ void
 NbNavigationControl::restoreCamera(void) const
 {
   // fprintf(stderr, "NbNavigationControl::restoreCamera()\n");
-  if ( PRIVATE(this)->cameraptr == NULL ) return;
+  if (PRIVATE(this)->cameraptr == NULL) return;
   PRIVATE(this)->cameraptr->copyFieldValues(PRIVATE(this)->initcamera);
 }
 
@@ -214,7 +214,7 @@ void
 NbNavigationControl::reorientCamera(const SbRotation & rot) const
 {
   SoCamera * camera = this->getCamera();
-  if ( camera == NULL ) return;
+  if (camera == NULL) return;
 
   // Find global coordinates of focal point.
   SbVec3f direction;
@@ -245,7 +245,7 @@ void
 NbNavigationControl::pitchCamera(float angle) const
 {
   SoCamera * camera = this->getCamera();
-  if ( camera == NULL ) return;
+  if (camera == NULL) return;
 
   SbMatrix camerarot;
   camerarot.setRotate(camera->orientation.getValue());
@@ -263,7 +263,7 @@ void
 NbNavigationControl::yawCamera(float angle) const
 {
   SoCamera * camera = this->getCamera();
-  if ( camera == NULL ) return;
+  if (camera == NULL) return;
 
   SbMatrix camerarot;
   camerarot.setRotate(camera->orientation.getValue());
@@ -281,7 +281,7 @@ void
 NbNavigationControl::rollCamera(float angle) const
 {
   SoCamera * camera = this->getCamera();
-  if ( camera == NULL ) return;
+  if (camera == NULL) return;
 
   SbMatrix camerarot;
   camerarot.setRotate(camera->orientation.getValue());
@@ -302,7 +302,7 @@ void
 NbNavigationControl::moveCamera(const SbVec3f & distance) const
 {
   SoCamera * camera = this->getCamera();
-  if ( camera == NULL ) return;
+  if (camera == NULL) return;
 
   camera->position = camera->position.getValue() + distance;
 }
@@ -314,7 +314,7 @@ void
 NbNavigationControl::moveCamera(float factor, SbBool keepfocalpoint) const
 {
   SoCamera * camera = this->getCamera();
-  if ( camera == NULL ) return;
+  if (camera == NULL) return;
 
   SbVec3f vec;
   camera->orientation.getValue().multVec(SbVec3f(0, 0, 1), vec);
@@ -323,7 +323,7 @@ NbNavigationControl::moveCamera(float factor, SbBool keepfocalpoint) const
     (vec * camera->focalDistance.getValue());
   camera->position = camera->position.getValue() + (vec * factor);
 
-  if ( keepfocalpoint ) {
+  if (keepfocalpoint) {
     vec = point - camera->position.getValue();
     camera->focalDistance = vec.length();
   }

@@ -172,10 +172,10 @@ NbNavigationMode::set3DValueFunc(NbNavigation3DInputValueFunc * func, void * clo
 NbNavigation1DInputValueFunc *
 NbNavigationMode::get1DValueFunc(void ** closureptr) const
 {
-  if ( !PRIVATE(this)->valuefunc1d ) {
+  if (!PRIVATE(this)->valuefunc1d) {
     return NULL;
   }
-  if ( closureptr != NULL ) {
+  if (closureptr != NULL) {
     *closureptr = PRIVATE(this)->valuefuncclosure;
   }
   return PRIVATE(this)->valuefunc1d;
@@ -184,10 +184,10 @@ NbNavigationMode::get1DValueFunc(void ** closureptr) const
 NbNavigation2DInputValueFunc *
 NbNavigationMode::get2DValueFunc(void ** closureptr) const
 {
-  if ( !PRIVATE(this)->valuefunc2d ) {
+  if (!PRIVATE(this)->valuefunc2d) {
     return NULL;
   }
-  if ( closureptr != NULL ) {
+  if (closureptr != NULL) {
     *closureptr = PRIVATE(this)->valuefuncclosure;
   }
   return PRIVATE(this)->valuefunc2d;
@@ -196,10 +196,10 @@ NbNavigationMode::get2DValueFunc(void ** closureptr) const
 NbNavigation3DInputValueFunc *
 NbNavigationMode::get3DValueFunc(void ** closureptr) const
 {
-  if ( !PRIVATE(this)->valuefunc3d ) {
+  if (!PRIVATE(this)->valuefunc3d) {
     return NULL;
   }
-  if ( closureptr != NULL ) {
+  if (closureptr != NULL) {
     *closureptr = PRIVATE(this)->valuefuncclosure;
   }
   return PRIVATE(this)->valuefunc3d;
@@ -216,7 +216,7 @@ NbNavigationMode::get3DValueFunc(void ** closureptr) const
 SbBool
 NbNavigationMode::processEvent(const SoEvent * event, const NbNavigationControl * ctrl)
 {
-  if ( event->isOfType(SoLocation2Event::getClassTypeId()) )
+  if (event->isOfType(SoLocation2Event::getClassTypeId()))
     PRIVATE(this)->prevpos = PRIVATE(this)->currentpos;
 
   PRIVATE(this)->currentpos = event->getPosition();
@@ -409,7 +409,8 @@ NbNavigationMode::getAbsMouseMovePixelDistance(void * closure, const NbNavigatio
 {
   SbVec2s initpos = mode->getInitialPosition();
   SbVec2s currentpos = mode->getCurrentPosition();
-  SbVec2f vec(float(currentpos[0] - initpos[0]), float(currentpos[1] - initpos[1]));
+  SbVec2f vec((float)(currentpos[0] - initpos[0]), 
+              (float)(currentpos[1] - initpos[1]));
   return vec.length();
 }
 

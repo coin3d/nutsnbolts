@@ -77,7 +77,7 @@ NbCenterMode::NbCenterMode(SbName name)
 
 NbCenterMode::~NbCenterMode(void)
 {
-  if ( PRIVATE(this)->rpaction ) {
+  if (PRIVATE(this)->rpaction) {
     delete PRIVATE(this)->rpaction;
     PRIVATE(this)->rpaction = NULL;
   }
@@ -95,36 +95,36 @@ NbCenterMode::~NbCenterMode(void)
 SbBool
 NbCenterMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctrl)
 {
-  if ( ! event->isOfType(SoMouseButtonEvent::getClassTypeId()) ) {
+  if (! event->isOfType(SoMouseButtonEvent::getClassTypeId())) {
     return FALSE;
   }
   SoMouseButtonEvent * mbevent = (SoMouseButtonEvent *) event;
-  if ( mbevent->getState() != SoButtonEvent::DOWN ) {
+  if (mbevent->getState() != SoButtonEvent::DOWN) {
     return FALSE;
   }
 
   SbVec3f pickpos;
   SbBool hit = ctrl->pick(event->getPosition(), pickpos);
 
-  if ( hit ) {
+  if (hit) {
     ctrl->reorientCamera(pickpos);
     ctrl->moveCamera(0.20f, TRUE);
   }
 
   SoCamera * camera = ctrl->getCamera();
-  if ( !camera ) {
+  if (!camera) {
     return FALSE;
   }
 
   SoNode * scene = ctrl->getSceneGraph();
-  if ( !scene ) {
+  if (!scene) {
     return FALSE;
   }
 
   SbViewportRegion vp;
   vp.setWindowSize(ctrl->getViewportSize());
 
-  if ( !PRIVATE(this)->rpaction ) {
+  if (!PRIVATE(this)->rpaction) {
     PRIVATE(this)->rpaction = new SoRayPickAction(vp);
   } else {
     PRIVATE(this)->rpaction->reset();
@@ -135,7 +135,7 @@ NbCenterMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctr
   PRIVATE(this)->rpaction->apply(scene);
 
   SoPickedPoint * pp = PRIVATE(this)->rpaction->getPickedPoint();
-  if ( !pp ) {
+  if (!pp) {
     PRIVATE(this)->rpaction->reset();
     return FALSE;
   }

@@ -54,7 +54,7 @@ public:
     this->projector = NULL;
   }
   ~NbRotateModeP(void) {
-    if ( this->projector ) {
+    if (this->projector) {
       delete this->projector;
       this->projector = NULL;
     }
@@ -100,14 +100,14 @@ NbRotateMode::~NbRotateMode(void)
 SbBool
 NbRotateMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctrl)
 {
-  if ( !event->isOfType(SoLocation2Event::getClassTypeId()) ) {
+  if (!event->isOfType(SoLocation2Event::getClassTypeId())) {
     return FALSE;
   }
 
   SbVec2f initpos(this->getInitialNormalizedPosition(ctrl));
   SbVec2f currentpos(this->getCurrentNormalizedPosition(ctrl));
 
-  if ( PRIVATE(this)->projector == NULL ) {
+  if (PRIVATE(this)->projector == NULL) {
     PRIVATE(this)->projector =
       new SbSphereSheetProjector(SbSphere(SbVec3f(0, 0, 0), 0.8f));
     SbViewVolume volume;

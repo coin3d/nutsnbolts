@@ -398,7 +398,7 @@ NbNavigationSystem::registerSystem(NbNavigationSystem * system)
 {
   assert(NbNavigationSystemP::namedict);
   SbName name = system->getName();
-  if ( NbNavigationSystem::getByName(name) != NULL ) {
+  if (NbNavigationSystem::getByName(name) != NULL) {
     return FALSE;
   }
   NbNavigationSystemP::namedict->enter((uintptr_t) name.getString(), system);
@@ -416,7 +416,7 @@ NbNavigationSystem::unregisterSystem(NbNavigationSystem * system)
 {
   assert(NbNavigationSystemP::namedict);
   SbName name = system->getName();
-  if ( NbNavigationSystem::getByName(name) == NULL ) {
+  if (NbNavigationSystem::getByName(name) == NULL) {
     return FALSE;
   }
   NbNavigationSystemP::namedict->remove((uintptr_t) name.getString());
@@ -514,7 +514,7 @@ NbNavigationSystem::setViewport(const SbViewportRegion & vp)
 void
 NbNavigationSystem::addModeChangeCallback(NbNavigationModeChangeCB * cb, void * closure)
 {
-  if ( !PRIVATE(this)->modechangecbs ) {
+  if (!PRIVATE(this)->modechangecbs) {
     PRIVATE(this)->modechangecbs = new SbPList;
   }
   PRIVATE(this)->modechangecbs->append((void *) cb);
@@ -530,15 +530,15 @@ NbNavigationSystem::addModeChangeCallback(NbNavigationModeChangeCB * cb, void * 
 void
 NbNavigationSystem::removeModeChangeCallback(NbNavigationModeChangeCB * cb, void * closure)
 {
-  if ( !PRIVATE(this)->modechangecbs ) return;
+  if (!PRIVATE(this)->modechangecbs) return;
   const int max = PRIVATE(this)->modechangecbs->getLength();
   assert((max % 2) == 0);
   int i;
-  for ( i = 0; i < max; i += 2 ) {
+  for (i = 0; i < max; i += 2) {
     NbNavigationModeChangeCB * cb2 =
       (NbNavigationModeChangeCB *) (*(PRIVATE(this)->modechangecbs))[i];
     void * closure2 = (*(PRIVATE(this)->modechangecbs))[i+1];
-    if ( cb == cb2 && closure == closure2 ) {
+    if (cb == cb2 && closure == closure2) {
       PRIVATE(this)->modechangecbs->remove(i+1);
       PRIVATE(this)->modechangecbs->remove(i);
       return;
@@ -555,11 +555,11 @@ NbNavigationSystem::removeModeChangeCallback(NbNavigationModeChangeCB * cb, void
 void
 NbNavigationSystem::invokeModeChangeCallbacks(void)
 {
-  if ( !PRIVATE(this)->modechangecbs ) return;
+  if (!PRIVATE(this)->modechangecbs) return;
   const int max = PRIVATE(this)->modechangecbs->getLength();
   assert((max % 2) == 0);
   int i;
-  for ( i = 0; i < max; i += 2 ) {
+  for (i = 0; i < max; i += 2) {
     NbNavigationModeChangeCB * cb =
       (NbNavigationModeChangeCB *) (*(PRIVATE(this)->modechangecbs))[i];
     void * closure = (*(PRIVATE(this)->modechangecbs))[i+1];
@@ -579,7 +579,7 @@ NbNavigationSystem::processEvent(const SoEvent * event)
   assert(PRIVATE(this)->state);
   assert(PRIVATE(this)->ctrl);
   NbNavigationMode * mode = PRIVATE(this)->state->getMode();
-  if ( mode == NULL ) return FALSE;
+  if (mode == NULL) return FALSE;
   // fprintf(stderr, "NbNavigationSystem::processEvent()\n");
 
   const int max = PRIVATE(this)->transitions->getLength();
@@ -587,17 +587,17 @@ NbNavigationSystem::processEvent(const SoEvent * event)
 
   // check if we're doing a mode transition
   int i;
-  for ( i = 0; i < max; i++ ) {
+  for (i = 0; i < max; i++) {
     NbNavigationModeTransition * transition =
       (*(PRIVATE(this)->transitions))[i];
-    if ( transition->mode1 != mode ) continue;
+    if (transition->mode1 != mode) continue;
     // fprintf(stderr, "trying transition %d\n", i);
-    if ( transition->type == INITIAL ) continue; // trigger is NULL
-    if ( ! SoEvent_Equals(transition->trigger, event) ) continue;
+    if (transition->type == INITIAL) continue; // trigger is NULL
+    if (! SoEvent_Equals(transition->trigger, event)) continue;
 
     // we are doing a mode transition
     // fprintf(stderr, "triggering transition %d\n", i);
-    switch ( transition->type ) {
+    switch (transition->type) {
     case INITIAL:
       assert(0 && "crazy!");
       break;
@@ -605,14 +605,14 @@ NbNavigationSystem::processEvent(const SoEvent * event)
     case FINISH:
     case ABORT:
       mode->processEvent(event, PRIVATE(this)->ctrl);
-      if ( transition->type == FINISH ) {
+      if (transition->type == FINISH) {
 	mode->finish(event, PRIVATE(this)->ctrl);
       } else {
 	mode->abort(event, PRIVATE(this)->ctrl);
       }
       PRIVATE(this)->state->pop();
       mode = PRIVATE(this)->state->getMode();
-      if ( mode ) {
+      if (mode) {
 	this->invokeModeChangeCallbacks();
 	mode->init(event, PRIVATE(this)->ctrl);
 	mode->processEvent(event, PRIVATE(this)->ctrl);
@@ -623,7 +623,7 @@ NbNavigationSystem::processEvent(const SoEvent * event)
     case SWITCH:
       mode->processEvent(event, PRIVATE(this)->ctrl);
       mode->finish(event, PRIVATE(this)->ctrl);
-      if ( transition->type == SWITCH )
+      if (transition->type == SWITCH)
 	PRIVATE(this)->state->pop();
       PRIVATE(this)->state->push(transition->mode2, event);
       mode = PRIVATE(this)->state->getMode();
@@ -646,7 +646,7 @@ void
 NbNavigationSystem::addMode(NbNavigationMode * mode)
 {
   assert(PRIVATE(this)->modes);
-  if ( PRIVATE(this)->modes->find(mode) != -1 ) return;
+  if (PRIVATE(this)->modes->find(mode) != -1) return;
   PRIVATE(this)->modes->append(mode);
 }
 
@@ -666,7 +666,7 @@ NbNavigationSystem::addModeTransition(NbNavigationMode * mode,
   assert(type == INITIAL || type == ABORT || type == FINISH);
   assert(trigger || type == INITIAL);
 
-  if ( type == INITIAL ) {
+  if (type == INITIAL) {
     PRIVATE(this)->state->reset();
     PRIVATE(this)->state->push(mode, NULL);
   }
@@ -716,7 +716,7 @@ SbName
 NbNavigationSystem::getCurrentModeName(void) const
 {
   NbNavigationMode * mode = PRIVATE(this)->state->getMode();
-  if ( !mode ) return SbName("");
+  if (!mode) return SbName("");
   return mode->getModeName();
 }
 
@@ -748,19 +748,19 @@ NbNavigationSystemP::NbNavigationSystemP(NbNavigationSystem * api)
 
 NbNavigationSystemP::~NbNavigationSystemP(void)
 {
-  if ( this->modechangecbs ) {
+  if (this->modechangecbs) {
     delete this->modechangecbs;
   }
   do { // clean up transitions
     const int num = this->transitions->getLength();
     int i;
-    for ( i = 0; i < num; i++ ) {
+    for (i = 0; i < num; i++) {
       NbNavigationModeTransition * transition =
 	(*(this->transitions))[i];
       delete transition;
     }
     delete this->transitions;
-  } while ( FALSE );
+  } while (FALSE);
   delete this->modes;
   delete this->ctrl;
   delete this->state;
