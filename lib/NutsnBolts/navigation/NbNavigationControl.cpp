@@ -28,6 +28,7 @@
 #include <Inventor/SbRotation.h>
 #include <Inventor/SbMatrix.h>
 #include <Inventor/SbViewportRegion.h>
+#include <Inventor/SoPickedPoint.h>
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 #include <Inventor/actions/SoRayPickAction.h>
 
@@ -59,6 +60,8 @@ public:
   SoCamera * cameraptr;
 
   SoNode * scenegraph;
+
+  SoRayPickAction * rpaction;
 }; // NbNavigationControlP
 
 // *************************************************************************
@@ -75,6 +78,7 @@ NbNavigationControl::NbNavigationControl(void)
   PRIVATE(this)->initcamera = NULL;
   PRIVATE(this)->cameraptr = NULL;
   PRIVATE(this)->scenegraph = NULL;
+  PRIVATE(this)->rpaction = NULL;
 }
 
 /*!
@@ -91,6 +95,10 @@ NbNavigationControl::~NbNavigationControl(void)
   if (PRIVATE(this)->cameraptr) {
     PRIVATE(this)->cameraptr->unref();
     PRIVATE(this)->cameraptr = NULL;
+  }
+  if (PRIVATE(this)->rpaction) {
+    delete PRIVATE(this)->rpaction;
+    PRIVATE(this)->rpaction = NULL;
   }
   this->setSceneGraph(NULL);
   delete PRIVATE(this);
@@ -201,7 +209,39 @@ NbNavigationControl::restoreCamera(void) const
 SbBool
 NbNavigationControl::pick(SbVec2s pos, SbVec3f & pickpos) const
 {
-  return FALSE;
+  SoCamera * camera = this->getCamera();
+  if (!camera) {
+    return FALSE;
+  }
+
+  SoNode * scene = this->getSceneGraph();
+  if (!scene) {
+    return FALSE;
+  }
+
+  SbViewportRegion vp;
+  vp.setWindowSize(this->getViewportSize());
+
+  if (!PRIVATE(this)->rpaction) {
+    PRIVATE(this)->rpaction = new SoRayPickAction(vp);
+  } else {
+    PRIVATE(this)->rpaction->reset();
+    PRIVATE(this)->rpaction->setViewportRegion(vp);
+  }
+  PRIVATE(this)->rpaction->setPoint(pos);
+
+  PRIVATE(this)->rpaction->apply(scene);
+
+  SoPickedPoint * pp = PRIVATE(this)->rpaction->getPickedPoint();
+  if (!pp) {
+    PRIVATE(this)->rpaction->reset();
+    return FALSE;
+  }
+
+  // FIXME: collect up all the relevant matrices, if necessary
+  pickpos = pp->getPoint();
+
+  return TRUE;
 }
 
 /*!
@@ -236,6 +276,15 @@ NbNavigationControl::reorientCamera(const SbRotation & rot) const
 void
 NbNavigationControl::reorientCamera(const SbVec3f & pointat) const
 {
+  SoCamera * camera = this->getCamera();
+  SbRotation rot = camera->orientation.getValue();
+  SbVec3f up;
+  rot.multVec(SbVec3f(0, 1, 0), up);
+
+  SbVec3f vec = pointat - camera->position.getValue();
+
+  camera->pointAt(pointat, up);
+  camera->focalDistance = vec.length();
 }
 
 /*!
