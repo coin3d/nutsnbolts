@@ -347,8 +347,8 @@ INPUT                  = \
   lib/NutsnBolts/nodes/NbViewerNavigationMode.cpp \
   lib/NutsnBolts/navigation/NbNavigationSystem.h \
   lib/NutsnBolts/navigation/NbNavigationSystem.cpp \
-  lib/NutsnBolts/navigation/NbNavigationInfo.h \
-  lib/NutsnBolts/navigation/NbNavigationInfo.cpp \
+  lib/NutsnBolts/navigation/NbNavigationControl.h \
+  lib/NutsnBolts/navigation/NbNavigationControl.cpp \
   lib/NutsnBolts/navigation/NbNavigationMode.h \
   lib/NutsnBolts/navigation/NbNavigationMode.cpp \
   lib/NutsnBolts/navigation/NbIdleMode.h \
@@ -358,7 +358,15 @@ INPUT                  = \
   lib/NutsnBolts/navigation/NbPanMode.h \
   lib/NutsnBolts/navigation/NbPanMode.cpp \
   lib/NutsnBolts/navigation/NbZoomMode.h \
-  lib/NutsnBolts/navigation/NbZoomMode.cpp
+  lib/NutsnBolts/navigation/NbZoomMode.cpp \
+  lib/NutsnBolts/navigation/NbCenterMode.h \
+  lib/NutsnBolts/navigation/NbCenterMode.cpp \
+  lib/NutsnBolts/navigation/NbPitchMode.h \
+  lib/NutsnBolts/navigation/NbPitchMode.cpp \
+  lib/NutsnBolts/navigation/NbYawMode.h \
+  lib/NutsnBolts/navigation/NbYawMode.cpp \
+  lib/NutsnBolts/navigation/NbRollMode.h \
+  lib/NutsnBolts/navigation/NbRollMode.cpp
 
 # Internal files goes last, and are only included for developer reasons.
 # They are commented out when producing production documentation, etc.

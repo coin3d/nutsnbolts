@@ -17,7 +17,7 @@
 # The PROJECT_NAME tag is a single word (or a sequence of words surrounded 
 # by quotes) that should identify the project.
 
-PROJECT_NAME           = Nuts 'n' Bolts
+PROJECT_NAME           = SIM Nuts'n'Bolts
 
 # The PROJECT_NUMBER tag can be used to enter a project or revision number. 
 # This could be handy for archiving the generated documentation or 
@@ -346,8 +346,8 @@ INPUT                  = \
   lib/NutsnBolts/nodes/NbViewerNavigationMode.cpp \
   lib/NutsnBolts/navigation/NbNavigationSystem.h \
   lib/NutsnBolts/navigation/NbNavigationSystem.cpp \
-  lib/NutsnBolts/navigation/NbNavigationInfo.h \
-  lib/NutsnBolts/navigation/NbNavigationInfo.cpp \
+  lib/NutsnBolts/navigation/NbNavigationControl.h \
+  lib/NutsnBolts/navigation/NbNavigationControl.cpp \
   lib/NutsnBolts/navigation/NbNavigationMode.h \
   lib/NutsnBolts/navigation/NbNavigationMode.cpp \
   lib/NutsnBolts/navigation/NbIdleMode.h \
@@ -358,6 +358,14 @@ INPUT                  = \
   lib/NutsnBolts/navigation/NbPanMode.cpp \
   lib/NutsnBolts/navigation/NbZoomMode.h \
   lib/NutsnBolts/navigation/NbZoomMode.cpp \
+  lib/NutsnBolts/navigation/NbCenterMode.h \
+  lib/NutsnBolts/navigation/NbCenterMode.cpp \
+  lib/NutsnBolts/navigation/NbPitchMode.h \
+  lib/NutsnBolts/navigation/NbPitchMode.cpp \
+  lib/NutsnBolts/navigation/NbYawMode.h \
+  lib/NutsnBolts/navigation/NbYawMode.cpp \
+  lib/NutsnBolts/navigation/NbRollMode.h \
+  lib/NutsnBolts/navigation/NbRollMode.cpp \
   lib/NutsnBolts/navigation/NbNavigationVehicle.h \
   lib/NutsnBolts/navigation/NbNavigationVehicle.cpp \
   lib/NutsnBolts/navigation/NbNavigationState.h \
