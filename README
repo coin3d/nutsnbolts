@@ -19,12 +19,15 @@ nodes more useful and usable, a new strict library was split out.
 
 GETTING THE SOURCE
 
-The source code for SIM Nuts'n'Bolts can be found by FTP in
-ftp://ftp.coin3d.org/pub/coin/src/
+The source code for official SIM Nuts'n'Bolts releases can be found
+in <URL:ftp://ftp.coin3d.org/pub/coin/src/>.
 
-You can also fetch the source code through svn with the command
+You can also fetch the source code from its subversion repository
+with the following command:
 
   $ svn co svn://svn.coin3d.org/repos/NutsnBolts/trunk NutsnBolts
 
+The trunk/, tags/, and branches/ system is used, hence the trunk
+directory at the end.
 
 
