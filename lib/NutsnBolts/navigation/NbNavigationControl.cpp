@@ -34,6 +34,7 @@
 #include <Inventor/errors/SoDebugError.h>
 #include <Inventor/nodes/SoOrthographicCamera.h>
 #include <Inventor/nodes/SoPerspectiveCamera.h>
+#include <Inventor/nodekits/SoBaseKit.h>
 #include <Inventor/fields/SoSFVec3d.h>
 #include <Inventor/actions/SoRayPickAction.h>
 #include <Inventor/actions/SoSearchAction.h>
@@ -283,6 +284,8 @@ NbNavigationControl::viewAll(void) const
     // we need to set UTMCamera->utmposition to some initial value not too far
     // off the world space limits to reduce floating point precision errors
     SoSearchAction sa;
+    SbBool sc = SoBaseKit::isSearchingChildren();
+    SoBaseKit::setSearchingChildren(TRUE);
     sa.setSearchingAll(TRUE);
     sa.setInterest(SoSearchAction::FIRST);
     sa.setType(PRIVATE(this)->utmpostype);
@@ -301,6 +304,7 @@ NbNavigationControl::viewAll(void) const
                                 "Please consider supplying at least one "
                                 "UTMPosition node in your scene graph.");
     }
+    SoBaseKit::setSearchingChildren(sc);
   }
   const float slack = 0.001f;
   SbViewportRegion vp(this->getViewportSize());
@@ -330,6 +334,8 @@ NbNavigationControl::viewPart(SoPath * path, const SbVec3f & in, const SbVec3f &
     // we need to set UTMCamera->utmposition to some initial value not too far
     // off the world space limits to reduce floating point precision errors
     SoSearchAction sa;
+    SbBool sc = SoBaseKit::isSearchingChildren();
+    SoBaseKit::setSearchingChildren(TRUE);
     sa.setSearchingAll(TRUE);
     sa.setInterest(SoSearchAction::FIRST);
     sa.setType(PRIVATE(this)->utmpostype);
@@ -348,6 +354,7 @@ NbNavigationControl::viewPart(SoPath * path, const SbVec3f & in, const SbVec3f &
                                 "Please consider supplying at least one "
                                 "UTMPosition node in your scene graph.");
     }
+    SoBaseKit::setSearchingChildren(sc);
   }
   SbViewportRegion vp(this->getViewportSize());
 
