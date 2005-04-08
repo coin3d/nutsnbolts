@@ -92,6 +92,8 @@ NbPickMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctrl)
       SoPath * path = ctrl->pick(event->getPosition(), pos);
       if ( path ) {
         this->invokePickCallbacks(pos, path);
+      } else {
+        this->invokePickCallbacks(SbVec3f(0, 0, 0), NULL);
       }
     } else {
       // button up - do nothing, but don't pass event on
