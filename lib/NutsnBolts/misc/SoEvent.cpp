@@ -58,14 +58,14 @@ SoEvent_Equals(const SoEvent * ev1, const SoEvent * ev2)
     SoMouseButtonEvent * mb1 = (SoMouseButtonEvent *) ev1;
     SoMouseButtonEvent * mb2 = (SoMouseButtonEvent *) ev2;
     if (mb1->getState() == mb2->getState() &&
-	 mb1->getButton() == mb2->getButton()) {
+        mb1->getButton() == mb2->getButton()) {
       return TRUE;
     }
   } else if (ev1->getTypeId() == SoKeyboardEvent::getClassTypeId()) {
     SoKeyboardEvent * kb1 = (SoKeyboardEvent *) ev1;
     SoKeyboardEvent * kb2 = (SoKeyboardEvent *) ev2;
     if (kb1->getState() == kb2->getState() &&
-	 kb1->getKey() == kb2->getKey()) {
+        kb1->getKey() == kb2->getKey()) {
       return TRUE;
     }
   }
@@ -99,4 +99,51 @@ SoEvent_Clone(const SoEvent * event)
     clone = mbevent;
   }
   return clone;
+}
+
+/*!
+  Dump debug information about event \a ev to stream \a stream.
+*/
+
+void
+SoEvent_Dump(FILE * stream, const SoEvent * ev)
+{
+  SoType type = ev->getTypeId();
+  fprintf(stream, "Event type: %s\n", type.getName().getString());
+  if (type == SoMouseButtonEvent::getClassTypeId()) {
+    SoMouseButtonEvent * mbevent = (SoMouseButtonEvent *) ev;
+    fprintf(stream, "  Button State: ");
+    switch (mbevent->getState()) {
+    case SoButtonEvent::DOWN:
+      fprintf(stream, "DOWN\n");
+      break;
+    case SoButtonEvent::UP:
+      fprintf(stream, "UP\n");
+      break;
+    default:
+      fprintf(stream, "<unknown>\n");
+      break;
+    }
+    fprintf(stream, "  Button: ");
+    switch (mbevent->getButton()) {
+    case SoMouseButtonEvent::BUTTON1:
+      fprintf(stream, "button 1\n");
+      break;
+    case SoMouseButtonEvent::BUTTON2:
+      fprintf(stream, "button 2\n");
+      break;
+    case SoMouseButtonEvent::BUTTON3:
+      fprintf(stream, "button 3\n");
+      break;
+    case SoMouseButtonEvent::BUTTON4:
+      fprintf(stream, "button 4\n");
+      break;
+    case SoMouseButtonEvent::BUTTON5:
+      fprintf(stream, "button 5\n");
+      break;
+    default:
+      fprintf(stream, "<unknown>\n");
+      break;
+    }
+  }
 }

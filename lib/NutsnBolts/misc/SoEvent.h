@@ -27,11 +27,13 @@
 #error NutsnBolts/misc/SoEvent.h is a private/internal header file!
 #endif // !NB_INTERNAL
 
+#include <stdio.h>
 #include <Inventor/SbBasic.h>
 
 class SoEvent;
 
 SbBool SoEvent_Equals(const SoEvent * ev1, const SoEvent * ev2);
 SoEvent * SoEvent_Clone(const SoEvent * ev);
+void SoEvent_Dump(FILE * stream, const SoEvent * ev);
 
 #endif // !NB_SOEVENT_H
