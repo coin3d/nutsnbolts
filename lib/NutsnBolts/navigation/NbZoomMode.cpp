@@ -26,6 +26,7 @@
 #include <float.h>
 
 #include <Inventor/events/SoLocation2Event.h>
+#include <Inventor/events/SoMouseButtonEvent.h>
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 #include <Inventor/nodes/SoOrthographicCamera.h>
 
@@ -93,11 +94,35 @@ NbZoomMode::clone(void) const
 SbBool
 NbZoomMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctrl)
 {
-  if (! event->isOfType(SoLocation2Event::getClassTypeId())) {
-    return FALSE;
-  }
+
   SoCamera * camera = ctrl->getCamera();
   if (!camera) {
+    return FALSE;
+  }
+
+  if ( event->isOfType(SoMouseButtonEvent::getClassTypeId()) ) {
+    SoMouseButtonEvent * mbevent = (SoMouseButtonEvent *) event;
+    SoMouseButtonEvent::Button button = mbevent->getButton();
+    SoButtonEvent::State state = mbevent->getState();
+    if ( button == SoMouseButtonEvent::BUTTON4 ) {
+      if ( state == SoButtonEvent::DOWN ) {
+        ctrl->moveCamera(0.05f);
+        ctrl->saveCamera();
+      }
+      this->finish();
+      return TRUE;
+    } else if ( button == SoMouseButtonEvent::BUTTON5 ) {
+      if ( state == SoButtonEvent::DOWN ) {
+        ctrl->moveCamera(-0.05f);
+        ctrl->saveCamera();
+      }
+      this->finish();
+      return TRUE;
+    }
+    return FALSE;
+  }
+
+  if (! event->isOfType(SoLocation2Event::getClassTypeId())) {
     return FALSE;
   }
 
