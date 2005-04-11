@@ -21,8 +21,10 @@
 \**************************************************************************/
 
 #include <Inventor/lists/SbList.h>
+#include <Inventor/events/SoEvent.h>
 
 #include <NutsnBolts/navigation/NbNavigationState.h>
+#include <NutsnBolts/misc/SoEvent.h>
 
 // *************************************************************************
 
@@ -80,7 +82,11 @@ void
 NbNavigationState::push(NbNavigationMode * mode, const SoEvent * trigger)
 {
   PRIVATE(this)->modestack.append(mode);
-  PRIVATE(this)->triggerstack.append(trigger);
+  if (trigger) {
+    PRIVATE(this)->triggerstack.append(SoEvent_Clone(trigger));
+  } else {
+    PRIVATE(this)->triggerstack.append(NULL);
+  }
 }
 
 /*!
@@ -91,7 +97,10 @@ void
 NbNavigationState::pop(void)
 {
   PRIVATE(this)->modestack.pop();
-  PRIVATE(this)->triggerstack.pop();
+  const SoEvent * trigger = PRIVATE(this)->triggerstack.pop();
+  if (trigger != NULL ) {
+    delete trigger;
+  }
 }
 
 /*!
@@ -102,6 +111,13 @@ void
 NbNavigationState::reset(void)
 {
   PRIVATE(this)->modestack.truncate(0);
+  int i;
+  for ( i = 0; i < PRIVATE(this)->triggerstack.getLength(); i++ ) {
+    const SoEvent * trigger = PRIVATE(this)->triggerstack[i];
+    if (trigger != NULL) {
+      delete trigger;
+    }
+  }
   PRIVATE(this)->triggerstack.truncate(0);
 }
 
