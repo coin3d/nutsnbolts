@@ -781,8 +781,18 @@ NbNavigationSystem::processEvent(const SoEvent * event)
       (*(PRIVATE(this)->transitions))[i];
     if (transition->mode1 != mode) continue;
     if (transition->type == INITIAL) continue; // trigger is NULL
-    if (! SoEvent_Equals(transition->trigger, event)) continue;
-
+    if (!SoEvent_Equals(transition->trigger, event)) continue;
+    if (transition->condition != NULL) {
+      const SoEvent * curtrigger = PRIVATE(this)->state->getTrigger();
+      if (curtrigger == NULL) {
+        continue;
+      }
+      if (!SoEvent_Equals(transition->condition, curtrigger)) {
+        // SoEvent_Dump(stderr, curtrigger);
+        // SoEvent_Dump(stderr, transition->condition);
+        continue;
+      }
+    }
     // we are doing a mode transition
     switch (transition->type) {
     case INITIAL:
@@ -829,8 +839,8 @@ NbNavigationSystem::processEvent(const SoEvent * event)
   }
 
   // check if mode aborted/closed itself
-  while ( mode->isAborted() || mode->isFinished() ) {
-    if ( mode->isAborted() ) {
+  while (mode->isAborted() || mode->isFinished()) {
+    if (mode->isAborted()) {
       mode->abort(event, PRIVATE(this)->ctrl);
     } else {
       mode->finish(event, PRIVATE(this)->ctrl);
