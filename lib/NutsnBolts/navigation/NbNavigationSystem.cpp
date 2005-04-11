@@ -242,6 +242,13 @@ NbNavigationSystem::initClass(void)
   SoMouseButtonEvent * button3up = new SoMouseButtonEvent;
   button3up->setButton(SoMouseButtonEvent::BUTTON3);
   button3up->setState(SoButtonEvent::UP);
+
+  SoMouseButtonEvent * mwheeldown = new SoMouseButtonEvent;
+  mwheeldown->setButton(SoMouseButtonEvent::BUTTON4);
+  mwheeldown->setState(SoButtonEvent::DOWN);
+  SoMouseButtonEvent * mwheelup = new SoMouseButtonEvent;
+  mwheelup->setButton(SoMouseButtonEvent::BUTTON5);
+  mwheelup->setState(SoButtonEvent::DOWN);
   
   // set up some standard navigation systems
   NbNavigationSystem * idler =
@@ -289,6 +296,10 @@ NbNavigationSystem::initClass(void)
 			      STACK, ctrldown);
   examiner->addModeTransition(examineridle, examinerzoom,
 			      STACK, button2down);
+  examiner->addModeTransition(examineridle, examinerzoom,
+			      STACK, mwheeldown);
+  examiner->addModeTransition(examineridle, examinerzoom,
+			      STACK, mwheelup);
   examiner->addModeTransition(examineridle, examinerpan,
 			      STACK, button3down);
   examiner->addModeTransition(examineridle, examinerwaitforcenter,
@@ -760,6 +771,8 @@ NbNavigationSystem::processEvent(const SoEvent * event)
   NbNavigationMode * mode = PRIVATE(this)->state->getMode();
   if (mode == NULL) return FALSE;
 
+  SbBool retval = FALSE;
+
   int i;
   const int max = PRIVATE(this)->transitions->getLength();
   // check if we're doing a mode transition
@@ -791,7 +804,8 @@ NbNavigationSystem::processEvent(const SoEvent * event)
         mode->init(event, PRIVATE(this)->ctrl);
         mode->processEvent(event, PRIVATE(this)->ctrl);
       }
-      return TRUE; // transitions should always be considered handled events
+      retval = TRUE; // transitions should always be considered handled events
+      break;
 
     case STACK:
     case SWITCH:
@@ -804,12 +818,17 @@ NbNavigationSystem::processEvent(const SoEvent * event)
       this->invokeModeChangeCallbacks();
       mode->init(event, PRIVATE(this)->ctrl);
       mode->processEvent(event, PRIVATE(this)->ctrl);
-      return TRUE; // transitions should always be considered handled events
+      retval = TRUE; // transitions should always be considered handled events
+      break;
     }
   }
 
   // no transition - just regular event processing
-  SbBool retval = mode->processEvent(event, PRIVATE(this)->ctrl);
+  if ( mode->processEvent(event, PRIVATE(this)->ctrl) ) {
+    retval = TRUE;
+  }
+
+  // check if mode aborted/closed itself
   while ( mode->isAborted() || mode->isFinished() ) {
     if ( mode->isAborted() ) {
       mode->abort(event, PRIVATE(this)->ctrl);
@@ -823,6 +842,7 @@ NbNavigationSystem::processEvent(const SoEvent * event)
     mode->processEvent(event, PRIVATE(this)->ctrl);
     retval = TRUE; // transition means handled...
   }
+
   return retval;
 }
 
