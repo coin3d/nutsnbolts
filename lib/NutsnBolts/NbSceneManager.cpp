@@ -717,6 +717,7 @@ NbSceneManager::setNavigationSystem(NbNavigationSystem * system)
   PRIVATE(this)->navigationsystem->setSceneGraph(this->getSceneGraph());
   PRIVATE(this)->navigationsystem->setCamera(this->getCamera());
   PRIVATE(this)->navigationsystem->setViewport(this->getViewportRegion());
+  PRIVATE(this)->navigationsystem->invokeModeChangeCallbacks();
 }
 
 /*!

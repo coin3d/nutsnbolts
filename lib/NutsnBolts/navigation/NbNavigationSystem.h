@@ -137,6 +137,7 @@ public:
 			 const SoEvent * condition = NULL);
 
 protected:
+  friend class NbSceneManager;
   void invokeModeChangeCallbacks(void);
 
 private:
