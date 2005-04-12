@@ -26,6 +26,7 @@
 
 #include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include <Inventor/SbBox.h>
 #include <Inventor/SbXfBox3f.h>
@@ -412,7 +413,32 @@ NbSceneManager::render(const SbBool clearwindow,
     PRIVATE(this)->depthbits = depthbits[0];
   }
   inherited::render(clearwindow, clearzbuffer);
+
   // FIXME: navigation mode rendering
+
+#ifdef NB_EXTRA_DEBUG
+  SoCamera * camera = PRIVATE(this)->getCamera();
+  SoType utmcameratype = SoType::fromName("UTMCamera");
+  if (camera != NULL && camera->isOfType(utmcameratype)) {
+    SbVec3f campos = camera->position.getValue();
+    if (campos != SbVec3f(0.0f, 0.0f, 0.0f)) {
+      static int shown = FALSE;
+      if (!shown) {
+        SoDebugError::postWarning("NbSceneManger::render",
+                                  "You are using an UTMCamera, and the "
+                                  "non-utm camera position has strayed from "
+                                  "origo (%f, %f %f), meaning your navigation "
+                                  "code is not UTM aware. This ought to be "
+                                  "fixed. This warning will not be shown "
+                                  "again.", campos[0], campos[1], campos[2]);
+        shown = TRUE;
+      }
+#if NB_EXTRA_DEBUG > 1
+      exit(-1);
+#endif // NB_EXTRA_DEBUG > 1
+    }
+  }
+#endif // NB_EXTRA_DEBUG
 }
 
 // doc in superclass
