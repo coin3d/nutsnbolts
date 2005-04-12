@@ -23,11 +23,13 @@
  *
 \**************************************************************************/
 
+class SbVec3d;
+
 #include <NutsnBolts/navigation/NbNavigationMode.h>
 
 class NbPickModeP;
 
-typedef void NbPickModePickCB(void * closure, const SbVec3f & pos, const SoPath * path);
+typedef void NbPickModePickCB(void * closure, const SbVec3d & pos, const SoPath * path);
 
 class NB_DLL_API NbPickMode : public NbNavigationMode {
   typedef NbNavigationMode inherited;
@@ -48,7 +50,7 @@ protected:
   virtual SbBool handleEvent(const SoEvent * event, 
                              const NbNavigationControl * ctrl);
 
-  void invokePickCallbacks(const SbVec3f & pos, const SoPath * path);
+  void invokePickCallbacks(const SbVec3d & pos, const SoPath * path);
 
 private:
   NbPickModeP * pimpl;

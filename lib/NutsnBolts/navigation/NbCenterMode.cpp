@@ -103,9 +103,10 @@ NbCenterMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctr
     return FALSE;
   }
 
-  SbVec3f pickpos;
+  SbVec3d pickpos;
   SoPath * path = ctrl->pick(event->getPosition(), pickpos);
   if (path != NULL) {
+    SbVec3f pos((float) pickpos[0], (float) pickpos[1], (float) pickpos[2]);
     ctrl->reorientCamera(pickpos);
     // FIXME: this part should be factored out of this mode
     ctrl->moveCamera(0.20f, TRUE); // zoom in 20%

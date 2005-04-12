@@ -29,6 +29,8 @@
 #include <Inventor/events/SoMouseButtonEvent.h>
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 #include <Inventor/nodes/SoOrthographicCamera.h>
+#include <Inventor/fields/SoSFVec3d.h>
+#include <Inventor/SbVec3d.h>
 
 #include <NutsnBolts/navigation/NbNavigationControl.h>
 
@@ -94,7 +96,6 @@ NbZoomMode::clone(void) const
 SbBool
 NbZoomMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctrl)
 {
-
   SoCamera * camera = ctrl->getCamera();
   if (!camera) {
     return FALSE;
@@ -126,7 +127,7 @@ NbZoomMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctrl)
     return FALSE;
   }
 
-  const float factor = this->get1DValue(ctrl) * 20.0f;
+  const float factor = this->get1DValue(ctrl) * 15.0f;
   float multiplicator = float(exp(factor));
 
   ctrl->restoreCamera();
@@ -135,6 +136,14 @@ NbZoomMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctrl)
     SoOrthographicCamera * oc = (SoOrthographicCamera *) camera;
     oc->height = oc->height.getValue() * multiplicator;
   } else if (camera->isOfType(SoPerspectiveCamera::getClassTypeId())) {
+#if 0
+    // bogus
+    fprintf(stderr, "NbZoomMode::handleEvent()\n");
+    fprintf(stderr, "factor = %f\n", factor);
+    fprintf(stderr, "multiplicator = %f\n", multiplicator);
+    ctrl->moveCamera(1.0f+multiplicator);
+    return TRUE;
+#endif
 
     const float oldfocaldist = camera->focalDistance.getValue();
     const float newfocaldist = oldfocaldist * multiplicator;
@@ -172,6 +181,13 @@ NbZoomMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctrl)
     else {
       camera->position = newpos;
       camera->focalDistance = newfocaldist;
+    }
+
+    if (camera->isOfType(SoType::fromName("UTMCamera"))) {
+      SoSFVec3d * utmposfield = (SoSFVec3d *) camera->getField("utmposition");
+      utmposfield->setValue(utmposfield->getValue() +
+                            SbVec3d(camera->position.getValue()));
+      camera->position.setValue(0.0f, 0.0f, 0.0f);
     }
   } else {
     // unsupported camera type - no zoom implemented

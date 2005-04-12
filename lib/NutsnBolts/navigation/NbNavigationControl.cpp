@@ -146,7 +146,6 @@ NbNavigationControl::getSceneGraph(void) const
 void
 NbNavigationControl::setCamera(SoCamera * camera)
 {
-  // fprintf(stderr, "NbNavigationControl::setCamera(SoCamera *)\n");
   if (PRIVATE(this)->initcamera) {
     PRIVATE(this)->initcamera->unref();
     PRIVATE(this)->initcamera = NULL;
@@ -241,7 +240,7 @@ NbNavigationControl::restoreCamera(void) const
 */
 
 SoPath *
-NbNavigationControl::pick(SbVec2s pos, SbVec3f & pickpos) const
+NbNavigationControl::pick(SbVec2s pos, SbVec3d & pickpos) const
 {
   SoCamera * camera = this->getCamera();
   SoNode * scene = this->getSceneGraph();
@@ -261,11 +260,39 @@ NbNavigationControl::pick(SbVec2s pos, SbVec3f & pickpos) const
   SoPickedPoint * pp = PRIVATE(this)->rpaction->getPickedPoint();
   if (!pp) {
     PRIVATE(this)->rpaction->reset();
+    pickpos.setValue(0.0, 0.0, 0.0);
     return NULL;
   }
 
   pickpos = pp->getPoint();
-  return pp->getPath();
+
+  SoPath * path = pp->getPath();
+  if (camera->isOfType(PRIVATE(this)->utmcamtype)) {
+    SoSearchAction sa;
+    SbBool searchingchildren = SoBaseKit::isSearchingChildren();
+    SoBaseKit::setSearchingChildren(TRUE);
+    sa.setType(PRIVATE(this)->utmpostype);
+    sa.setInterest(SoSearchAction::LAST);
+    sa.apply(path);
+    SoPath * pospath = sa.getPath();
+    if (pospath) {
+      SoNode * utmposnode = ((SoFullPath *)pospath)->getTail();
+      SoSFVec3d * camposfield = (SoSFVec3d *) camera->getField("utmposition");
+      SoSFVec3d * utmposfield = (SoSFVec3d *) utmposnode->getField("utmposition");
+      assert(camposfield); assert(utmposfield);
+      // pickpos -= utmposfield->getValue();
+      pickpos += camposfield->getValue();
+    } else {
+      // probable incorrect utm setup
+#if 0
+      SoDebugError::postWarning("NbNavigationControl::pick",
+                                "UTMCamera but no UTMPosition node. Probable "
+                                "bogus UTM-based scene graph setup.");
+#endif
+    }
+    SoBaseKit::setSearchingChildren(searchingchildren);
+  }
+  return path;
 }
 
 /*!
@@ -422,6 +449,15 @@ NbNavigationControl::reorientCamera(const SbRotation & rot) const
   // Reposition camera so we are still pointing at the same old focal point.
   camera->orientation.getValue().multVec(SbVec3f(0, 0, -1), direction);
   camera->position = focalpoint - camera->focalDistance.getValue() * direction;
+
+  if (camera->isOfType(PRIVATE(this)->utmcamtype)) {
+    SbVec3d offset = camera->position.getValue();
+    SoSFVec3d * utmpositionfield =
+      (SoSFVec3d *) camera->getField("utmposition");
+    assert(utmpositionfield);
+    utmpositionfield->setValue(utmpositionfield->getValue()+offset);
+    camera->position.setValue(0.0f, 0.0f, 0.0f);
+  }
 }
 
 /*!
@@ -436,9 +472,20 @@ NbNavigationControl::reorientCamera(const SbVec3f & pointat) const
   SbRotation rot = camera->orientation.getValue();
   SbVec3f up;
   rot.multVec(SbVec3f(0, 1, 0), up);
-  SbVec3f vec = pointat - camera->position.getValue();
-  camera->pointAt(pointat, up);
-  camera->focalDistance = vec.length();
+  if (camera->isOfType(PRIVATE(this)->utmcamtype)) {
+    SoSFVec3d * utmcamposfield = (SoSFVec3d *) camera->getField("utmposition");
+    assert(utmcamposfield);
+    SbVec3d campos = utmcamposfield->getValue();
+    SbVec3f camposf((float)campos[0], (float)campos[1], (float)campos[2]);
+    SbVec3f vec = pointat - camposf;
+    SbVec3f point = pointat - camposf;
+    camera->pointAt(point, up);
+    camera->focalDistance = vec.length();
+  } else {
+    SbVec3f vec = pointat - camera->position.getValue();
+    camera->pointAt(pointat, up);
+    camera->focalDistance = vec.length();
+  }
 }
 
 /*!

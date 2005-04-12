@@ -25,6 +25,7 @@
 
 #include <Inventor/SbVec2s.h>
 #include <Inventor/SbVec3f.h>
+#include <Inventor/SbVec3d.h>
 
 #include <NutsnBolts/Basic.h>
 
@@ -53,7 +54,7 @@ public:
   void saveCamera(void) const;
   void restoreCamera(void) const;
 
-  SoPath * pick(SbVec2s pos, SbVec3f & pickpos) const;
+  SoPath * pick(SbVec2s pos, SbVec3d & pickpos) const;
 
   void viewAll(void) const;
 

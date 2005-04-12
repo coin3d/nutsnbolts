@@ -25,6 +25,7 @@
 
 #include <Inventor/events/SoMouseButtonEvent.h>
 #include <Inventor/SbPList.h>
+#include <Inventor/SbVec3d.h>
 
 #include <NutsnBolts/navigation/NbNavigationControl.h>
 #include <NutsnBolts/navigation/NbPickMode.h>
@@ -88,12 +89,12 @@ NbPickMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctrl)
   SoMouseButtonEvent * mbevent = (SoMouseButtonEvent *) event;
   if (mbevent->getButton() == SoMouseButtonEvent::BUTTON1) {
     if (mbevent->getState() == SoButtonEvent::DOWN) {
-      SbVec3f pos;
+      SbVec3d pos;
       SoPath * path = ctrl->pick(event->getPosition(), pos);
       if ( path ) {
         this->invokePickCallbacks(pos, path);
       } else {
-        this->invokePickCallbacks(SbVec3f(0, 0, 0), NULL);
+        this->invokePickCallbacks(SbVec3d(0, 0, 0), NULL);
       }
     } else {
       // button up - do nothing, but don't pass event on
@@ -128,7 +129,7 @@ NbPickMode::removePickCallback(NbPickModePickCB * cb, void * closure)
 }
 
 void
-NbPickMode::invokePickCallbacks(const SbVec3f & pos, const SoPath * path)
+NbPickMode::invokePickCallbacks(const SbVec3d & pos, const SoPath * path)
 {
   const int max = PRIVATE(this)->callbacks.getLength();
   int i;

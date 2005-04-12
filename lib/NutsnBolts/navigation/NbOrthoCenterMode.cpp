@@ -24,6 +24,7 @@
 #include <assert.h>
 
 #include <Inventor/SbVec3f.h>
+#include <Inventor/SbVec3d.h>
 #include <Inventor/SbPlane.h>
 #include <Inventor/events/SoLocation2Event.h>
 #include <Inventor/events/SoMouseButtonEvent.h>
@@ -109,7 +110,7 @@ NbOrthoCenterMode::handleEvent(const SoEvent * event, const NbNavigationControl 
     return FALSE;
   }
 
-  SbVec3f pickpos;
+  SbVec3d pickpos;
   SoPath * path = ctrl->pick(event->getPosition(), pickpos);
 
   if (path != NULL) {
@@ -122,11 +123,12 @@ NbOrthoCenterMode::handleEvent(const SoEvent * event, const NbNavigationControl 
 
     SbPlane plane(pos, pos+up, pos+right);
 
-    float distance = plane.getDistance(pickpos);
+    SbVec3f pickposf((float)pickpos[0], (float)pickpos[1], (float)pickpos[2]);
+    float distance = plane.getDistance(pickposf);
     SbVec3f normal = plane.getNormal();
     normal.normalize();
 
-    SbVec3f newpos = pickpos - (normal * distance);
+    SbVec3f newpos = pickposf - (normal * distance);
     camera->position.setValue(newpos);
     // fprintf(stderr, "orthomode move from <%f %f %f> to <%f %f %f>\n",
     //         pos[0], pos[1], pos[2], newpos[0], newpos[1], newpos[2]);
