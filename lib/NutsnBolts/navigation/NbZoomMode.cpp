@@ -185,8 +185,9 @@ NbZoomMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctrl)
 
     if (camera->isOfType(SoType::fromName("UTMCamera"))) {
       SoSFVec3d * utmposfield = (SoSFVec3d *) camera->getField("utmposition");
-      utmposfield->setValue(utmposfield->getValue() +
-                            SbVec3d(camera->position.getValue()));
+      SbVec3d camposd;
+      camposd.setValue(camera->position.getValue());
+      utmposfield->setValue(utmposfield->getValue() + camposd);
       camera->position.setValue(0.0f, 0.0f, 0.0f);
     }
   } else {

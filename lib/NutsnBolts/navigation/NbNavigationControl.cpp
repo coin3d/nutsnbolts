@@ -264,7 +264,7 @@ NbNavigationControl::pick(SbVec2s pos, SbVec3d & pickpos) const
     return NULL;
   }
 
-  pickpos = pp->getPoint();
+  pickpos.setValue(pp->getPoint());
 
   SoPath * path = pp->getPath();
   if (camera->isOfType(PRIVATE(this)->utmcamtype)) {
@@ -451,7 +451,8 @@ NbNavigationControl::reorientCamera(const SbRotation & rot) const
   camera->position = focalpoint - camera->focalDistance.getValue() * direction;
 
   if (camera->isOfType(PRIVATE(this)->utmcamtype)) {
-    SbVec3d offset = camera->position.getValue();
+    SbVec3d offset;
+    offset.setValue(camera->position.getValue());
     SoSFVec3d * utmpositionfield =
       (SoSFVec3d *) camera->getField("utmposition");
     assert(utmpositionfield);
@@ -604,7 +605,9 @@ NbNavigationControl::moveCamera(const SbVec3f & distance) const
       camera->isOfType(PRIVATE(this)->utmcamtype)) {
     SoSFVec3d * utmposfield = (SoSFVec3d *) camera->getField("utmposition");
     assert(utmposfield);
-    *utmposfield = utmposfield->getValue() + SbVec3d(distance);
+    SbVec3d distanced;
+    distanced.setValue(distance);
+    *utmposfield = utmposfield->getValue() + distanced;
   } else {
     camera->position = camera->position.getValue() + distance;
   }
@@ -630,7 +633,9 @@ NbNavigationControl::moveCamera(float factor, SbBool keepfocalpoint) const
       camera->isOfType(PRIVATE(this)->utmcamtype)) {
     SoSFVec3d * utmposfield = (SoSFVec3d *) camera->getField("utmposition");
     assert(utmposfield);
-    *utmposfield = utmposfield->getValue() + SbVec3d(vec * factor);
+    SbVec3d sizedvec;
+    sizedvec.setValue(vec*factor);
+    *utmposfield = utmposfield->getValue() + sizedvec;
   } else {
     camera->position = camera->position.getValue() + (vec * factor);
   }
