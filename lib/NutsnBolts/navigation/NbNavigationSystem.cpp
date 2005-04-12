@@ -831,6 +831,7 @@ NbNavigationSystem::processEvent(const SoEvent * event)
       retval = TRUE; // transitions should always be considered handled events
       break;
     }
+    break;
   }
 
   // no transition - just regular event processing
