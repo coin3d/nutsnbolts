@@ -23,8 +23,7 @@
  *
 \**************************************************************************/
 
-class SbVec3d;
-
+#include <Inventor/SbVec3d.h>
 #include <NutsnBolts/navigation/NbNavigationMode.h>
 
 class NbPickModeP;
