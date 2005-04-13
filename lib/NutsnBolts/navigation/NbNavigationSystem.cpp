@@ -33,6 +33,7 @@
 #include <Inventor/events/SoKeyboardEvent.h>
 #include <Inventor/events/SoMouseButtonEvent.h>
 #include <Inventor/actions/SoSearchAction.h>
+#include <Inventor/nodekits/SoBaseKit.h>
 
 #include <NutsnBolts/misc/SoEvent.h>
 #include <NutsnBolts/navigation/NbNavigationState.h>
@@ -673,10 +674,13 @@ NbNavigationSystem::viewPart(SoNode * node, const SbVec3f & in, const SbVec3f & 
 {
   SoNode * root = PRIVATE(this)->ctrl->getSceneGraph();
   if (!root) return;
+  SbBool searchingchildren = SoBaseKit::isSearchingChildren();
+  SoBaseKit::setSearchingChildren(TRUE);
   SoSearchAction sa;
   sa.setInterest(SoSearchAction::FIRST);
   sa.setNode(node);
   sa.apply(root);
+  SoBaseKit::setSearchingChildren(searchingchildren);
   if (!sa.getPath()) return;
   this->viewPart(sa.getPath(), in, up);
 }
