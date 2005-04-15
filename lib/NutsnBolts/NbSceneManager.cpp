@@ -1085,13 +1085,9 @@ void
 NbSceneManagerP::setClippingPlanes(void)
 {
   SoCamera * camera = this->getCamera();
-  if (!camera) {
-    return;
-  }
+  if (!camera) { return; }
   SoNode * root = this->master->getSceneGraph();
-  if (!root) {
-    return;
-  }
+  if (!root) { return; }
 
   SbViewportRegion vp = this->master->getViewportRegion();
 
