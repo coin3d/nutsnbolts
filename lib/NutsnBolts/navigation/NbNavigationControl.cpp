@@ -356,24 +356,30 @@ NbNavigationControl::viewPart(SoPath * path, const SbVec3f & in, const SbVec3f &
   SoCamera * camera = this->getCamera();
   if (camera == NULL || path == NULL) return;
 
+#if 0
+  // do we need this position offset?
+  SbVec3d pos(0, 0, 0);
   if (PRIVATE(this)->utmcamtype != SoType::badType() &&
       camera->isOfType(PRIVATE(this)->utmcamtype)) {
     // we need to set UTMCamera->utmposition to some initial value not too far
     // off the world space limits to reduce floating point precision errors
+    fprintf(stderr, "> UTMCamera\n");
     SoSearchAction sa;
     SbBool sc = SoBaseKit::isSearchingChildren();
     SoBaseKit::setSearchingChildren(TRUE);
     sa.setSearchingAll(TRUE);
-    sa.setInterest(SoSearchAction::FIRST);
+    sa.setInterest(SoSearchAction::LAST);
     sa.setType(PRIVATE(this)->utmpostype);
     sa.apply(path);
     if (sa.getPath()) {
       // introspective code since we don't #include class declarations
       SoFieldContainer * utmpos = ((SoFullPath *) sa.getPath())->getTail();
       SoSFVec3d * utmposfield = (SoSFVec3d *) utmpos->getField("utmposition");
+      assert(utmposfield);
+      pos = utmposfield->getValue();
       SoSFVec3d * camposfield = (SoSFVec3d *) camera->getField("utmposition");
-      assert(camposfield && utmposfield);
-      *camposfield = *utmposfield;
+      assert(camposfield);
+      // *camposfield = *utmposfield;
     }
     else {
       SoDebugError::postWarning("NbNavigationControl::viewPart",
@@ -383,15 +389,24 @@ NbNavigationControl::viewPart(SoPath * path, const SbVec3f & in, const SbVec3f &
     }
     SoBaseKit::setSearchingChildren(sc);
   }
-  SbViewportRegion vp(this->getViewportSize());
+#endif
 
+  SbViewportRegion vp(this->getViewportSize());
   SoGetBoundingBoxAction gbba(vp);
   gbba.apply(path);
   SbBox3f bb = gbba.getBoundingBox();
-  camera->position.setValue(bb.getCenter() - in); // will be moved further
+  SbVec3f center;
+  center = bb.getCenter();
+  // SbVec3f offset((float)pos[0], (float)pos[1], (float)pos[2]);
+  camera->position.setValue(center - (in * 10000.0f)); // move away
+  camera->pointAt(center);
+  SbVec3f oldup = PRIVATE(this)->upvec;
+  PRIVATE(this)->upvec = up;
+  this->resetRoll();
+  PRIVATE(this)->upvec = oldup;
 
-  const float slack = 0.001f;
-  camera->viewAll(path, vp, slack);
+  camera->viewAll(path, vp, 0.001f);
+
   if (PRIVATE(this)->utmcamtype != SoType::badType() &&
       camera->isOfType(PRIVATE(this)->utmcamtype)) {
     // move from position to utmposition and set position to (0,0,0)
@@ -401,14 +416,9 @@ NbNavigationControl::viewPart(SoPath * path, const SbVec3f & in, const SbVec3f &
     SbVec3d tmp;
     tmp.setValue(camera->position.getValue());
     utmpos += tmp;
-    camera->position = SbVec3f(0.0f, 0.0f, 0.0f);
+    camera->position.setValue(0.0f, 0.0f, 0.0f);
     camposfield->setValue(utmpos);
   }
-
-  SbVec3f oldup = PRIVATE(this)->upvec;
-  PRIVATE(this)->upvec = up;
-  this->resetRoll();
-  PRIVATE(this)->upvec = oldup;
 }
 
 /*!
@@ -620,7 +630,7 @@ NbNavigationControl::moveCamera(const SbVec3f & distance) const
 */
 
 void
-NbNavigationControl::moveCamera(float factor, SbBool keepfocalpoint) const
+NbNavigationControl::moveCamera(float factor, const SbBool keepfocalpoint) const
 {
   SoCamera * camera = this->getCamera();
   if (camera == NULL) return;
