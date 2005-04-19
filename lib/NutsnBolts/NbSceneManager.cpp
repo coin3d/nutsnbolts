@@ -303,6 +303,7 @@
 class NbSceneManagerP {
 public:
   NbSceneManagerP(NbSceneManager * api);
+  ~NbSceneManagerP(void);
 
   void clearBuffers(SbBool color, SbBool depth);
   SoCamera * getCamera(void);
@@ -382,6 +383,7 @@ NbSceneManager::NbSceneManager(void)
 
 NbSceneManager::~NbSceneManager(void)
 {
+  this->setSceneGraph(NULL);
   PRIVATE(this)->dummynode->unref();
   if (PRIVATE(this)->autoclipsensor) {
     delete PRIVATE(this)->autoclipsensor;
@@ -398,6 +400,10 @@ NbSceneManager::~NbSceneManager(void)
   if (PRIVATE(this)->getmatrixaction) {
     delete PRIVATE(this)->getmatrixaction;
     PRIVATE(this)->getmatrixaction = NULL;
+  }
+  if (PRIVATE(this)->navigationsystem) {
+    delete PRIVATE(this)->navigationsystem;
+    PRIVATE(this)->navigationsystem = NULL;
   }
   delete PRIVATE(this);
 }
@@ -427,7 +433,7 @@ NbSceneManager::render(const SbBool clearwindow,
         SoDebugError::postWarning("NbSceneManger::render",
                                   "You are using an UTMCamera, and the "
                                   "non-utm camera position has strayed from "
-                                  "origo (%f, %f %f), meaning your navigation "
+                                  "origo (%g, %g, %g), meaning your navigation "
                                   "code is not UTM aware. This ought to be "
                                   "fixed. This warning will not be shown "
                                   "again.", campos[0], campos[1], campos[2]);
@@ -783,41 +789,41 @@ NbSceneManager::setSceneGraph(SoNode * const root)
     if (PRIVATE(this)->autoclipping != NbSceneManager::NO_AUTO_CLIPPING) {
       PRIVATE(this)->setClippingPlanes();
     }
-  }
 
-  // set up navigation mode if scene graph contains navigation mode node.
-  PRIVATE(this)->searchaction.reset();
-  PRIVATE(this)->searchaction.setType(SoCamera::getClassTypeId());
-  PRIVATE(this)->searchaction.setInterest(SoSearchAction::FIRST);
-  PRIVATE(this)->searchaction.apply(root);
-  SoPath * path = PRIVATE(this)->searchaction.getPath();
-  if (path) {
-    path->ref();
+    // set up navigation mode if scene graph contains navigation mode node.
     PRIVATE(this)->searchaction.reset();
-    PRIVATE(this)->searchaction.setType(NbViewerNavigationMode::getClassTypeId());
+    PRIVATE(this)->searchaction.setType(SoCamera::getClassTypeId());
     PRIVATE(this)->searchaction.setInterest(SoSearchAction::FIRST);
-    PRIVATE(this)->searchaction.apply(path);
-    path->unref();
-    path = PRIVATE(this)->searchaction.getPath();
+    PRIVATE(this)->searchaction.apply(root);
+    SoPath * path = PRIVATE(this)->searchaction.getPath();
     if (path) {
       path->ref();
-      NbViewerNavigationMode * mode = (NbViewerNavigationMode *) path->getTail();
-      assert(mode && mode->isOfType(NbViewerNavigationMode::getClassTypeId()));
-      SbString modestring = mode->mode.getValue();
+      PRIVATE(this)->searchaction.reset();
+      PRIVATE(this)->searchaction.setType(NbViewerNavigationMode::getClassTypeId());
+      PRIVATE(this)->searchaction.setInterest(SoSearchAction::FIRST);
+      PRIVATE(this)->searchaction.apply(path);
       path->unref();
-      if (modestring.getLength() > 0) {
-        NbNavigationSystem * system =
-          NbNavigationSystem::getByName(modestring.getString());
-        this->setNavigationSystem(system);
-      } else {
-        // node but no string - use a default system
-        NbNavigationSystem * system =
-          NbNavigationSystem::getByName(NB_DEFAULT_SYSTEM);
-        this->setNavigationSystem(system);
+      path = PRIVATE(this)->searchaction.getPath();
+      if (path) {
+        path->ref();
+        NbViewerNavigationMode * mode = (NbViewerNavigationMode *) path->getTail();
+        assert(mode && mode->isOfType(NbViewerNavigationMode::getClassTypeId()));
+        SbString modestring = mode->mode.getValue();
+        path->unref();
+        if (modestring.getLength() > 0) {
+          NbNavigationSystem * system =
+            NbNavigationSystem::getByName(modestring.getString());
+          this->setNavigationSystem(system);
+        } else {
+          // node but no string - use a default system
+          NbNavigationSystem * system =
+            NbNavigationSystem::getByName(NB_DEFAULT_SYSTEM);
+          this->setNavigationSystem(system);
+        }
       }
     }
+    PRIVATE(this)->searchaction.reset();
   }
-  PRIVATE(this)->searchaction.reset();
 
   assert(PRIVATE(this)->navigationsystem);
   PRIVATE(this)->navigationsystem->setSceneGraph(root);
@@ -949,6 +955,10 @@ NbSceneManagerP::NbSceneManagerP(NbSceneManager * api)
   this->depthbits = -1;
 }
 
+NbSceneManagerP::~NbSceneManagerP(void)
+{
+}
+
 void
 NbSceneManagerP::clearBuffers(SbBool color, SbBool depth)
 {
@@ -964,6 +974,7 @@ SoCamera *
 NbSceneManagerP::getCamera(void)
 {
   if (this->camera) return this->camera;
+  if (!master->getSceneGraph()) return NULL;
   this->searchaction.setType(SoCamera::getClassTypeId());
   this->searchaction.setInterest(SoSearchAction::FIRST);
   SbBool old = SoBaseKit::isSearchingChildren();
