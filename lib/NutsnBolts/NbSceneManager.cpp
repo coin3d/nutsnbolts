@@ -740,6 +740,11 @@ NbSceneManager::getNavigationState(void) const
 void
 NbSceneManager::setNavigationSystem(NbNavigationSystem * system)
 {
+  if (PRIVATE(this)->navigationsystem) {
+    PRIVATE(this)->navigationsystem->setCamera(NULL);
+    PRIVATE(this)->navigationsystem->setSceneGraph(NULL);
+  }
+
   if (system) {
     PRIVATE(this)->navigationsystem = system;
   } else {
