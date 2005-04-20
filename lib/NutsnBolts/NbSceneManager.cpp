@@ -401,10 +401,13 @@ NbSceneManager::~NbSceneManager(void)
     delete PRIVATE(this)->getmatrixaction;
     PRIVATE(this)->getmatrixaction = NULL;
   }
+#if 0
+  // FIXME: a navigationsystem ownership policy has to be developed
   if (PRIVATE(this)->navigationsystem) {
     delete PRIVATE(this)->navigationsystem;
     PRIVATE(this)->navigationsystem = NULL;
   }
+#endif
   delete PRIVATE(this);
 }
 
