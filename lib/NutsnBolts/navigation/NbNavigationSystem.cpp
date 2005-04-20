@@ -61,7 +61,7 @@
   system that allows for user interaction without having to deploy a
   full GUI toolkit viewer.
 
-  This is done by atatching an object of type NbNavigationSystem to
+  This is done by attaching an object of type NbNavigationSystem to
   the NbSceneManager that will listen to all events sent to the scene
   and perform user-based camera navigation based on those events.
 
@@ -820,7 +820,7 @@ NbNavigationSystem::processEvent(const SoEvent * event)
       }
       retval = TRUE; // transitions should always be considered handled events
       break;
-
+      
     case STACK:
     case SWITCH:
       mode->processEvent(event, PRIVATE(this)->ctrl);
@@ -910,7 +910,7 @@ NbNavigationSystem::addModeTransition(NbNavigationMode * mode,
 }
 
 /*!
-  Ads a mode transition.
+  Adds a mode transition.
 */
 
 void
