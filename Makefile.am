@@ -5,7 +5,9 @@ else
 AppsDir =
 endif
 
-SUBDIRS = lib $(AppsDir)
+EXTRA_DIST_FILES = cfg/gendsp.sh.in
+
+SUBDIRS = bin lib $(AppsDir)
 
 CLEANFILES = .\#* *.pdb *~
 
