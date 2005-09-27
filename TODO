@@ -1,0 +1,5 @@
+- implement reference counting for NavigationMode/NavigationSystem
+- improve/simplify mode network setup
+- implement concept: visualizations (rubber-band)
+- implement concept: navigation vehicles (zoom, spin, [helicopter...])
+- resolve problem: multiple viewers - navigation-system-sharing
