@@ -3,3 +3,6 @@
 - implement concept: visualizations (rubber-band)
 - implement concept: navigation vehicles (zoom, spin, [helicopter...])
 - resolve problem: multiple viewers - navigation-system-sharing
+
+- look at event loss problem (widget/window system-related?)
+- mouse "click", "double-click", detection
