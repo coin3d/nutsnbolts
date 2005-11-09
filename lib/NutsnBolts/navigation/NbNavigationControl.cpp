@@ -267,7 +267,8 @@ NbNavigationControl::pick(SbVec2s pos, SbVec3d & pickpos) const
   pickpos.setValue(pp->getPoint());
 
   SoPath * path = pp->getPath();
-  if (camera->isOfType(PRIVATE(this)->utmcamtype)) {
+  if (PRIVATE(this)->utmcamtype != SoType::badType() &&
+      camera->isOfType(PRIVATE(this)->utmcamtype)) {
     SoSearchAction sa;
     SbBool searchingchildren = SoBaseKit::isSearchingChildren();
     SoBaseKit::setSearchingChildren(TRUE);
@@ -361,7 +362,9 @@ NbNavigationControl::viewPart(SoPath * path, const SbVec3f & in, const SbVec3f &
     SbBool oldsearch = SoBaseKit::isSearchingChildren();
     SoBaseKit::setSearchingChildren(TRUE);
 
-    if (camera->isOfType(SoType::fromName("UTMCamera"))) {
+    if (PRIVATE(this)->utmcamtype != SoType::badType() &&
+        camera->isOfType(PRIVATE(this)->utmcamtype)) {
+      
       SoSearchAction sa;
       sa.setSearchingAll(TRUE);
       sa.setInterest(SoSearchAction::FIRST);
@@ -385,7 +388,9 @@ NbNavigationControl::viewPart(SoPath * path, const SbVec3f & in, const SbVec3f &
     SbViewportRegion vp(this->getViewportSize());
     camera->viewAll(path, vp, 0.001f);
 
-    if (camera->isOfType(SoType::fromName("UTMCamera"))) {
+    if (PRIVATE(this)->utmcamtype != SoType::badType() &&
+        camera->isOfType(PRIVATE(this)->utmcamtype)) {
+      
       SoSFVec3d * camutmposition = (SoSFVec3d *) camera->getField("utmposition");
       SbVec3d utmpos = camutmposition->getValue();
       SbVec3d tmp;
@@ -397,7 +402,9 @@ NbNavigationControl::viewPart(SoPath * path, const SbVec3f & in, const SbVec3f &
     
     // focalpoint is now center point
     
-    if (camera->isOfType(SoType::fromName("UTMCamera"))) {
+    if (PRIVATE(this)->utmcamtype != SoType::badType() &&
+        camera->isOfType(PRIVATE(this)->utmcamtype)) {
+      
       SoSFVec3d * camutmposition = (SoSFVec3d *) camera->getField("utmposition");
       SbVec3d focalpoint = camutmposition->getValue();
       
@@ -472,7 +479,8 @@ NbNavigationControl::reorientCamera(const SbRotation & rot) const
   camera->orientation.getValue().multVec(SbVec3f(0, 0, -1), direction);
   camera->position = focalpoint - camera->focalDistance.getValue() * direction;
 
-  if (camera->isOfType(PRIVATE(this)->utmcamtype)) {
+  if (PRIVATE(this)->utmcamtype != SoType::badType() &&
+      camera->isOfType(PRIVATE(this)->utmcamtype)) {
     SbVec3d offset;
     offset.setValue(camera->position.getValue());
     SoSFVec3d * utmpositionfield =
@@ -495,7 +503,8 @@ NbNavigationControl::reorientCamera(const SbVec3f & pointat) const
   SbRotation rot = camera->orientation.getValue();
   SbVec3f up;
   rot.multVec(SbVec3f(0, 1, 0), up);
-  if (camera->isOfType(PRIVATE(this)->utmcamtype)) {
+  if (PRIVATE(this)->utmcamtype != SoType::badType() &&
+      camera->isOfType(PRIVATE(this)->utmcamtype)) {
     SoSFVec3d * utmcamposfield = (SoSFVec3d *) camera->getField("utmposition");
     assert(utmcamposfield);
     SbVec3d campos = utmcamposfield->getValue();
