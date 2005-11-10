@@ -183,7 +183,10 @@ NbZoomMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctrl)
       camera->focalDistance = newfocaldist;
     }
 
-    if (camera->isOfType(SoType::fromName("UTMCamera"))) {
+    SoType utmcamtype = SoType::fromName("UTMCamera");
+  if (utmcamtype != SoType::badType() &&
+      camera->isOfType(utmcamtype)) {
+    
       SoSFVec3d * utmposfield = (SoSFVec3d *) camera->getField("utmposition");
       SbVec3d camposd;
       camposd.setValue(camera->position.getValue());
