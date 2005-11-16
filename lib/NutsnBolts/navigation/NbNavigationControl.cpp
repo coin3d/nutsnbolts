@@ -408,12 +408,12 @@ NbNavigationControl::viewPart(SoPath * path, const SbVec3f & in, const SbVec3f &
       SoSFVec3d * camutmposition = (SoSFVec3d *) camera->getField("utmposition");
       SbVec3d focalpoint = camutmposition->getValue();
       
-      const float focaldist = camera->focalDistance.getValue();
+      const double focaldist = (double) camera->focalDistance.getValue();
       SbRotation camrot = camera->orientation.getValue();
-      SbVec3f dir(0, 0, -1);
+      SbVec3f dir(0.0f, 0.0f, -1.0f);
       camrot.multVec(dir, dir);
       SbVec3d dird(dir[0], dir[1], dir[2]);
-      focalpoint += dir * focaldist;
+      focalpoint += dird * focaldist;
       
       SbVec3d invec(in[0], in[1], in[2]);
       invec.normalize();
