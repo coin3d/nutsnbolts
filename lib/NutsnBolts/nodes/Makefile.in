@@ -106,6 +106,7 @@ NUTSNBOLTS_EXTRA_CPPFLAGS = @NUTSNBOLTS_EXTRA_CPPFLAGS@
 NUTSNBOLTS_EXTRA_CXXFLAGS = @NUTSNBOLTS_EXTRA_CXXFLAGS@
 NUTSNBOLTS_EXTRA_LDFLAGS = @NUTSNBOLTS_EXTRA_LDFLAGS@
 NUTSNBOLTS_EXTRA_LIBS = @NUTSNBOLTS_EXTRA_LIBS@
+NUTSNBOLTS_LIB_DSP_DEFS = @NUTSNBOLTS_LIB_DSP_DEFS@
 OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
@@ -188,11 +189,15 @@ CLEANFILES = .\#* *.bak *~ *.lst
 
 SourceFiles = \
 	NbViewerNavigationMode.cpp \
-	NbViewerNavigationMode.h
+	NbViewerNavigationMode.h \
+	NbEventNode.cpp NbEventNode.h \
+	NbScriptEvent.cpp NbScriptEvent.h
 
 
 HeaderFiles = \
-	NbViewerNavigationMode.h
+	NbViewerNavigationMode.h \
+	NbEventNode.h \
+	NbScriptEvent.h
 
 
 libNutsnBoltsNodesincdir = $(includedir)/NutsnBolts/nodes
@@ -211,19 +216,25 @@ LIBRARIES = $(noinst_LIBRARIES)
 
 nodes_lst_AR = $(AR) cru
 nodes_lst_LIBADD =
-am__objects_1 = NbViewerNavigationMode.$(OBJEXT)
+am__objects_1 = NbViewerNavigationMode.$(OBJEXT) NbEventNode.$(OBJEXT) \
+	NbScriptEvent.$(OBJEXT)
 am_nodes_lst_OBJECTS = $(am__objects_1)
 nodes_lst_OBJECTS = $(am_nodes_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 libNutsnBoltsNodes_la_LDFLAGS =
 libNutsnBoltsNodes_la_LIBADD =
-am__objects_2 = NbViewerNavigationMode.lo
+am__objects_2 = NbViewerNavigationMode.lo NbEventNode.lo \
+	NbScriptEvent.lo
 am_libNutsnBoltsNodes_la_OBJECTS = $(am__objects_2)
 libNutsnBoltsNodes_la_OBJECTS = $(am_libNutsnBoltsNodes_la_OBJECTS)
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/NbViewerNavigationMode.Plo \
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/NbEventNode.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/NbEventNode.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/NbScriptEvent.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/NbScriptEvent.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/NbViewerNavigationMode.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/NbViewerNavigationMode.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -276,6 +287,10 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbEventNode.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbEventNode.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbScriptEvent.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbScriptEvent.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbViewerNavigationMode.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbViewerNavigationMode.Po@am__quote@
 

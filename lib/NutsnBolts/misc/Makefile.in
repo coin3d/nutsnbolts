@@ -106,6 +106,7 @@ NUTSNBOLTS_EXTRA_CPPFLAGS = @NUTSNBOLTS_EXTRA_CPPFLAGS@
 NUTSNBOLTS_EXTRA_CXXFLAGS = @NUTSNBOLTS_EXTRA_CXXFLAGS@
 NUTSNBOLTS_EXTRA_LDFLAGS = @NUTSNBOLTS_EXTRA_LDFLAGS@
 NUTSNBOLTS_EXTRA_LIBS = @NUTSNBOLTS_EXTRA_LIBS@
+NUTSNBOLTS_LIB_DSP_DEFS = @NUTSNBOLTS_LIB_DSP_DEFS@
 OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
@@ -188,8 +189,16 @@ CLEANFILES = .\#* *.bak *~ *.lst
 
 SourceFiles = \
 	SoEvent.cpp \
-	SoEvent.h
+	SoEvent.h \
+	NbNamedEvent.cpp NbNamedEvent.h
 
+
+HeaderFiles = \
+	NbNamedEvent.h
+
+
+libNutsnBoltsMiscincdir = $(includedir)/NutsnBolts/misc
+libNutsnBoltsMiscinc_HEADERS = $(HeaderFiles)
 
 libNutsnBoltsMisc_la_SOURCES = $(SourceFiles)
 
@@ -204,19 +213,21 @@ LIBRARIES = $(noinst_LIBRARIES)
 
 misc_lst_AR = $(AR) cru
 misc_lst_LIBADD =
-am__objects_1 = SoEvent.$(OBJEXT)
+am__objects_1 = SoEvent.$(OBJEXT) NbNamedEvent.$(OBJEXT)
 am_misc_lst_OBJECTS = $(am__objects_1)
 misc_lst_OBJECTS = $(am_misc_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 libNutsnBoltsMisc_la_LDFLAGS =
 libNutsnBoltsMisc_la_LIBADD =
-am__objects_2 = SoEvent.lo
+am__objects_2 = SoEvent.lo NbNamedEvent.lo
 am_libNutsnBoltsMisc_la_OBJECTS = $(am__objects_2)
 libNutsnBoltsMisc_la_OBJECTS = $(am_libNutsnBoltsMisc_la_OBJECTS)
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/SoEvent.Plo ./$(DEPDIR)/SoEvent.Po
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/NbNamedEvent.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/NbNamedEvent.Po ./$(DEPDIR)/SoEvent.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/SoEvent.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -233,7 +244,9 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 DIST_SOURCES = $(misc_lst_SOURCES) $(libNutsnBoltsMisc_la_SOURCES)
-DIST_COMMON = Makefile.am Makefile.in
+HEADERS = $(libNutsnBoltsMiscinc_HEADERS)
+
+DIST_COMMON = $(libNutsnBoltsMiscinc_HEADERS) Makefile.am Makefile.in
 SOURCES = $(misc_lst_SOURCES) $(libNutsnBoltsMisc_la_SOURCES)
 
 all: all-am
@@ -266,6 +279,8 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbNamedEvent.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbNamedEvent.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoEvent.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoEvent.Po@am__quote@
 
@@ -314,6 +329,24 @@ clean-libtool:
 distclean-libtool:
 	-rm -f libtool
 uninstall-info-am:
+libNutsnBoltsMiscincHEADERS_INSTALL = $(INSTALL_HEADER)
+install-libNutsnBoltsMiscincHEADERS: $(libNutsnBoltsMiscinc_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(libNutsnBoltsMiscincdir)
+	@list='$(libNutsnBoltsMiscinc_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " $(libNutsnBoltsMiscincHEADERS_INSTALL) $$d$$p $(DESTDIR)$(libNutsnBoltsMiscincdir)/$$f"; \
+	  $(libNutsnBoltsMiscincHEADERS_INSTALL) $$d$$p $(DESTDIR)$(libNutsnBoltsMiscincdir)/$$f; \
+	done
+
+uninstall-libNutsnBoltsMiscincHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(libNutsnBoltsMiscinc_HEADERS)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(libNutsnBoltsMiscincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(libNutsnBoltsMiscincdir)/$$f; \
+	done
 
 ETAGS = etags
 ETAGSFLAGS =
@@ -402,9 +435,10 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LIBRARIES) $(LTLIBRARIES)
+all-am: Makefile $(LIBRARIES) $(LTLIBRARIES) $(HEADERS)
 
 installdirs:
+	$(mkinstalldirs) $(DESTDIR)$(libNutsnBoltsMiscincdir)
 install: install-am
 install-exec: install-exec-am
 install-data: install-data-am
@@ -448,7 +482,7 @@ info: info-am
 
 info-am:
 
-install-data-am:
+install-data-am: install-libNutsnBoltsMiscincHEADERS
 
 install-exec-am:
 
@@ -475,7 +509,7 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-info-am
+uninstall-am: uninstall-info-am uninstall-libNutsnBoltsMiscincHEADERS
 
 .PHONY: CTAGS GTAGS all all-am check check-am clean clean-generic \
 	clean-libtool clean-noinstLIBRARIES clean-noinstLTLIBRARIES \
@@ -483,11 +517,12 @@ uninstall-am: uninstall-info-am
 	distclean-generic distclean-libtool distclean-tags distdir dvi \
 	dvi-am info info-am install install-am install-data \
 	install-data-am install-exec install-exec-am install-info \
-	install-info-am install-man install-strip installcheck \
-	installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags uninstall uninstall-am uninstall-info-am
+	install-info-am install-libNutsnBoltsMiscincHEADERS install-man \
+	install-strip installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-compile mostlyclean-generic mostlyclean-libtool pdf \
+	pdf-am ps ps-am tags uninstall uninstall-am uninstall-info-am \
+	uninstall-libNutsnBoltsMiscincHEADERS
 
 
 misc.lst: $(misc_lst_OBJECTS)

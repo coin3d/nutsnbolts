@@ -56,6 +56,17 @@ AC_ARG_ENABLE([msvc],
 ])
 
 # **************************************************************************
+
+AC_DEFUN([SIM_AC_MSVC_VERSION], [
+AC_MSG_CHECKING([Visual Studio C++ version])
+AC_TRY_COMPILE([],
+  [long long number = 0;],
+  [sim_ac_msvc_version=7]
+  [sim_ac_msvc_version=6])
+AC_MSG_RESULT($sim_ac_msvc_version)
+])
+
+# **************************************************************************
 # Note: the SIM_AC_SETUP_MSVC_IFELSE macro has been OBSOLETED and
 # replaced by the one below.
 #
@@ -82,6 +93,29 @@ if $sim_ac_try_msvc; then
       export CC CXX
       BUILD_WITH_MSVC=true
       AC_MSG_RESULT([working])
+
+      # FIXME: why is this here, larsa? 20050714 mortene.
+      # SIM_AC_MSVC_VERSION
+
+      # Robustness: we had multiple reports of Cygwin ''link'' getting in
+      # the way of MSVC link.exe, so do a little sanity check for that.
+      #
+      # FIXME: a better fix would be to call link.exe with full path from
+      # the wrapmsvc wrapper, to avoid any trouble with this -- I believe
+      # that should be possible, using the dirname of the full cl.exe path.
+      # 20050714 mortene.
+      sim_ac_check_link=`type link`
+      AC_MSG_CHECKING([whether Cygwin's /usr/bin/link shadows MSVC link.exe])
+      case x"$sim_ac_check_link" in
+      x"link is /usr/bin/link"* )
+        AC_MSG_RESULT(yes)
+        SIM_AC_ERROR([cygwin-link])
+        ;;
+      * )
+        AC_MSG_RESULT(no)
+        ;;
+      esac
+
     else
       case $host in
       *-cygwin)
@@ -339,7 +373,7 @@ fi
 ]) # SIM_AC_CONFIGURATION_SUMMARY
 
 
-# **************************************************************************
+ **************************************************************************
 # gendsp.m4
 #
 # macros:
@@ -371,6 +405,7 @@ AC_REQUIRE([SIM_AC_MSVC_DSP_ENABLE_OPTION])
 $1_DSP_LIBDIRS=
 $1_DSP_LIBS=
 $1_DSP_INCS=
+$1_LIB_DSP_DEFS=
 $1_DSP_DEFS=
 
 if $sim_ac_make_dsp; then
@@ -421,6 +456,15 @@ if $sim_ac_make_dsp; then
       else
         $1_DSP_DEFS="[$]$1_DSP_DEFS /D \"$define\""
       fi
+      if (echo $define | grep _MAKE_DLL) >/dev/null 2>&1; then
+        :
+      else
+        if test x"[$]$1_DSP_DEFS" = x""; then
+          $1_LIB_DSP_DEFS="/D \"$define\""
+        else
+          $1_LIB_DSP_DEFS="[$]$1_LIB_DSP_DEFS /D \"$define\""
+        fi
+      fi
       ;;
     esac
   done
@@ -446,6 +490,7 @@ fi
 AC_SUBST([$1_DSP_LIBS])
 AC_SUBST([$1_DSP_INCS])
 AC_SUBST([$1_DSP_DEFS])
+AC_SUBST([$1_LIB_DSP_DEFS])
 ])
 
 
@@ -7396,11 +7441,13 @@ if $enable_debug; then
     case $CXX in
     *wrapmsvc* )
       # uninitialized checks
-      SIM_AC_CC_COMPILER_OPTION([/RTCu], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS /RTCu"])
-      SIM_AC_CXX_COMPILER_OPTION([/RTCu], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS /RTCu"])
-      # stack frame checks
-      SIM_AC_CC_COMPILER_OPTION([/RTCs], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS /RTCs"])
-      SIM_AC_CXX_COMPILER_OPTION([/RTCs], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS /RTCs"])
+      if test ${sim_ac_msvc_version-0} -gt 6; then
+        SIM_AC_CC_COMPILER_OPTION([/RTCu], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS /RTCu"])
+        SIM_AC_CXX_COMPILER_OPTION([/RTCu], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS /RTCu"])
+        # stack frame checks
+        SIM_AC_CC_COMPILER_OPTION([/RTCs], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS /RTCs"])
+        SIM_AC_CXX_COMPILER_OPTION([/RTCs], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS /RTCs"])
+      fi
       ;;
     esac
   fi
@@ -7892,9 +7939,11 @@ SIM_AC_COMPILE_DEBUG([
       SIM_AC_CC_COMPILER_OPTION([/W3], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS /W3"])
       SIM_AC_CXX_COMPILER_OPTION([/W3], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS /W3"])
 
-      # 64-bit porting warnings
-      SIM_AC_CC_COMPILER_OPTION([/Wp64], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS /Wp64"])
-      SIM_AC_CXX_COMPILER_OPTION([/Wp64], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS /Wp64"])
+      if test ${sim_ac_msvc_version-0} -gt 6; then
+        # 64-bit porting warnings
+        SIM_AC_CC_COMPILER_OPTION([/Wp64], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS /Wp64"])
+        SIM_AC_CXX_COMPILER_OPTION([/Wp64], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS /Wp64"])
+      fi
       ;;
     esac
   fi
@@ -7907,15 +7956,17 @@ ifelse($1, [], :, $1)
 AC_DEFUN([SIM_AC_COMPILER_NOBOOL], [
 sim_ac_nobool_CXXFLAGS=
 sim_ac_have_nobool=false
-AC_MSG_CHECKING([whether $CXX accepts /noBool])
-SIM_AC_CXX_COMPILER_BEHAVIOR_OPTION_QUIET(
-  [/noBool],
-  [int temp],
-  [SIM_AC_CXX_COMPILER_BEHAVIOR_OPTION_QUIET(
+if $BUILD_WITH_MSVC && test x$sim_ac_msvc_version = x6; then
+  AC_MSG_CHECKING([whether $CXX accepts /noBool])
+  SIM_AC_CXX_COMPILER_BEHAVIOR_OPTION_QUIET(
     [/noBool],
-    [bool res = true],
-    [],
-    [sim_ac_have_nobool=true])])
+    [int temp],
+    [SIM_AC_CXX_COMPILER_BEHAVIOR_OPTION_QUIET(
+      [/noBool],
+      [bool res = true],
+      [],
+      [sim_ac_have_nobool=true])])
+fi
  
 if $sim_ac_have_nobool; then
   sim_ac_nobool_CXXFLAGS="/noBool"
@@ -8017,7 +8068,7 @@ sim_ac_oivqt_libs="-lInventorQt"
 sim_ac_save_libs=$LIBS
 LIBS="$sim_ac_oivqt_libs $LIBS"
 
-AC_CACHE_CHECK([for Qt glue library in the Open Inventor developer kit],
+AC_CACHE_CHECK([for InventorQt glue library],
   sim_cv_lib_oivqt_avail,
   [AC_TRY_LINK([#include <Inventor/Qt/SoQt.h>],
                [(void)SoQt::init(0L, 0L);],
@@ -8921,9 +8972,9 @@ sim_ac_ogl_libs=
 AC_ARG_WITH(
   [mesa],
   AC_HELP_STRING([--with-mesa],
-                 [prefer MesaGL (if found) over OpenGL [[default=yes]]]),
+                 [prefer MesaGL (if found) over OpenGL [[default=no]]]),
   [],
-  [with_mesa=yes])
+  [with_mesa=no])
 
 
 sim_ac_ogl_glnames="GL opengl32"
@@ -9936,7 +9987,10 @@ if test x"$with_pthread" != xno; then
   for sim_ac_pthreads_libcheck in "-lpthread" "-pthread"; do
     if $sim_ac_pthread_avail; then :; else
       LIBS="$sim_ac_pthreads_libcheck $sim_ac_save_libs"
-      AC_TRY_LINK([#include <pthread.h>],
+      AC_TRY_LINK([#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+#include <pthread.h>],
                   [(void)pthread_create(0L, 0L, 0L, 0L);],
                   [sim_ac_pthread_avail=true
                    sim_ac_pthread_libs="$sim_ac_pthreads_libcheck"
@@ -9954,7 +10008,10 @@ if test x"$with_pthread" != xno; then
     AC_CACHE_CHECK(
       [the struct timespec resolution],
       sim_cv_lib_pthread_timespec_resolution,
-      [AC_TRY_COMPILE([#include <pthread.h>],
+      [AC_TRY_COMPILE([#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+#include <pthread.h>],
                       [struct timespec timeout;
                        timeout.tv_nsec = 0;],
                       [sim_cv_lib_pthread_timespec_resolution=nsecs],

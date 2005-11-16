@@ -106,6 +106,7 @@ NUTSNBOLTS_EXTRA_CPPFLAGS = @NUTSNBOLTS_EXTRA_CPPFLAGS@
 NUTSNBOLTS_EXTRA_CXXFLAGS = @NUTSNBOLTS_EXTRA_CXXFLAGS@
 NUTSNBOLTS_EXTRA_LDFLAGS = @NUTSNBOLTS_EXTRA_LDFLAGS@
 NUTSNBOLTS_EXTRA_LIBS = @NUTSNBOLTS_EXTRA_LIBS@
+NUTSNBOLTS_LIB_DSP_DEFS = @NUTSNBOLTS_LIB_DSP_DEFS@
 OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
@@ -201,9 +202,9 @@ RECURSIVE_TARGETS = info-recursive dvi-recursive pdf-recursive \
 	installdirs-recursive install-recursive uninstall-recursive \
 	check-recursive installcheck-recursive
 DIST_COMMON = README AUTHORS COPYING ChangeLog INSTALL Makefile.am \
-	Makefile.in NEWS aclocal.m4 cfg/config.guess cfg/config.sub \
-	cfg/depcomp cfg/install-sh cfg/ltmain.sh cfg/missing \
-	cfg/mkinstalldirs configure configure.ac
+	Makefile.in NEWS TODO aclocal.m4 cfg/config.guess \
+	cfg/config.sub cfg/depcomp cfg/install-sh cfg/ltmain.sh \
+	cfg/missing cfg/mkinstalldirs configure configure.ac
 DIST_SUBDIRS = bin lib apps
 all: all-recursive
 

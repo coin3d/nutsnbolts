@@ -11,7 +11,14 @@ endif
 
 SourceFiles = \
 	SoEvent.cpp \
-	SoEvent.h
+	SoEvent.h \
+	NbNamedEvent.cpp NbNamedEvent.h
+
+HeaderFiles = \
+	NbNamedEvent.h
+
+libNutsnBoltsMiscincdir = $(includedir)/NutsnBolts/misc
+libNutsnBoltsMiscinc_HEADERS = $(HeaderFiles)
 
 libNutsnBoltsMisc_la_SOURCES = $(SourceFiles)
 

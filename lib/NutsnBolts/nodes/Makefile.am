@@ -11,10 +11,14 @@ endif
 
 SourceFiles = \
 	NbViewerNavigationMode.cpp \
-	NbViewerNavigationMode.h
+	NbViewerNavigationMode.h \
+	NbEventNode.cpp NbEventNode.h \
+	NbScriptEvent.cpp NbScriptEvent.h
 
 HeaderFiles = \
-	NbViewerNavigationMode.h
+	NbViewerNavigationMode.h \
+	NbEventNode.h \
+	NbScriptEvent.h
 
 libNutsnBoltsNodesincdir = $(includedir)/NutsnBolts/nodes
 libNutsnBoltsNodesinc_HEADERS = $(HeaderFiles)
