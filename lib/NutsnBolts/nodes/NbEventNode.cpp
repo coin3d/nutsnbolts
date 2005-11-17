@@ -108,7 +108,6 @@ NbEventNode::handleEvent(SoHandleEventAction * action)
 SbBool 
 NbEventNode::handleEvent(const SoEvent * event, SoHandleEventAction * action)
 {
-#if 0
   const int n = this->event.getNum();
   if (n == 0) return FALSE;
   
@@ -118,7 +117,6 @@ NbEventNode::handleEvent(const SoEvent * event, SoHandleEventAction * action)
   for (int i = 0; i < n; i++) {
     if (sevents[i]->handle(event, action)) return TRUE;
   }
-#endif
   return FALSE;
 }
 
