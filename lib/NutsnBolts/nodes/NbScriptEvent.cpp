@@ -9,6 +9,8 @@
 #include <Inventor/events/SoMouseButtonEvent.h>
 #include <Inventor/events/SoLocation2Event.h>
 #include <Inventor/SoPickedPoint.h>
+#include <Inventor/C/tidbits.h>
+#include <Inventor/errors/SoDebugError.h>
 #include <assert.h>
 
 /*!
@@ -73,6 +75,16 @@ NbScriptEvent::~NbScriptEvent()
 {
 }
 
+static SbBool debug_events()
+{
+  static int dbg = -1;
+  if (dbg == -1) {
+    const char * env = coin_getenv("NB_DEBUG_EVENTS");
+    dbg = (env && (atoi(env) > 0)) ? 1 : 0;
+  }
+  return dbg;
+}
+
 /*!
   Handle a single event. Will trigger if the event name matches one
   of the names in the eventName field.
@@ -120,6 +132,12 @@ NbScriptEvent::handle(const SoEvent * event, SoHandleEventAction * action)
   
   int once = TRUE;
   for (int i = 0; i < num; i++) {
+    if (debug_events()) {
+      SoDebugError::postInfo("NbScriptEvent::handleEvent",
+                             "event: %s (%s)\n", 
+                             eventnames[i].getString(),
+                             name.getString());
+    }
     if (eventnames[i] == name) {
       if (!checkpicked || (action && this->isObjectPicked(event, action))) {
         
