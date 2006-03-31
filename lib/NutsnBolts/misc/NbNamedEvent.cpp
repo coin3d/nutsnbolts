@@ -36,7 +36,9 @@ NbNamedEvent::initClass(void)
   tooltip_name = new SbName("Tooltip");
   init_sim_name = new SbName("InitSimulator");
 
+#if 0 // FIXME: This is not available in Coin < Coin-2.5. kyrah 20060331
   cc_coin_atexit((coin_atexit_f*) namedevent_cleanup);
+#endif
 }
 
 void 
