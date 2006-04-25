@@ -128,7 +128,10 @@ NbScriptEvent::handle(const SoEvent * event, SoHandleEventAction * action)
   SbName quickname(name.getString());
   
   const SbString * eventnames = this->eventName.getValues(0);
-  SbBool checkpicked = this->isClickedEvent(name) || this->isTooltipEvent(quickname);
+  SbBool checkpicked = 
+    this->isClickedEvent(name) || 
+    this->isDoubleClickedEvent(name) || 
+    this->isTooltipEvent(quickname);
   
   int once = TRUE;
   for (int i = 0; i < num; i++) {
@@ -166,6 +169,13 @@ SbBool
 NbScriptEvent::isClickedEvent(const SbString & name)
 {
   if (name.find("MouseButtonClick") >= 0) return TRUE;
+  return FALSE;
+}
+
+SbBool 
+NbScriptEvent::isDoubleClickedEvent(const SbString & name)
+{
+  if (name.find("MouseButtonDoubleClick") >= 0) return TRUE;
   return FALSE;
 }
 

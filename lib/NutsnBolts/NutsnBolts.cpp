@@ -42,6 +42,9 @@
 #include <NutsnBolts/navigation/NbRotateMode.h>
 #include <NutsnBolts/navigation/NbYawMode.h>
 #include <NutsnBolts/navigation/NbZoomMode.h>
+#include <NutsnBolts/misc/NbNamedEvent.h>
+#include <NutsnBolts/nodes/NbEventNode.h>
+#include <NutsnBolts/nodes/NbScriptEvent.h>
 
 // *************************************************************************
 
@@ -150,6 +153,9 @@ NutsnBolts::init(void)
   NbRotateMode::initClass();
   NbYawMode::initClass();
   NbZoomMode::initClass();
+  NbNamedEvent::initClass();
+  NbEventNode::initClass();
+  NbScriptEvent::initClass();
 
 #if 0
   // FIXME: Put back before release (kintel 20050310)

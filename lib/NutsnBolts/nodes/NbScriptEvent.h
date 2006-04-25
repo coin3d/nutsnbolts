@@ -32,6 +32,8 @@ class NB_DLL_API NbScriptEvent : public SoNode {
   SbBool handle(const SoEvent * event, SoHandleEventAction * action);
   
   SbBool isClickedEvent(const SbString & name);
+  SbBool isDoubleClickedEvent(const SbString & name);
+
   SbBool isTooltipEvent(const SbName & name);
   SbBool isGlobalEvent(const SbName & name);
   SbBool isObjectPicked(const SoEvent * event, SoHandleEventAction * action);
