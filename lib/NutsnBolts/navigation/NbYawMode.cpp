@@ -25,6 +25,7 @@
 
 #include <Inventor/events/SoLocation2Event.h>
 
+#include <NutsnBolts/navigation/NbNavigationControl.h>
 #include <NutsnBolts/navigation/NbYawMode.h>
 
 // *************************************************************************
@@ -43,7 +44,7 @@ NbYawMode::NbYawMode(SbName name)
  : inherited(name)
 {
   PRIVATE(this) = NULL;
-  this->set1DValueFunc(NbNavigationMode::getMouseMoveHorizontalNormalizedDistance, NULL);
+  this->set1DValueFunc(NbNavigationMode::getMouseMoveVerticalNormalizedDistance, NULL);
 }
 
 NbYawMode::~NbYawMode(void)
@@ -62,7 +63,10 @@ NbYawMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctrl)
   if (! event->isOfType(SoLocation2Event::getClassTypeId())) {
     return FALSE;
   }
-  return FALSE;
+  ctrl->restoreCamera();
+  float value = this->get1DValue(ctrl);
+  ctrl->yawCamera(value);
+  return TRUE;
 }
 
 #undef PRIVATE
