@@ -609,6 +609,186 @@ AC_SUBST(sim_ac_relative_src_dir_p)
 ]) # SIM_AC_RELATIVE_SRC_DIR
 
 
+# **************************************************************************
+# SIM_AC_MAC_CPP_ADJUSTMENTS
+#
+# Add --no-cpp-precomp if necessary. Without this option, the
+# Apple preprocessor is used on Mac OS X platforms, and it is
+# known to be very buggy.  It's better to use this option, so
+# the GNU preprocessor is preferred.
+#
+
+
+AC_DEFUN([SIM_AC_MAC_CPP_ADJUSTMENTS],
+[case $host_os in
+darwin*)
+  if test x"$GCC" = x"yes"; then
+    # FIXME: create a SIM_AC_CPP_OPTION macro
+    SIM_AC_CC_COMPILER_OPTION([-no-cpp-precomp], [CPPFLAGS="$CPPFLAGS -no-cpp-precomp"])
+  fi
+  ;;
+esac
+]) # SIM_AC_MAC_CPP_ADJUSTMENTS
+
+
+# **************************************************************************
+# This macro sets up the MAC_FRAMEWORK automake conditional, depending on
+# the host OS and whether $sim_ac_prefer_framework has been overridden or
+# not.
+
+AC_DEFUN([SIM_AC_MAC_FRAMEWORK],
+[case $host_os in
+darwin*)
+  : ${sim_ac_prefer_framework=true}
+  ;;
+esac
+: ${sim_ac_prefer_framework=false}
+# This AM_CONDITIONAL can be used to make Mac OS X specific make-rules
+# related to installing proper Frameworks instead.
+AM_CONDITIONAL([MAC_FRAMEWORK], [$sim_ac_prefer_framework])
+
+if $sim_ac_prefer_framework; then
+  ifelse([$1], , :, [$1])
+else
+  ifelse([$2], , :, [$2])
+fi
+]) # SIM_AC_MAC_FRAMEWORK
+
+
+# Usage:
+#  SIM_AC_UNIVERSAL_BINARIES([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+#
+#  Determine whether we should build Universal Binaries. If yes, these
+#  shell variables are set:
+#
+#    $sim_ac_enable_universal (true if we are building Universal Binaries)
+#    $sim_ac_universal_flags (extra flags needed for Universal Binaries)
+#  
+#  The CFLAGS and CXXFLAGS variables will also be modified accordingly.
+#
+#  Note that when building Universal Binaries, dependency tracking will 
+#  be turned off.
+#
+#  Important: This macro must be called _before_ AM_INIT_AUTOMAKE.
+#
+# Author: Karin Kosina <kyrah@sim.no>.
+
+AC_DEFUN([SIM_AC_UNIVERSAL_BINARIES], [
+
+sim_ac_enable_universal=false
+
+
+case $host_os in
+  darwin* ) 
+    AC_ARG_ENABLE(
+      [universal],
+      AC_HELP_STRING([--enable-universal], [build Universal Binaries]), [
+        case $enableval in
+          yes | true) sim_ac_enable_universal=true ;;
+          *) ;;
+        esac])
+
+    AC_MSG_CHECKING([whether we should build Universal Binaries])   
+    if $sim_ac_enable_universal; then
+      AC_MSG_RESULT([yes])
+      SIM_AC_CONFIGURATION_SETTING([Build Universal Binaries], [Yes])
+
+      # need to build against Universal Binary SDK on PPC
+      if test x"$host_cpu" = x"powerpc"; then
+        sim_ac_universal_sdk_flags="-isysroot /Developer/SDKs/MacOSX10.4u.sdk"
+      fi
+
+      sim_ac_universal_flags="-arch i386 -arch ppc $sim_ac_universal_sdk_flags"
+      
+      CFLAGS="$sim_ac_universal_flags $CFLAGS"
+      CXXFLAGS="$sim_ac_universal_flags $CXXFLAGS"
+
+      # disable dependency tracking since we can't use -MD when cross-compiling
+      enable_dependency_tracking=no
+    else
+      AC_MSG_RESULT([no])
+      SIM_AC_CONFIGURATION_SETTING([Build Universal Binaries], [No (default)])
+    fi
+esac
+]) # SIM_AC_UNIVERSAL_BINARIES
+
+#   Use this file to store miscellaneous macros related to checking
+#   compiler features.
+
+# Usage:
+#   SIM_AC_CC_COMPILER_OPTION(OPTION-TO-TEST, ACTION-IF-TRUE [, ACTION-IF-FALSE])
+#   SIM_AC_CXX_COMPILER_OPTION(OPTION-TO-TEST, ACTION-IF-TRUE [, ACTION-IF-FALSE])
+#
+# Description:
+#
+#   Check whether the current C or C++ compiler can handle a
+#   particular command-line option.
+#
+#
+# Author: Morten Eriksen, <mortene@sim.no>.
+#
+#   * [mortene:19991218] improve macros by catching and analyzing
+#     stderr (at least to see if there was any output there)?
+#
+
+AC_DEFUN([SIM_AC_COMPILER_OPTION], [
+sim_ac_save_cppflags=$CPPFLAGS
+CPPFLAGS="$CPPFLAGS $1"
+AC_TRY_COMPILE([], [], [sim_ac_accept_result=yes], [sim_ac_accept_result=no])
+AC_MSG_RESULT([$sim_ac_accept_result])
+CPPFLAGS=$sim_ac_save_cppflags
+# This need to go last, in case CPPFLAGS is modified in arg 2 or arg 3.
+if test $sim_ac_accept_result = yes; then
+  ifelse([$2], , :, [$2])
+else
+  ifelse([$3], , :, [$3])
+fi
+])
+
+AC_DEFUN([SIM_AC_COMPILER_BEHAVIOR_OPTION_QUIET], [
+sim_ac_save_cppflags=$CPPFLAGS
+CPPFLAGS="$CPPFLAGS $1"
+AC_TRY_COMPILE([], [$2], [sim_ac_accept_result=yes], [sim_ac_accept_result=no])
+CPPFLAGS=$sim_ac_save_cppflags
+# This need to go last, in case CPPFLAGS is modified in arg 3 or arg 4.
+if test $sim_ac_accept_result = yes; then
+  ifelse([$3], , :, [$3])
+else
+  ifelse([$4], , :, [$4])
+fi
+])
+
+
+AC_DEFUN([SIM_AC_CC_COMPILER_OPTION], [
+AC_LANG_SAVE
+AC_LANG(C)
+AC_MSG_CHECKING([whether $CC accepts $1])
+SIM_AC_COMPILER_OPTION([$1], [$2], [$3])
+AC_LANG_RESTORE
+])
+
+AC_DEFUN([SIM_AC_CC_COMPILER_BEHAVIOR_OPTION_QUIET], [
+AC_LANG_SAVE
+AC_LANG(C)
+SIM_AC_COMPILER_BEHAVIOR_OPTION_QUIET([$1], [$2], [$3], [$4])
+AC_LANG_RESTORE
+])
+
+AC_DEFUN([SIM_AC_CXX_COMPILER_OPTION], [
+AC_LANG_SAVE
+AC_LANG(C++)
+AC_MSG_CHECKING([whether $CXX accepts $1])
+SIM_AC_COMPILER_OPTION([$1], [$2], [$3])
+AC_LANG_RESTORE
+])
+
+AC_DEFUN([SIM_AC_CXX_COMPILER_BEHAVIOR_OPTION_QUIET], [
+AC_LANG_SAVE
+AC_LANG(C++)
+SIM_AC_COMPILER_BEHAVIOR_OPTION_QUIET([$1], [$2], [$3], [$4])
+AC_LANG_RESTORE
+])
+
 # Do all the work for Automake.                            -*- Autoconf -*-
 
 # This macro actually does too much some checks are only needed if
@@ -7942,83 +8122,6 @@ else
 fi])
 
 
-#   Use this file to store miscellaneous macros related to checking
-#   compiler features.
-
-# Usage:
-#   SIM_AC_CC_COMPILER_OPTION(OPTION-TO-TEST, ACTION-IF-TRUE [, ACTION-IF-FALSE])
-#   SIM_AC_CXX_COMPILER_OPTION(OPTION-TO-TEST, ACTION-IF-TRUE [, ACTION-IF-FALSE])
-#
-# Description:
-#
-#   Check whether the current C or C++ compiler can handle a
-#   particular command-line option.
-#
-#
-# Author: Morten Eriksen, <mortene@sim.no>.
-#
-#   * [mortene:19991218] improve macros by catching and analyzing
-#     stderr (at least to see if there was any output there)?
-#
-
-AC_DEFUN([SIM_AC_COMPILER_OPTION], [
-sim_ac_save_cppflags=$CPPFLAGS
-CPPFLAGS="$CPPFLAGS $1"
-AC_TRY_COMPILE([], [], [sim_ac_accept_result=yes], [sim_ac_accept_result=no])
-AC_MSG_RESULT([$sim_ac_accept_result])
-CPPFLAGS=$sim_ac_save_cppflags
-# This need to go last, in case CPPFLAGS is modified in arg 2 or arg 3.
-if test $sim_ac_accept_result = yes; then
-  ifelse([$2], , :, [$2])
-else
-  ifelse([$3], , :, [$3])
-fi
-])
-
-AC_DEFUN([SIM_AC_COMPILER_BEHAVIOR_OPTION_QUIET], [
-sim_ac_save_cppflags=$CPPFLAGS
-CPPFLAGS="$CPPFLAGS $1"
-AC_TRY_COMPILE([], [$2], [sim_ac_accept_result=yes], [sim_ac_accept_result=no])
-CPPFLAGS=$sim_ac_save_cppflags
-# This need to go last, in case CPPFLAGS is modified in arg 3 or arg 4.
-if test $sim_ac_accept_result = yes; then
-  ifelse([$3], , :, [$3])
-else
-  ifelse([$4], , :, [$4])
-fi
-])
-
-
-AC_DEFUN([SIM_AC_CC_COMPILER_OPTION], [
-AC_LANG_SAVE
-AC_LANG(C)
-AC_MSG_CHECKING([whether $CC accepts $1])
-SIM_AC_COMPILER_OPTION([$1], [$2], [$3])
-AC_LANG_RESTORE
-])
-
-AC_DEFUN([SIM_AC_CC_COMPILER_BEHAVIOR_OPTION_QUIET], [
-AC_LANG_SAVE
-AC_LANG(C)
-SIM_AC_COMPILER_BEHAVIOR_OPTION_QUIET([$1], [$2], [$3], [$4])
-AC_LANG_RESTORE
-])
-
-AC_DEFUN([SIM_AC_CXX_COMPILER_OPTION], [
-AC_LANG_SAVE
-AC_LANG(C++)
-AC_MSG_CHECKING([whether $CXX accepts $1])
-SIM_AC_COMPILER_OPTION([$1], [$2], [$3])
-AC_LANG_RESTORE
-])
-
-AC_DEFUN([SIM_AC_CXX_COMPILER_BEHAVIOR_OPTION_QUIET], [
-AC_LANG_SAVE
-AC_LANG(C++)
-SIM_AC_COMPILER_BEHAVIOR_OPTION_QUIET([$1], [$2], [$3], [$4])
-AC_LANG_RESTORE
-])
-
 # Usage:
 #   SIM_AC_DEBUGSYMBOLS
 #
@@ -8047,8 +8150,8 @@ AC_ARG_ENABLE(
 
 # weird seds to don't mangle options like -fno-gnu-linker and -fvolatile-global
 if test x"$enable_symbols" = x"no"; then
-  CFLAGS="`echo $CFLAGS | sed 's/ -g //g' | sed 's/^-g //g' | sed 's/ -g$//g' | sed 's/^-g$//'`"
-  CXXFLAGS="`echo $CXXFLAGS | sed 's/ -g //g' | sed 's/^-g //g' | sed 's/ -g$//g' | sed 's/^-g$//'`"
+  CFLAGS="`echo $CFLAGS | sed 's/ -g / /g' | sed 's/^-g / /g' | sed 's/ -g$/ /g' | sed 's/^-g$/ /'`"
+  CXXFLAGS="`echo $CXXFLAGS | sed 's/ -g / /g' | sed 's/^-g / /g' | sed 's/ -g$/ /g' | sed 's/^-g$/ /'`"
 fi
 ]) # SIM_AC_DEBUGSYMBOLS
 
@@ -9166,7 +9269,7 @@ if test x"$with_opengl" != x"no"; then
   case $host_os in
   darwin*)
     AC_REQUIRE([SIM_AC_CHECK_X11])
-    if test x$sim_ac_enable_darwin_x11 = xtrue; then
+    if $sim_ac_enable_darwin_x11; then
       sim_ac_gl_darwin_x11=/usr/X11R6
       if test -d $sim_ac_gl_darwin_x11; then
         sim_ac_gl_cppflags=-I$sim_ac_gl_darwin_x11/include
@@ -9178,12 +9281,16 @@ if test x"$with_opengl" != x"no"; then
   CPPFLAGS="$CPPFLAGS $sim_ac_gl_cppflags"
 
   # Mac OS X framework (no X11, -framework OpenGL) 
-  if test x$sim_ac_enable_darwin_x11 = xfalse; then
+  if $sim_ac_enable_darwin_x11; then :
+  else
     SIM_AC_CHECK_HEADER_SILENT([OpenGL/gl.h], [
       sim_ac_gl_header_avail=true
       sim_ac_gl_header=OpenGL/gl.h
       AC_DEFINE([HAVE_OPENGL_GL_H], 1, [define if the GL header should be included as OpenGL/gl.h])
     ])
+  fi
+
+  if $sim_ac_gl_header_avail; then :
   else
     SIM_AC_CHECK_HEADER_SILENT([GL/gl.h], [
       sim_ac_gl_header_avail=true
@@ -9239,7 +9346,7 @@ if test x"$with_opengl" != x"no"; then
   case $host_os in
   darwin*)
     AC_REQUIRE([SIM_AC_CHECK_X11])
-    if test x$sim_ac_enable_darwin_x11 = xtrue; then
+    if $sim_ac_enable_darwin_x11; then
       sim_ac_gl_darwin_x11=/usr/X11R6
       if test -d $sim_ac_gl_darwin_x11; then
         sim_ac_gl_cppflags=-I$sim_ac_gl_darwin_x11/include
@@ -9251,12 +9358,16 @@ if test x"$with_opengl" != x"no"; then
   CPPFLAGS="$CPPFLAGS $sim_ac_glu_cppflags"
 
   # Mac OS X framework (no X11, -framework OpenGL) 
-  if test x$sim_ac_enable_darwin_x11 = xfalse; then
+  if $sim_ac_enable_darwin_x11; then :
+  else
     SIM_AC_CHECK_HEADER_SILENT([OpenGL/glu.h], [
       sim_ac_glu_header_avail=true
       sim_ac_glu_header=OpenGL/glu.h
       AC_DEFINE([HAVE_OPENGL_GLU_H], 1, [define if the GLU header should be included as OpenGL/glu.h])
     ])
+  fi
+
+  if $sim_ac_glu_header_avail; then :
   else
     SIM_AC_CHECK_HEADER_SILENT([GL/glu.h], [
       sim_ac_glu_header_avail=true
@@ -9312,7 +9423,7 @@ if test x"$with_opengl" != x"no"; then
   case $host_os in
   darwin*)
     AC_REQUIRE([SIM_AC_CHECK_X11])
-    if test x$sim_ac_enable_darwin_x11 = xtrue; then
+    if $sim_ac_enable_darwin_x11; then
       sim_ac_gl_darwin_x11=/usr/X11R6
       if test -d $sim_ac_gl_darwin_x11; then
         sim_ac_gl_cppflags=-I$sim_ac_gl_darwin_x11/include
@@ -9324,12 +9435,16 @@ if test x"$with_opengl" != x"no"; then
   CPPFLAGS="$CPPFLAGS $sim_ac_glext_cppflags"
 
   # Mac OS X framework (no X11, -framework OpenGL) 
-  if test x$sim_ac_enable_darwin_x11 = xfalse; then
+  if $sim_ac_enable_darwin_x11; then :
+  else
     SIM_AC_CHECK_HEADER_SILENT([OpenGL/glext.h], [
       sim_ac_glext_header_avail=true
       sim_ac_glext_header=OpenGL/glext.h
       AC_DEFINE([HAVE_OPENGL_GLEXT_H], 1, [define if the GLEXT header should be included as OpenGL/glext.h])
     ])
+  fi
+
+  if $sim_ac_glext_header_avail; then :
   else
     SIM_AC_CHECK_HEADER_SILENT([GL/glext.h], [
       sim_ac_glext_header_avail=true
@@ -9384,9 +9499,9 @@ sim_ac_ogl_libs=
 AC_ARG_WITH(
   [mesa],
   AC_HELP_STRING([--with-mesa],
-                 [prefer MesaGL (if found) over OpenGL [[default=yes]]]),
+                 [prefer MesaGL (if found) over OpenGL [[default=no]]]),
   [],
-  [with_mesa=yes])
+  [with_mesa=no])
 
 
 sim_ac_ogl_glnames="GL opengl32"
@@ -9426,22 +9541,20 @@ if test x"$with_opengl" != xno; then
   case $host_os in
   darwin*)
     AC_REQUIRE([SIM_AC_CHECK_X11])
-    if test x"$GCC" = x"yes" -a x$sim_ac_enable_darwin_x11 = xfalse; then
-      SIM_AC_CC_COMPILER_OPTION([-framework OpenGL], [sim_ac_use_framework_option=true])
-    else
-      # On Mac OS X, OpenGL is installed as part of the optional X11 SDK.
+    if $sim_ac_enable_darwin_x11; then
+      # Use X11-based GL instead of OpenGL.framework when building against X11
       sim_ac_gl_darwin_x11=/usr/X11R6
       if test -d $sim_ac_gl_darwin_x11; then
         sim_ac_ogl_cppflags=-I$sim_ac_gl_darwin_x11/include
         sim_ac_ogl_ldflags=-L$sim_ac_gl_darwin_x11/lib
       fi
+    else
+      SIM_AC_CC_COMPILER_OPTION([-framework OpenGL], [sim_ac_use_framework_option=true])
     fi
     ;;
   esac
 
   if $sim_ac_use_framework_option; then
-    # hopefully, this is the default behavior and not needed. 20011005 larsa
-    # sim_ac_ogl_cppflags="-F/System/Library/Frameworks/OpenGL.framework/"
     sim_ac_ogl_ldflags="-Wl,-framework,OpenGL"
     sim_ac_ogl_lib=OpenGL
   fi
@@ -9485,14 +9598,15 @@ if test x"$with_opengl" != xno; then
           AC_TRY_LINK(
             [#ifdef HAVE_WINDOWS_H
              #include <windows.h>
-             #endif
+             #endif /* HAVE_WINDOWS_H */
              #ifdef HAVE_GL_GL_H
              #include <GL/gl.h>
-             #endif
+             #else /* ! HAVE_GL_GL_H */
              #ifdef HAVE_OPENGL_GL_H
              /* Mac OS X */
              #include <OpenGL/gl.h>
-             #endif
+             #endif /* HAVE_OPENGL_GL_H */
+             #endif /* ! HAVE_GL_GL_H */
             ],
             [glPointSize(1.0f);],
             [
@@ -9949,7 +10063,7 @@ AC_DEFUN([SIM_AC_HAVE_AGL_PBUFFER], [
 AC_DEFUN([SIM_AC_CHECK_X11], [
 AC_REQUIRE([AC_PATH_XTRA])
 
-sim_ac_enable_darwin_x11=true
+sim_ac_enable_darwin_x11=false
 
 case $host_os in
   darwin* ) 
@@ -9958,16 +10072,17 @@ case $host_os in
                      [enable X11 on Darwin [[default=--disable-darwin-x11]]]),
       [case "${enableval}" in
         yes | true) sim_ac_enable_darwin_x11=true ;;
-        no | false) sim_ac_enable_darwin_x11=false ;;
+        no | false) sim_ac_enable_darwin_x11=false; no_x=yes ;;
         *) SIM_AC_ENABLE_ERROR([--enable-darwin-x11]) ;;
       esac],
-      [sim_ac_enable_darwin_x11=false])
+      [sim_ac_enable_darwin_x11=false; no_x=yes])
   ;;
 esac
 
 sim_ac_x11_avail=no
 
-if test x"$no_x" != xyes -a x"$sim_ac_enable_darwin_x11" = xtrue; then
+if test x"$no_x" != xyes; then
+
   #  *** DEBUG ***
   #  Keep this around, as it can be handy when testing on new systems.
   # echo "X_CFLAGS: $X_CFLAGS"
