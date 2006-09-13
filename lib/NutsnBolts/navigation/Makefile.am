@@ -39,7 +39,8 @@ SourceFiles = \
 	NbPitchMode.cpp \
 	NbPitchMode.h \
 	NbYawMode.cpp \
-	NbYawMode.h
+	NbYawMode.h \
+        extra.cpp
 
 HeaderFiles = \
 	NbNavigationControl.h \

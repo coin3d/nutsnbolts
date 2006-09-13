@@ -217,7 +217,8 @@ SourceFiles = \
 	NbPitchMode.cpp \
 	NbPitchMode.h \
 	NbYawMode.cpp \
-	NbYawMode.h
+	NbYawMode.h \
+        extra.cpp
 
 
 HeaderFiles = \
@@ -261,7 +262,7 @@ am__objects_1 = NbNavigationControl.$(OBJEXT) NbNavigationMode.$(OBJEXT) \
 	NbRotateMode.$(OBJEXT) NbPanMode.$(OBJEXT) NbPickMode.$(OBJEXT) \
 	NbZoomMode.$(OBJEXT) NbCenterMode.$(OBJEXT) \
 	NbOrthoCenterMode.$(OBJEXT) NbRollMode.$(OBJEXT) \
-	NbPitchMode.$(OBJEXT) NbYawMode.$(OBJEXT)
+	NbPitchMode.$(OBJEXT) NbYawMode.$(OBJEXT) extra.$(OBJEXT)
 am_navigation_lst_OBJECTS = $(am__objects_1)
 navigation_lst_OBJECTS = $(am_navigation_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
@@ -272,7 +273,8 @@ am__objects_2 = NbNavigationControl.lo NbNavigationMode.lo \
 	NbNavigationState.lo NbNavigationSystem.lo \
 	NbNavigationVehicle.lo NbIdleMode.lo NbRotateMode.lo \
 	NbPanMode.lo NbPickMode.lo NbZoomMode.lo NbCenterMode.lo \
-	NbOrthoCenterMode.lo NbRollMode.lo NbPitchMode.lo NbYawMode.lo
+	NbOrthoCenterMode.lo NbRollMode.lo NbPitchMode.lo NbYawMode.lo \
+	extra.lo
 am_libNutsnBoltsNavigation_la_OBJECTS = $(am__objects_2)
 libNutsnBoltsNavigation_la_OBJECTS = \
 	$(am_libNutsnBoltsNavigation_la_OBJECTS)
@@ -305,7 +307,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/NbRotateMode.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/NbYawMode.Plo ./$(DEPDIR)/NbYawMode.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/NbZoomMode.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/NbZoomMode.Po
+@AMDEP_TRUE@	./$(DEPDIR)/NbZoomMode.Po ./$(DEPDIR)/extra.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/extra.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -389,6 +392,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbYawMode.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbZoomMode.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbZoomMode.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/extra.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/extra.Po@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)
