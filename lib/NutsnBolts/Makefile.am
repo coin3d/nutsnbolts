@@ -17,7 +17,9 @@ SourceFiles = \
 	NutsnBolts.cpp \
 	NutsnBolts.h \
 	NbSceneManager.cpp \
-	NbSceneManager.h
+	NbSceneManager.h \
+	NbSceneManagerP.cpp \
+	NbSceneManagerP.h
 
 HeaderFiles = \
 	Basic.h \

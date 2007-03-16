@@ -195,7 +195,9 @@ SourceFiles = \
 	NutsnBolts.cpp \
 	NutsnBolts.h \
 	NbSceneManager.cpp \
-	NbSceneManager.h
+	NbSceneManager.h \
+	NbSceneManagerP.cpp \
+	NbSceneManagerP.h
 
 
 HeaderFiles = \
@@ -236,7 +238,8 @@ LIBRARIES = $(lib_LIBRARIES)
 nutsnbolts@NB_MAJOR_VERSION@_lib_AR = $(AR) cru
 nutsnbolts@NB_MAJOR_VERSION@_lib_DEPENDENCIES = misc/misc.lst \
 	navigation/navigation.lst nodes/nodes.lst
-am__objects_1 = NutsnBolts.$(OBJEXT) NbSceneManager.$(OBJEXT)
+am__objects_1 = NutsnBolts.$(OBJEXT) NbSceneManager.$(OBJEXT) \
+	NbSceneManagerP.$(OBJEXT)
 am_nutsnbolts@NB_MAJOR_VERSION@_lib_OBJECTS = $(am__objects_1)
 nutsnbolts@NB_MAJOR_VERSION@_lib_OBJECTS = \
 	$(am_nutsnbolts@NB_MAJOR_VERSION@_lib_OBJECTS)
@@ -245,13 +248,15 @@ LTLIBRARIES = $(lib_LTLIBRARIES)
 libNutsnBolts_la_DEPENDENCIES = misc/libNutsnBoltsMisc.la \
 	navigation/libNutsnBoltsNavigation.la \
 	nodes/libNutsnBoltsNodes.la
-am__objects_2 = NutsnBolts.lo NbSceneManager.lo
+am__objects_2 = NutsnBolts.lo NbSceneManager.lo NbSceneManagerP.lo
 am_libNutsnBolts_la_OBJECTS = $(am__objects_2)
 libNutsnBolts_la_OBJECTS = $(am_libNutsnBolts_la_OBJECTS)
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/NbSceneManager.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/NbSceneManager.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/NbSceneManagerP.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/NbSceneManagerP.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/NutsnBolts.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/NutsnBolts.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
@@ -380,6 +385,8 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbSceneManager.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbSceneManager.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbSceneManagerP.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NbSceneManagerP.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NutsnBolts.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NutsnBolts.Po@am__quote@
 

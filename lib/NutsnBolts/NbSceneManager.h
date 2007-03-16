@@ -24,7 +24,6 @@
 \**************************************************************************/
 
 #include <Inventor/SoSceneManager.h>
-
 #include <NutsnBolts/NutsnBolts.h>
 
 class SoCamera;
@@ -90,7 +89,6 @@ public:
                                        SbBool zbufferon = FALSE);
   
   void removeSuperimposition(Superimposition * s);
-  
 
   virtual SbBool processEvent(const SoEvent * const event);
 
