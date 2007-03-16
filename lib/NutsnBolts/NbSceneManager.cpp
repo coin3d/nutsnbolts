@@ -52,6 +52,7 @@
 #include <Inventor/SoFullPath.h>
 #include <Inventor/system/gl.h>
 #include <Inventor/sensors/SoNodeSensor.h>
+#include <Inventor/lists/SbPList.h>
 
 #include <NutsnBolts/NutsnBolts.h>
 #include <NutsnBolts/NbSceneManager.h>
@@ -298,6 +299,69 @@
 
 // *************************************************************************
 
+class Superimposition {
+public:
+  Superimposition(SoNode * scene,
+                  SbBool enabled,
+                  SbBool autoredraw,
+                  SbBool zbufferon,
+                  SoSceneManager * manager)
+  {
+    assert(scene != NULL);
+    this->scene = scene;
+    this->scene->ref();
+
+    this->enabled = enabled;
+    this->autoredraw = autoredraw;
+    this->zbufferon = zbufferon;
+
+    this->manager = manager;
+    this->sensor = new SoNodeSensor(Superimposition::changeCB, this);
+    this->sensor->attach(this->scene);
+  }
+
+  ~Superimposition()
+  {
+    delete this->sensor;
+    this->scene->unref();
+  }
+
+  void render(void) 
+  {
+    if (!this->enabled) return;
+    
+    this->zbufferwason = glIsEnabled(GL_DEPTH_TEST) ? TRUE : FALSE;
+    
+    this->zbufferon ?
+      glEnable(GL_DEPTH_TEST):
+      glDisable(GL_DEPTH_TEST);
+    
+    this->manager->getGLRenderAction()->apply(this->scene);
+      
+    this->zbufferwason ?
+      glEnable(GL_DEPTH_TEST):
+      glDisable(GL_DEPTH_TEST);
+  }
+
+private:
+  static void changeCB(void * data, SoSensor * sensor) {
+    Superimposition * thisp = (Superimposition *) data;
+    assert(thisp && thisp->manager);
+    if (thisp->autoredraw) {
+      thisp->manager->scheduleRedraw();
+    }
+  }
+
+  SoNode * scene;
+  SbBool enabled;
+  SbBool autoredraw;
+  SbBool zbufferon;
+  SbBool zbufferwason;
+  SoSceneManager * manager;
+  SoNodeSensor * sensor;
+};
+
+
 // private implementation class
 
 class NbSceneManagerP {
@@ -325,6 +389,8 @@ public:
   SoColorPacker colorpacker;
   SbColor overlaycolor;
 
+  SbPList superimpositions;
+
   NbSceneManager::NavigationState navigationstate;
   NbNavigationSystem * navigationsystem;
 
@@ -348,6 +414,7 @@ protected:
 // *************************************************************************
 
 #define PRIVATE(obj) obj->pimpl
+#define PUBLIC(obj) obj->master
 
 /*!
   Constructor.
@@ -422,7 +489,13 @@ NbSceneManager::render(const SbBool clearwindow,
     PRIVATE(this)->depthbits = depthbits[0];
   }
   inherited::render(clearwindow, clearzbuffer);
-
+  
+  for (int i = 0; i < PRIVATE(this)->superimpositions.getLength(); i++) {
+    Superimposition * s = (Superimposition *) PRIVATE(this)->superimpositions[i];
+    s->render();
+  }
+         
+  
   // FIXME: navigation mode rendering
 
 #ifdef NB_EXTRA_DEBUG
@@ -674,6 +747,37 @@ NbSceneManager::getWireframeOverlayColor(void) const
 {
   return PRIVATE(this)->overlaycolor;
 }
+
+Superimposition *
+NbSceneManager::addSuperimposition(SoNode * scene, 
+                                   SbBool enabled,
+                                   SbBool autoredraw,
+                                   SbBool zbufferon)
+{
+  Superimposition * s = new Superimposition(scene, 
+                                            enabled,
+                                            autoredraw,
+                                            zbufferon,
+                                            this);
+  
+  PRIVATE(this)->superimpositions.append(s);
+  return s;
+}
+
+void
+NbSceneManager::removeSuperimposition(Superimposition * s)
+{
+  int idx = -1;
+  idx = PRIVATE(this)->superimpositions.find(s);
+  if (idx == -1) {
+    SoDebugError::post("NbSceneManager::removeSuperimposition",
+                       "no such superimposition");
+  }
+  
+  PRIVATE(this)->superimpositions.remove(idx);
+  delete s;
+}
+
 
 /*!
   Overloaded from SoSceneManager to handle viewer navigation.
@@ -1212,4 +1316,5 @@ NbSceneManagerP::update_clipping_planes(void * closure, SoSensor * sensor)
   }
 }
 
+#undef PUBLIC
 // *************************************************************************

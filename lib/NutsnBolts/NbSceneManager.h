@@ -30,6 +30,7 @@
 class SoCamera;
 class NbNavigationSystem;
 class NbNavigationMode;
+class Superimposition;
 
 class NbSceneManagerP;
 
@@ -82,6 +83,14 @@ public:
 
   virtual void setWireframeOverlayColor(const SbColor & color);
   const SbColor & getWireframeOverlayColor(void) const;
+
+  Superimposition * addSuperimposition(SoNode * scene, 
+                                       SbBool enabled = TRUE, 
+                                       SbBool autoredraw = FALSE,
+                                       SbBool zbufferon = FALSE);
+  
+  void removeSuperimposition(Superimposition * s);
+  
 
   virtual SbBool processEvent(const SoEvent * const event);
 
