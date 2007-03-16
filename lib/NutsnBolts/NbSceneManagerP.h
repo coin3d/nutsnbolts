@@ -96,6 +96,7 @@ public:
                   SbBool enabled,
                   SbBool autoredraw,
                   SbBool zbufferon,
+                  SbBool clearzbuffer,
                   SoSceneManager * manager);
   ~Superimposition();
   
@@ -108,7 +109,7 @@ private:
   SbBool enabled;
   SbBool autoredraw;
   SbBool zbufferon;
-  SbBool zbufferwason;
+  SbBool clearzbuffer;
   SoSceneManager * manager;
   SoNodeSensor * sensor;
 };

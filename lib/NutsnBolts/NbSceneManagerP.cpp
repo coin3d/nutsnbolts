@@ -346,6 +346,7 @@ Superimposition::Superimposition(SoNode * scene,
                                  SbBool enabled,
                                  SbBool autoredraw,
                                  SbBool zbufferon,
+                                 SbBool clearzbuffer,
                                  SoSceneManager * manager)
 {
   assert(scene != NULL);
@@ -355,6 +356,7 @@ Superimposition::Superimposition(SoNode * scene,
   this->enabled = enabled;
   this->autoredraw = autoredraw;
   this->zbufferon = zbufferon;
+  this->clearzbuffer = clearzbuffer;
   
   this->manager = manager;
   this->sensor = new SoNodeSensor(Superimposition::changeCB, this);
@@ -371,16 +373,19 @@ void
 Superimposition::render(void) 
 {
   if (!this->enabled) return;
-  
-  this->zbufferwason = glIsEnabled(GL_DEPTH_TEST) ? TRUE : FALSE;
+
+  SbBool zbufferwason = glIsEnabled(GL_DEPTH_TEST) ? TRUE : FALSE;
   
   this->zbufferon ?
     glEnable(GL_DEPTH_TEST):
     glDisable(GL_DEPTH_TEST);
+
+  if (this->clearzbuffer)
+    glClear(GL_DEPTH_BUFFER_BIT);
   
   this->manager->getGLRenderAction()->apply(this->scene);
   
-  this->zbufferwason ?
+  zbufferwason ?
     glEnable(GL_DEPTH_TEST):
     glDisable(GL_DEPTH_TEST);
 }

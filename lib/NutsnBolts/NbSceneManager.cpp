@@ -629,12 +629,14 @@ Superimposition *
 NbSceneManager::addSuperimposition(SoNode * scene, 
                                    SbBool enabled,
                                    SbBool autoredraw,
-                                   SbBool zbufferon)
+                                   SbBool zbufferon,
+                                   SbBool clearzbuffer)
 {
   Superimposition * s = new Superimposition(scene, 
                                             enabled,
                                             autoredraw,
                                             zbufferon,
+                                            clearzbuffer,
                                             this);
   
   PRIVATE(this)->superimpositions.append(s);

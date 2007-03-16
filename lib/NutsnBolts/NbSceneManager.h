@@ -86,7 +86,8 @@ public:
   Superimposition * addSuperimposition(SoNode * scene, 
                                        SbBool enabled = TRUE, 
                                        SbBool autoredraw = FALSE,
-                                       SbBool zbufferon = FALSE);
+                                       SbBool zbufferon = FALSE,
+                                       SbBool clearzbuffer = FALSE);
   
   void removeSuperimposition(Superimposition * s);
 
