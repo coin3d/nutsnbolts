@@ -30,7 +30,7 @@ class NbNavigationMode;
 
 class NbNavigationStateP;
 
-class NbNavigationState {
+class NB_DLL_API NbNavigationState {
 public:
   NbNavigationState(void);
   ~NbNavigationState(void);
