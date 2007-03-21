@@ -51,11 +51,9 @@ class NB_DLL_API NbNavigationMode {
 
 public:
   static void initClass(void);
-  static void cleanClass(void);
 
   // predefined set of input value functions
   static float getAbsMouseMovePixelDistance(void * closure, const NbNavigationMode * mode, const NbNavigationControl * ctrl);
-  static float getAbsMouseMovePixelDistanceNormalized(void * closure, const NbNavigationMode * mode, const NbNavigationControl * ctrl);
   static float getMouseMoveVerticalPixelDistance(void * closure, const NbNavigationMode * mode, const NbNavigationControl * ctrl);
   static float getMouseMoveVerticalNormalizedDistance(void * closure, const NbNavigationMode * mode, const NbNavigationControl * ctrl);
   static float getMouseMoveHorizontalPixelDistance(void * closure, const NbNavigationMode * mode, const NbNavigationControl * ctrl);
