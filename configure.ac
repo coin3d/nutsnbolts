@@ -48,6 +48,12 @@ AC_SUBST([NB_MICRO_VERSION], [NB_MICRO])
 AC_SUBST([NB_BETA_VERSION], [NB_BETA])
 AC_SUBST([NB_VERSION], [NB_MAJOR.NB_MINOR.NB_MICRO[]NB_BETA])
 
+AC_SUBST([NUTSNBOLTS_MAJOR_VERSION], [NB_MAJOR])
+AC_SUBST([NUTSNBOLTS_MINOR_VERSION], [NB_MINOR])
+AC_SUBST([NUTSNBOLTS_MICRO_VERSION], [NB_MICRO])
+AC_SUBST([NUTSNBOLTS_BETA_VERSION], [NB_BETA])
+AC_SUBST([NUTSNBOLTS_VERSION], [NB_MAJOR.NB_MINOR.NB_MICRO[]NB_BETA])
+
 VERSION=$NB_VERSION
 
 # Libtool versioning
@@ -424,6 +430,7 @@ AC_CONFIG_FILES([
         lib/NutsnBolts/nodes/Makefile
         apps/Makefile
         cfg/gendsp.sh
+        cfg/gendsp.pl
 ])
 
 # MKS will have "\c" as $ECHO_C, but that string in the config.status
@@ -442,6 +449,10 @@ ECHO_C=$sim_ac_ECHO_C
 
 if test -f cfg/gendsp.sh; then
   chmod +x cfg/gendsp.sh
+fi
+
+if test -f cfg/gendsp.pl; then
+  chmod +x cfg/gendsp.pl
 fi
 
 # **************************************************************************
