@@ -225,7 +225,7 @@ NbSceneManagerP::searchForNavigationMode(SoNode * root,
   SbString modestring = mode->mode.getValue();
   path->unref();
 
-  if (!modestring.getLength() > 0) return defsys;
+  if (modestring.getLength() > 0) return defsys;
 
   return NbNavigationSystem::getByName(modestring.getString());
 }
