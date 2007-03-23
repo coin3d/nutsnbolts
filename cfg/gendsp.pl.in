@@ -167,11 +167,6 @@ sub SubstFile {
         $line =~ s/@([^@]*)@/$dict{$1}/g;
       }
     }
-    for $var (@reversevars) {
-      if ($line =~ m%$envvars{$var}%) {
-        $line =~ s%$envvars{$var}%\$(${var})%g;
-      }
-    }
 
     if ($line =~ m%${build_dir_win}\\%o) {
       $line =~ s%${build_dir_win}\\%%g;
@@ -181,6 +176,12 @@ sub SubstFile {
     }
     if ($line =~ m%${src_dir_win}[\\]?%o) {
       $line =~ s%${src_dir_win}([\\]?)%${sim_ac_relative_src_dir_win}$1%g;
+    }
+
+    for $var (@reversevars) {
+      if ($line =~ m%$envvars{$var}%) {
+        $line =~ s%$envvars{$var}%\$(${var})%g;
+      }
     }
 
     print OUT $line;

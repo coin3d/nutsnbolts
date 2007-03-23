@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="nutsnbolts0"
-	ProjectGUID="{3A25C018-7B76-4455-8FEF-3E114E26703D}"
+	ProjectGUID="{41D2B4BC-8428-49B5-ACF7-0E2413FB7201}"
 	>
 	<Platforms>
 		<Platform
@@ -41,7 +41,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="$(COINDIR)\svn\NutsnBolts\build\msvc8\lib,$(COINDIR)\svn\NutsnBolts\lib,$(COINDIR)\svn\NutsnBolts\build\msvc8,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex"
+				AdditionalIncludeDirectories="lib,..\..\lib,.,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_LIB;NUTSNBOLTS_DEBUG=0;HAVE_CONFIG_H;NB_DEBUG=0;NB_INTERNAL;COIN_DLL"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -116,7 +116,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="$(COINDIR)\svn\NutsnBolts\build\msvc8\lib,$(COINDIR)\svn\NutsnBolts\lib,$(COINDIR)\svn\NutsnBolts\build\msvc8,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex"
+				AdditionalIncludeDirectories="lib,..\..\lib,.,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_LIB;NUTSNBOLTS_DEBUG=1;HAVE_CONFIG_H;NB_DEBUG=0;NB_INTERNAL;COIN_DLL"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -196,7 +196,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(COINDIR)\svn\NutsnBolts\build\msvc8\lib,$(COINDIR)\svn\NutsnBolts\lib,$(COINDIR)\svn\NutsnBolts\build\msvc8,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex"
+				AdditionalIncludeDirectories="lib,..\..\lib,.,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;NUTSNBOLTS_DEBUG=1;HAVE_CONFIG_H;NB_MAKE_DLL;NB_DEBUG=0;NB_INTERNAL;COIN_DLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -293,7 +293,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="1"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="$(COINDIR)\svn\NutsnBolts\build\msvc8\lib,$(COINDIR)\svn\NutsnBolts\lib,$(COINDIR)\svn\NutsnBolts\build\msvc8,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex"
+				AdditionalIncludeDirectories="lib,..\..\lib,.,$(COINDIR)\include,$(COINDIR)\include\Inventor\annex"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;NUTSNBOLTS_DEBUG=0;HAVE_CONFIG_H;NB_MAKE_DLL;NB_DEBUG=0;NB_INTERNAL;COIN_DLL"
 				StringPooling="true"
 				RuntimeLibrary="2"
