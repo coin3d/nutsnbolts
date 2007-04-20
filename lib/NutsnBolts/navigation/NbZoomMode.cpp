@@ -105,15 +105,23 @@ NbZoomMode::handleEvent(const SoEvent * event, const NbNavigationControl * ctrl)
     SoMouseButtonEvent * mbevent = (SoMouseButtonEvent *) event;
     SoMouseButtonEvent::Button button = mbevent->getButton();
     SoButtonEvent::State state = mbevent->getState();
-    if ( button == SoMouseButtonEvent::BUTTON4 ) {
-      if ( state == SoButtonEvent::DOWN ) {
+    if (button == SoMouseButtonEvent::BUTTON4) {  // Zoom in
+      if (state == SoButtonEvent::DOWN) {
+        if (camera->isOfType(SoOrthographicCamera::getClassTypeId())) {
+          SoOrthographicCamera * oc = (SoOrthographicCamera *) camera;
+          oc->height = oc->height.getValue() * 0.95f;
+        }
         ctrl->moveCamera(0.05f);
         ctrl->saveCamera();
       }
       this->finish();
-      return TRUE;
-    } else if ( button == SoMouseButtonEvent::BUTTON5 ) {
-      if ( state == SoButtonEvent::DOWN ) {
+      return TRUE; 
+    } else if (button == SoMouseButtonEvent::BUTTON5) {  // Zoom out
+      if (state == SoButtonEvent::DOWN) {
+        if (camera->isOfType(SoOrthographicCamera::getClassTypeId())) {
+          SoOrthographicCamera * oc = (SoOrthographicCamera *) camera;
+          oc->height = oc->height.getValue() * 1.05f;
+        }
         ctrl->moveCamera(-0.05f);
         ctrl->saveCamera();
       }
