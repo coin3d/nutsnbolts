@@ -400,6 +400,7 @@ NbNavigationSystem::initClass(void)
 
 
   delete spacedown;
+  delete escapedown;
   delete key_sdown;
   delete button1down;
   delete button1up;
@@ -411,6 +412,8 @@ NbNavigationSystem::initClass(void)
   delete shiftup;
   delete ctrldown;
   delete ctrlup;
+  delete mwheeldown;
+  delete mwheelup;
 }
 
 /*!
@@ -436,6 +439,7 @@ NbNavigationSystem::cleanClass(void)
   DELETE_SYSTEM(NB_ROTATER_SYSTEM);
   DELETE_SYSTEM(NB_PANNER_SYSTEM);
   DELETE_SYSTEM(NB_CENTERER_SYSTEM);
+  DELETE_SYSTEM(NB_PICKER_SYSTEM);
 
 #undef DELETE_SYSTEM
 
