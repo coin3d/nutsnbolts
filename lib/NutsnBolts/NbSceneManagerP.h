@@ -68,8 +68,6 @@ public:
   SoColorPacker colorpacker;
   SbColor overlaycolor;
 
-  SbPList superimpositions;
-
   NbSceneManager::NavigationState navigationstate;
   NbNavigationSystem * navigationsystem;
 
@@ -89,30 +87,6 @@ protected:
   NbSceneManager * master;
 
 }; 
-
-class Superimposition {
-public:
-  Superimposition(SoNode * scene,
-                  SbBool enabled,
-                  SbBool autoredraw,
-                  SbBool zbufferon,
-                  SbBool clearzbuffer,
-                  SoSceneManager * manager);
-  ~Superimposition();
-  
-  void render(void);
-  
-private:
-  static void changeCB(void * data, SoSensor * sensor);
-  
-  SoNode * scene;
-  SbBool enabled;
-  SbBool autoredraw;
-  SbBool zbufferon;
-  SbBool clearzbuffer;
-  SoSceneManager * manager;
-  SoNodeSensor * sensor;
-};
 
 #endif // NB_SCENEMANAGERP_H
 

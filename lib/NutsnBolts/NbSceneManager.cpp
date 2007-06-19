@@ -367,12 +367,6 @@ NbSceneManager::render(const SbBool clearwindow,
   }
   inherited::render(clearwindow, clearzbuffer);
   
-  for (int i = 0; i < PRIVATE(this)->superimpositions.getLength(); i++) {
-    Superimposition * s = (Superimposition *) PRIVATE(this)->superimpositions[i];
-    s->render();
-  }
-         
-  
   // FIXME: navigation mode rendering
 
 #ifdef NB_EXTRA_DEBUG
@@ -624,39 +618,6 @@ NbSceneManager::getWireframeOverlayColor(void) const
 {
   return PRIVATE(this)->overlaycolor;
 }
-
-Superimposition *
-NbSceneManager::addSuperimposition(SoNode * scene, 
-                                   SbBool enabled,
-                                   SbBool autoredraw,
-                                   SbBool zbufferon,
-                                   SbBool clearzbuffer)
-{
-  Superimposition * s = new Superimposition(scene, 
-                                            enabled,
-                                            autoredraw,
-                                            zbufferon,
-                                            clearzbuffer,
-                                            this);
-  
-  PRIVATE(this)->superimpositions.append(s);
-  return s;
-}
-
-void
-NbSceneManager::removeSuperimposition(Superimposition * s)
-{
-  int idx = -1;
-  idx = PRIVATE(this)->superimpositions.find(s);
-  if (idx == -1) {
-    SoDebugError::post("NbSceneManager::removeSuperimposition",
-                       "no such superimposition");
-  }
-  
-  PRIVATE(this)->superimpositions.remove(idx);
-  delete s;
-}
-
 
 /*!
   Overloaded from SoSceneManager to handle viewer navigation.
