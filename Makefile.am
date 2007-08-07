@@ -9,5 +9,11 @@ EXTRA_DIST_FILES = cfg/gendsp.sh.in
 
 SUBDIRS = bin lib $(AppsDir)
 
-CLEANFILES = .\#* *.pdb *~
+NutsnBolts.pc: config.status $(srcdir)/NutsnBolts.pc.in
+	@$(SHELL) config.status --file=$@:NutsnBolts.pc.in
 
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA=NutsnBolts.pc
+
+CLEANFILES = .\#* *.pdb *~
+DISTCLEANFILES = NutsnBolts.pc

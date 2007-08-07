@@ -1,0 +1,21 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: NutsnBolts
+Description: An extension library for Coin.
+URL: http://www.coin3d.org
+Version: @NUTSNBOLTS_VERSION@
+Requires:
+Conflicts:
+Libs: -L${libdir} @NUTSNBOLTS_EXTRA_LDFLAGS@ @NUTSNBOLTS_EXTRA_LIBS@
+Cflags: -I${includedir} @NUTSNBOLTS_EXTRA_CFLAGS@ @NUTSNBOLTS_EXTRA_CPPFLAGS@
+
+coin_host=@host@
+compiler=@NUTSNBOLTS_COMPILER@
+datadir=@datadir@
+frameworkdir=@frameworkdir@
+htmldir=@htmldir@
+msvcrt=@NUTSNBOLTS_MSVC_LIBC@
+objext=@OBJEXT@
