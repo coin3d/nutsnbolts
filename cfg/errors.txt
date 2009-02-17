@@ -30,6 +30,11 @@ Did you perhaps forget to set up the environment variable QTDIR to the
 base of the Qt installation directory? Or if it was already set up,
 double check to see that it is pointing at the correct directory.
 
+!no-rcc
+The Qt ''rcc'' utility was not found in the same directory as the
+other Qt utilities such as ''moc'' or ''uic''. Make sure Qt is
+properly installed on your system.
+
 !no-qt
 Could not find any way to build against the Qt library. If you
 are sure Qt is properly installed on your system, see the file
@@ -251,7 +256,7 @@ You are using the X11 version of the Qt toolkit, but requested SoQt
 to be built without X11 support. Please install Qt/Mac (if you don't
 want X11 support) or specify --enable-darwin-x11 to use X11.
 
-!mac-qt-but-x11-requested 
+!mac-qt-but-x11-requested
 You are using Qt/Mac but are trying to build
 the X11-based version of SoQt. Please either install Qt/X11 or don't
 specify --enable-darwin-x11.
