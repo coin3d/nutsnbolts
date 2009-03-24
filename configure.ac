@@ -312,16 +312,29 @@ fi
 
 # **************************************************************************
 
-if $BUILD_WITH_MSVC; then
-  rm -f vc60.pdb
-  LIBFLAGS="$LIBFLAGS $sim_ac_msvcrt_LIBLDFLAGS"
-  LIBS="$LIBS $sim_ac_msvcrt_LIBLIBS"
+# check if compiler/linker handles __declspec()
+sim_ac_win32_declspec_available=false
+AC_MSG_CHECKING([for __declspec() support])
+AC_TRY_LINK(
+ [],
+ [__declspec(dllimport) int foo;],
+ [sim_ac_win32_declspec_available=true
+  AC_MSG_RESULT([available])],
+ [AC_MSG_RESULT([not available])])
+
+if $sim_ac_win32_declspec_available; then
   if $NUTSNBOLTS_STATIC; then
     NUTSNBOLTS_EXTRA_CPPFLAGS="$NUTSNBOLTS_EXTRA_CPPFLAGS -DNB_NOT_DLL"
   else
     CPPFLAGS="-DNB_MAKE_DLL $CPPFLAGS"
     NUTSNBOLTS_EXTRA_CPPFLAGS="$NUTSNBOLTS_EXTRA_CPPFLAGS -DNB_DLL"
   fi
+fi
+
+if $BUILD_WITH_MSVC; then
+  rm -f vc60.pdb
+  LIBFLAGS="$LIBFLAGS $sim_ac_msvcrt_LIBLDFLAGS"
+  LIBS="$LIBS $sim_ac_msvcrt_LIBLIBS"
   debugfile="`pwd`/lib/NutsnBolts/NutsnBolts${NB_MAJOR_VERSION}${SUFFIX}.pdb"
   debugfile=`cygpath -w "$debugfile" | sed 's,\\\\,\\\\\\\\,g'`
   if $NUTSNBOLTS_STATIC; then
