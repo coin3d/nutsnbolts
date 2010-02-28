@@ -169,6 +169,9 @@ AC_PROG_LIBTOOL
 
 fi
 
+# Make it possible for the user to turn off optimization flags.
+SIM_AC_COMPILER_OPTIMIZATION
+
 SIM_AC_COMPILE_DEBUG([
   CPPFLAGS="$CPPFLAGS -DNB_DEBUG=1"
 ], [
@@ -436,6 +439,7 @@ SIM_AC_MSVC_DSP_SETUP([NUTSNBOLTS], [NutsnBolts], [nutsnbolts], [-I$nutsnbolts_b
 # **************************************************************************
 
 AC_CONFIG_FILES([
+        NutsnBolts.pc
         Makefile
         bin/Makefile
         lib/Makefile
@@ -485,4 +489,3 @@ SIM_AC_CONFIGURATION_SUMMARY
 echo ""
 echo "Now, run 'make' and 'make install' to install $PACKAGE"
 echo ""
-
