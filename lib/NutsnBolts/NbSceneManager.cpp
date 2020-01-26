@@ -65,7 +65,7 @@
 /*!
   \class NbSceneManager NutsnBolts/NbSceneManager.h
   \brief Extends the SoSceneManager class with more high-level
-  viewer-related functionality.
+  viewer related functionality.
 
   The NbSceneManager class extends the SoSceneManger class with
   functionality that relates to scene graphs and rendering on a higher
@@ -78,20 +78,20 @@
   Currently, the functionality this class adds to the SoSceneManager
   can be categorized into three groups:
 
-  One set of functions lets you control the <b>rendering style</b>.
+  One set of functions lets you control the \b rendering \b style.
   These are setRenderMode(), setTexturesEnabled(), and
   setWireframeOverlayColor().
 
-  Another set of functions implements support for various <b>stereo
-  rendering</b> techniques.  These are setStereoMode() and
+  Another set of functions implements support for various \b stereo
+  \b rendering techniques.  These are setStereoMode() and
   setStereoOffset().
 
   The third group of functions is for incorporating a system for
-  handling/intercepting SoEvent objects for doing <b>user-interactive
-  camera navigation</b>.  These are setNavigationState(),
+  handling/intercepting SoEvent objects for doing \b user-interactive
+  \b camera \b navigation.  These are setNavigationState(),
   setNavigationSystem(), setAutoClipping(), and setNearPlaneValue().
-  The first two controls how user events control camera navigation.
-  The latter two control how camera movements / scene changes affects
+  The first two control how user events control camera navigation.
+  The latter two control how camera movements / scene changes affect
   the clipping planes the camera uses.  Moving the camera, you will
   often need the clipping planes to get updated...
 
@@ -142,7 +142,7 @@
   This rendering mode combines NbSceneManager::AS_IS rendering with
   NbSceneManager::WIREFRAME rendering.  Lines will be drawn along all
   the edges in the model, on top of the ordinary model.  Two rendering
-  passes is needed for this feature.  The color of the overlayed lines
+  passes are needed for this feature.  The color of the overlaid lines
   can be controlled with setWireframeOverlayColor().
 */
 
@@ -151,7 +151,7 @@
 
   This rendering mode is like NbSceneManager::WIREFRAME, except that
   polygons will not be see-through.  Only the edges you actually see
-  will be displayed.  Two rendering passes is used for this style.
+  will be displayed.  Two rendering passes are used for this style.
 */
 
 /*!
@@ -255,7 +255,7 @@
   \enum NbSceneManager::MIXED_NAVIGATION
 
   Make all events be passed first to the scene graph.  If an
-  interactive compomnent in the scene graph, such as a dragger or a
+  interactive component in the scene graph, such as a dragger or a
   selection node, uses the event, then the navigation system will be
   ignored.  If no component in the scene graph uses the event, then
   the navigation system is passed the event instead.
@@ -283,8 +283,8 @@
   The near clipping plane will always be a fixed distance from the
   camera.  If you have problems with too little resolution of the
   depth buffer at far distances in the 3D model, increasing the near
-  plane distance can often help, but with the tradeoff of cutting
-  up-close geometry noticably far from the camera.
+  plane distance can often help, but with the trade-off of cutting
+  up close geometry noticeably far from the camera.
 */
 
 /*!
@@ -293,7 +293,7 @@
   The bounding box of the scene will be calculated to fit the near and
   far plane as good as possible around the scene to utilize the depth
   buffer as good as possible over the whole range of the model.  This
-  technique can cause noticable extra overhead in special cases where
+  technique can cause noticeable extra overhead in special cases where
   scene graphs are built in ways that cause bounding box caching to be
   impossible to do.
 */
@@ -664,7 +664,7 @@ NbSceneManager::processEvent(const SoEvent * const event)
 
 /*!
   This method sets the navigation mode of the scene manager.  The navigation
-  mode decides the system the user uses to navigate the 3D model.
+  mode determines the system the user uses to navigate the 3D model.
 
   NbSceneManager::NO_NAVIGATION is the default setting.
 

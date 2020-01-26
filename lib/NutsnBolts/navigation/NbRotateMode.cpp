@@ -115,8 +115,8 @@ NbRotateMode::clone(void) const
 }
 
 /*!
-  This method implements the object rotatio through tracking how the mouse
-  location moves on a spheresheet-projector.
+  This method implements the object rotation through tracking how the mouse
+  location moves on a sphere sheet projector.
 
   Returns FALSE for unused events and TRUE for events that are used.
 */

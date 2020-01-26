@@ -47,9 +47,9 @@
 
 /*!
   \class NbCenterMode NutsnBolts/navigation/NbCenterMode.h
-  \brief Class that implements the focalpoint centering mode.
+  \brief Class that implements the focal point centering mode.
 
-  This class implements the focalpoint centering mode.
+  This class implements the focal point centering mode.
 
   \ingroup navigation
 */

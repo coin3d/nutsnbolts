@@ -87,7 +87,7 @@ NbPickMode::clone(void) const
 }
 
 /*!
-  This method handles the pitching motion of the camera, based on user input.
+  This method handles the picking events based on user input.
 */
 
 SbBool

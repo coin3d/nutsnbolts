@@ -274,7 +274,7 @@ NbNavigationMode::getSceneGraph(void)
   Virtual abstract method that should be overridden to implement the
   navigation submode.
 
-  All events passed through the system while this mode is active is
+  All events passed through the system while this mode is active are
   passed to this method, including the events that cause init(),
   abort(), and finish() event transitions.
 
@@ -304,7 +304,7 @@ NbNavigationMode::init(const SoEvent * event, const NbNavigationControl * ctrl)
 }
 
 /*!
-  This method is invoked when themode is aborted.  The event passed to
+  This method is invoked when the mode is aborted.  The event passed to
   this method has already been handed to handleEvent as well.
 
   \sa handleEvent, init(), finish()
@@ -404,7 +404,7 @@ NbNavigationMode::getInitialNormalizedPosition(const NbNavigationControl * ctrl)
 }
 
 /*!
-  Returns the previuos pointer position in normalized coordinates.
+  Returns the previous pointer position in normalized coordinates.
 
   \sa getPreviousPosition, getInitialNormalizedPosition, getCurrentNormalizedPosition
 */

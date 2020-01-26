@@ -75,11 +75,11 @@
   the NbSceneManager that will listen to all events sent to the scene
   and perform user-based camera navigation based on those events.
 
-  A set of builtin navigation systems can be used for certain common
+  A set of built-in navigation systems can be used for certain common
   navigation setups, but it is also possible to create ones own navigation
-  modes, or  patch together a new one from existing navigation submodes.
+  modes, or patch together a new one from existing navigation submodes.
 
-  Builtin modes are named in the following set of defines:
+  Built-in modes are named in the following set of defines:
   \li NB_IDLER_SYSTEM
   \li NB_EXAMINER_SYSTEM
   \li NB_PANNER_SYSTEM
@@ -92,7 +92,7 @@
 
   The NB_PANNER_SYSTEM just implements panning when the mouse button
   is pressed.  Similarly, the NB_ZOOMER_SYSTEM and NB_ROTATER_SYSTEM
-  implements just zooming and rotating when the mouse is pressed.
+  implement just zooming and rotating when the mouse is pressed.
 */
 
 /*
@@ -196,7 +196,7 @@ SbDict * NbNavigationSystemP::namedict = NULL;
 // *************************************************************************
 
 /*!
-  Initializes the builtin navigation systems.
+  Initializes the built-in navigation systems.
 
   \sa NbNavigationSystem::cleanClass
 */
@@ -427,7 +427,7 @@ NbNavigationSystem::initClass(void)
 }
 
 /*!
-  Thisfunction cleans up after the NbNavigationSystem class.
+  This function cleans up after the NbNavigationSystem class.
 
   \sa NbNavigationSystem::initClass
 */
