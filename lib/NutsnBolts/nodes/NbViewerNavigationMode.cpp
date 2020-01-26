@@ -72,7 +72,7 @@
   The mode field is used for setting the name of the desired mode.
   If the mode is not found in the system, no mode will be used.
 
-  The builtin modes are currently limited to "examiner", "panner",
+  The built-in modes are currently limited to "examiner", "panner",
   "zoomer", and "rotater".  In addition, application developers can
   extend the list with their own custom modes.
 */

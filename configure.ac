@@ -13,7 +13,7 @@ m4_define([SO_NUMBER], [m4_eval(COIN_MAJOR*20)])
 
 
 AC_INIT([NutsnBolts], [NB_MAJOR.NB_MINOR.NB_MICRO[]NB_BETA],
-  [coin-bugs@coin3d.org])
+  [coin-support@coin3d.org])
 
 AC_CONFIG_SRCDIR(lib/NutsnBolts/NutsnBolts.cpp)
 AC_CONFIG_AUX_DIR(cfg)

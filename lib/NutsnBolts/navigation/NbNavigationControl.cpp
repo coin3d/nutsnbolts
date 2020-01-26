@@ -211,7 +211,7 @@ NbNavigationControl::getUpVector(void) const
 }
 
 /*!
-  This method <i>saves</i> the current camera position and orientation.
+  This method \e saves the current camera position and orientation.
   You can later restore the camera back to this position by calling
   restoreCamera().
 
@@ -226,7 +226,7 @@ NbNavigationControl::saveCamera(void) const
 }
 
 /*!
-  This method restores the camera back to its last <i>set</i> position,
+  This method restores the camera back to its last \e set position,
   or its initial position if saveCamera() has not been used yet.
 
   \sa saveCamera
@@ -242,7 +242,7 @@ NbNavigationControl::restoreCamera(void) const
 /*!
   Performs a pick in the scene.
 
-  \a pos is the 2D locationon the viewport.
+  \a pos is the 2D location on the viewport.
   \a pickpos is the returned 3D pick position.
 
   The method returns the SoPath to the picked object if a point was
@@ -410,7 +410,7 @@ NbNavigationControl::viewPart(SoPath * path, const SbVec3f & in, const SbVec3f &
       *camutmposition = utmpos;
     }
     
-    // focalpoint is now center point
+    // focal point is now center point
     
     if (PRIVATE(this)->utmcamtype != SoType::badType() &&
         camera->isOfType(PRIVATE(this)->utmcamtype)) {
@@ -707,7 +707,7 @@ NbNavigationControl::getViewportSize(void) const
 }
 
 /*!
-  Returns the aspect ratio of the viewport - width divided by height.
+  Returns the aspect ratio of the viewport - its width divided by height.
 */
 
 float
