@@ -1,6 +1,5 @@
-
-#include <assert.h>
-#include <stdio.h>
+#include <cassert>
+#include <cstdio>
 
 #include <Inventor/SoDB.h>
 #include <Inventor/nodes/SoSeparator.h>

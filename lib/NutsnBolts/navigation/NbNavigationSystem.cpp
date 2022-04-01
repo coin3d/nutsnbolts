@@ -34,8 +34,8 @@
 #include <config.h>
 #endif // HAVE_CONFIG_H
 
-#include <assert.h>
-#include <stdio.h>
+#include <cassert>
+#include <cstdio>
 
 #include <Inventor/SbDict.h>
 #include <Inventor/SbPList.h>

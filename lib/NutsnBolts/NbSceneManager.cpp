@@ -34,9 +34,9 @@
 #include <config.h>
 #endif // HAVE_CONFIG_H
 
-#include <assert.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
 
 #include <Inventor/SbBox.h>
 #include <Inventor/SbXfBox3f.h>

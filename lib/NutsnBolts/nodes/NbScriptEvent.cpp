@@ -11,7 +11,8 @@
 #include <Inventor/SoPickedPoint.h>
 #include <Inventor/C/tidbits.h>
 #include <Inventor/errors/SoDebugError.h>
-#include <assert.h>
+
+#include <cassert>
 
 /*!
   \class NbScriptEvent g2kdb/scenario/NbScriptEvent.h

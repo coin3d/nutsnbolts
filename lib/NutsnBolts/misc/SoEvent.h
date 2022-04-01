@@ -37,7 +37,7 @@
 #error NutsnBolts/misc/SoEvent.h is a private/internal header file!
 #endif // !NB_INTERNAL
 
-#include <stdio.h>
+#include <cstdio>
 #include <Inventor/SbBasic.h>
 
 class SoEvent;

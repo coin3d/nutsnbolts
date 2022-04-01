@@ -30,10 +30,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 \**************************************************************************/
 
-#include <assert.h>
-#include <stdio.h>
-#include <math.h>
-#include <float.h>
+#include <cassert>
+#include <cstdio>
+#include <cmath>
+#include <cfloat>
 
 #include <Inventor/events/SoLocation2Event.h>
 #include <Inventor/events/SoMouseButtonEvent.h>
