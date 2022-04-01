@@ -1,0 +1,42 @@
+/******************************************************************************
+ * Generated after analysing the legacy config.h.in with the following command:
+ *
+ * grep -e '#undef ' config.h.in | sed -e 's/^#undef\ /-e /g' | xargs grep --exclude-dir={build,build-debug} --include=\*.{cpp,h} -rnw '/path/to/repo/sources'
+ * 
+ * The command results reveal that only the following defines are actually used 
+ * inside @PROJECT_NAME@ sources:
+ *
+ * <none>
+ *
+ * Consequentely only these will be configured.
+ *
+ * NOTE: config.h is automatically generated from config.h.cmake.in, so don't
+ * edit config.h directly.
+ */
+
+/* define this to the libNutsnBolts major version number */
+#define NB_MAJOR_VERSION @PROJECT_VERSION_MAJOR@
+
+/* define this to the libNutsnBolts release version number */
+#define NB_MICRO_VERSION @PROJECT_VERSION_PATCH@
+
+/* define this to the libNutsnBolts minor version number */
+#define NB_MINOR_VERSION @PROJECT_VERSION_MINOR@
+
+/* define this to the full libNutsnBolts major.minor.micro version number */
+#define NB_VERSION "@PROJECT_VERSION@"
+
+/* Define to the address where bug reports for this package should be sent. */
+#define PACKAGE_BUGREPORT "@NUTSNBOLTS_CONTACT@"
+
+/* Define to the full name of this package. */
+#define PACKAGE_NAME "@PROJECT_NAME@"
+
+/* Define to the full name and version of this package. */
+#define PACKAGE_STRING "@PROJECT_NAME@ @PROJECT_VERSION@"
+
+/* Define to the home page for this package. */
+#define PACKAGE_URL "@NUTSNBOLTS_URL@"
+
+/* Define to the version of this package. */
+#define PACKAGE_VERSION "@PROJECT_VERSION@"
