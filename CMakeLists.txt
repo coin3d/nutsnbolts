@@ -145,8 +145,13 @@ function(versionize)
   foreach(dir ${ARGN})
     set(name      "CMAKE_INSTALL_${dir}")
     set(full-name "CMAKE_INSTALL_FULL_${dir}")
-    set(value      "${${name}}/${PROJECT_NAME}")
-    set(full-value "${CMAKE_INSTALL_PREFIX}/${value}")
+    if(${name} MATCHES ${PROJECT_NAME})
+      string(REPLACE "${PROJECT_NAME}" "${PROJECT_NAME}${PROJECT_VERSION_MAJOR}" value      "${${name}}")
+      string(REPLACE "${PROJECT_NAME}" "${PROJECT_NAME}${PROJECT_VERSION_MAJOR}" full-value "${${full-name}}")
+    else()
+      set(value      "${${name}}/${PROJECT_NAME}${PROJECT_VERSION_MAJOR}")
+      set(full-value "${CMAKE_INSTALL_PREFIX}/${value}")
+    endif()
     set(${name}      ${value}      PARENT_SCOPE)
     set(${full-name} ${full-value} PARENT_SCOPE)
   endforeach()
@@ -155,31 +160,26 @@ endfunction()
 function(dump_variable)
   if (HAVE_DEBUG)
     foreach(f ${ARGN})
-      message("${f} = ${${f}}")
+      if (DEFINED ${f})
+        message("${f} = ${${f}}")
+      else()
+        message("${f} = ***UNDEF***")
+      endif()
     endforeach()
   endif()
 endfunction()
-
-macro(dump_include_dirs)
-  if (HAVE_DEBUG)
-    get_property(dirs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY INCLUDE_DIRECTORIES)
-    foreach(dir ${dirs})
-      message(STATUS "include dir = '${dir}'")
-    endforeach()
-  endif()
-endmacro()
 
 ###############################################################################
 # Build setup
 
 dump_variable(
-CMAKE_INSTALL_FULL_INCLUDEDIR
-CMAKE_INSTALL_FULL_DOCDIR
+  CMAKE_INSTALL_FULL_INCLUDEDIR
+  CMAKE_INSTALL_FULL_DOCDIR
 )
 versionize(INCLUDEDIR)
 dump_variable(
-CMAKE_INSTALL_FULL_INCLUDEDIR
-CMAKE_INSTALL_FULL_DOCDIR
+  CMAKE_INSTALL_FULL_INCLUDEDIR
+  CMAKE_INSTALL_FULL_DOCDIR
 )
 
 # ############################################################################
