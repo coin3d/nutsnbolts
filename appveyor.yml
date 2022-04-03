@@ -236,7 +236,7 @@ before_build:
       tar xzf $DOWNLOAD_FILE_COIN -C $APPVEYOR_BUILD_FOLDER/downloads
       ###############
       if [ -n "${APPVEYOR_REPO_TAG_NAME}" ]; then export SOQT_REPO_VERSION=$SOQT_VERSION; else export SOQT_REPO_VERSION=latest; fi
-      if [ -n "${APPVEYOR_REPO_TAG_NAME}" ]; then export SOQT_REPO_TAG_NAME=SoQt-$COIN_VERSION; else export SOQT_REPO_TAG_NAME=CI-builds; fi
+      if [ -n "${APPVEYOR_REPO_TAG_NAME}" ]; then export SOQT_REPO_TAG_NAME=SoQt-$SOQT_VERSION; else export SOQT_REPO_TAG_NAME=CI-builds; fi
       DOWNLOAD_FILE_SOQT=soqt-$SOQT_REPO_VERSION-$COMPILER_ID-$CMAKE_PLATFORM.tar.gz
       RELEASE_ID=`curl -s -H "Authorization: token $GH_AUTH_TOKEN" https://api.github.com/repos/coin3d/soqt/releases | jq -r --arg SOQT_REPO_TAG_NAME "$SOQT_REPO_TAG_NAME" '.[] | select(.tag_name==$SOQT_REPO_TAG_NAME) | .id'`
       ASSET_ID=`curl -s -H "Authorization: token $GH_AUTH_TOKEN" https://api.github.com/repos/coin3d/soqt/releases/$RELEASE_ID | jq -r --arg DOWNLOAD_FILE_SOQT "$DOWNLOAD_FILE_SOQT" '.assets[] | select(.name==$DOWNLOAD_FILE_SOQT) | .id'`
