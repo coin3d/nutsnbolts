@@ -1,12 +1,22 @@
-# tests performed on SoQt only
-set(Gui Qt)
-set(WIDGET QWidget*)
+# tests performed on SoQt/SoWx only
+if(NUTSNBOLTS_USE_WX)
+    set(Gui Wx)
+    set(WIDGET wxWindow*)
+    find_package(SoWx REQUIRED)
+    add_executable(sowxviewer sowxviewer.cpp)
+    target_link_libraries(sowxviewer SoWx::SoWx NutsnBolts)
 
-find_package(SoQt REQUIRED)
+    configure_file(viewer.cpp.in wxViewer.cpp @ONLY)
+    add_executable(wxViewer ${CMAKE_CURRENT_BINARY_DIR}/wxViewer.cpp)
+    target_link_libraries(wxViewer SoWx::SoWx NutsnBolts)
+else()
+    set(Gui Qt)
+    set(WIDGET QWidget*)
+    find_package(SoQt REQUIRED)
+    add_executable(soqtviewer soqtviewer.cpp)
+    target_link_libraries(soqtviewer SoQt::SoQt NutsnBolts)
 
-add_executable(soqtviewer soqtviewer.cpp)
-target_link_libraries(soqtviewer SoQt::SoQt NutsnBolts)
-
-configure_file(viewer.cpp.in viewer.cpp @ONLY)
-add_executable(viewer ${CMAKE_CURRENT_BINARY_DIR}/viewer.cpp)
-target_link_libraries(viewer SoQt::SoQt NutsnBolts)
+    configure_file(viewer.cpp.in qtviewer.cpp @ONLY)
+    add_executable(viewer ${CMAKE_CURRENT_BINARY_DIR}/qtviewer.cpp)
+    target_link_libraries(viewer SoQt::SoQt NutsnBolts)
+endif()

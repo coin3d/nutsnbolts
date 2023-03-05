@@ -12,13 +12,13 @@ jobs:
     name: Ubuntu Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Checkout submodules
         run: git submodule update --init --recursive
       - name: Create build directory and run CMake
         run: |
           sudo apt-get -y update
-          sudo apt-get -y install freeglut3-dev qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools qttools5-dev-tools
+          sudo apt-get -y install freeglut3-dev qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools qttools5-dev-tools libxi-dev
           mkdir cmake_download_dir
           DOWNLOAD_FILE_COIN=coin-latest-Ubuntu2004-gcc9-x64.tar.gz
           RELEASE_ID=`curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/coin3d/coin/releases | jq -r --arg COIN_REPO_TAG_NAME "CI-builds" '.[] | select(.tag_name==$COIN_REPO_TAG_NAME) | .id'`
@@ -41,7 +41,7 @@ jobs:
       #  run:  ctest -C Release -VV
       #  working-directory: cmake_build_dir
       - name: Create Artifacts
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           name: Ubuntu-Artifacts
           path: cmake_install_dir/
@@ -51,7 +51,7 @@ jobs:
     name: Windows Build
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Checkout submodules
         run: git submodule update --init --recursive
       - name: Install Qt
@@ -81,7 +81,7 @@ jobs:
       #  run:  ctest -C Release -VV
       #  working-directory: cmake_build_dir
       - name: Create Artifacts
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           name: Windows-Artifacts
           path: cmake_install_dir/
@@ -91,7 +91,7 @@ jobs:
     name: MacOS Build
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Checkout submodules
         run: git submodule update --init --recursive
       - name: Create build directory and run CMake
@@ -119,7 +119,7 @@ jobs:
       #  run:  ctest -C Release -VV
       #  working-directory: cmake_build_dir
       - name: Create Artifacts
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           name: MacOS-Artifacts
           path: cmake_install_dir/

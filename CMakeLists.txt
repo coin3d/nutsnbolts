@@ -55,6 +55,7 @@ option(HAVE_DEBUG                   "Add debugging information during the config
 option(NUTSNBOLTS_BUILD_SHARED_LIBS "Build shared libraries" ON)
 option(NUTSNBOLTS_USE_QT6 "Prefer Qt6 over Qt5 if available" ON)
 option(NUTSNBOLTS_USE_QT5 "Prefer Qt5 over Qt4 if available" ON)
+option(NUTSNBOLTS_USE_WX "Prefer wxWidgets over Qt if available" OFF)
 option(NUTSNBOLTS_BUILD_DOCUMENTATION "Build and install API documentation (requires Doxygen)." OFF)
 cmake_dependent_option(NUTSNBOLTS_BUILD_INTERNAL_DOCUMENTATION "Document internal code not part of the API." OFF "NUTSNBOLTS_BUILD_DOCUMENTATION" OFF)
 cmake_dependent_option(NUTSNBOLTS_BUILD_DOC_MAN "Build NutsnBolts man pages." OFF "NUTSNBOLTS_BUILD_DOCUMENTATION" OFF)
@@ -66,6 +67,7 @@ report_prepare(
   NUTSNBOLTS_BUILD_SHARED_LIBS
   NUTSNBOLTS_USE_QT6
   NUTSNBOLTS_USE_QT5
+  NUTSNBOLTS_USE_WX
   NUTSNBOLTS_BUILD_DOCUMENTATION
   NUTSNBOLTS_BUILD_INTERNAL_DOCUMENTATION
   NUTSNBOLTS_BUILD_DOC_MAN
@@ -84,41 +86,48 @@ find_package(Coin REQUIRED)
 
 set(NUTSNBOLTS_PKG_DEPS "Coin")
 
-if(NUTSNBOLTS_USE_QT6)
-  find_package(Qt6 COMPONENTS Widgets QUIET)
-endif()
+if(NOT NUTSNBOLTS_USE_WX)
+    if(NUTSNBOLTS_USE_QT6)
+      find_package(Qt6 COMPONENTS Widgets QUIET)
+    endif()
 
-if(NOT Qt6_FOUND AND NUTSNBOLTS_USE_QT5)
-  find_package(Qt5 COMPONENTS Widgets QUIET)
-endif()
+    if(NOT Qt6_FOUND AND NUTSNBOLTS_USE_QT5)
+      find_package(Qt5 COMPONENTS Widgets QUIET)
+    endif()
 
-if(NOT Qt6_FOUND AND NOT Qt5_FOUND)
-  set(QT_USE_IMPORTED_TARGETS ON)
-  find_package(Qt4 COMPONENTS QtGui REQUIRED)
-endif()
+    if(NOT Qt6_FOUND AND NOT Qt5_FOUND)
+      set(QT_USE_IMPORTED_TARGETS ON)
+      find_package(Qt4 COMPONENTS QtGui REQUIRED)
+    endif()
 
-if(Qt6_FOUND)
-  set(NUTSNBOLTS_QT_TARGETS Qt6::Widgets)
-  string(REGEX REPLACE "^([0-9]+)\\.[0-9]+\\.[0-9]+.*" "\\1" QT_VERSION_MAJOR "${Qt6Core_VERSION_STRING}")
-  string(REGEX REPLACE "^[0-9]+\\.([0-9]+)\\.[0-9]+.*" "\\1" QT_VERSION_MINOR "${Qt6Core_VERSION_STRING}")
-  string(REGEX REPLACE "^[0-9]+\\.[0-9]+\\.([0-9]+).*" "\\1" QT_VERSION_PATCH "${Qt6Core_VERSION_STRING}")
-  set(NUTSNBOLTS_PKG_DEPS "${NUTSNBOLTS_PKG_DEPS} Qt6Widgets")
-elseif(Qt5_FOUND)
-  set(NUTSNBOLTS_QT_TARGETS Qt5::Widgets)
-  string(REGEX REPLACE "^([0-9]+)\\.[0-9]+\\.[0-9]+.*" "\\1" QT_VERSION_MAJOR "${Qt5Core_VERSION_STRING}")
-  string(REGEX REPLACE "^[0-9]+\\.([0-9]+)\\.[0-9]+.*" "\\1" QT_VERSION_MINOR "${Qt5Core_VERSION_STRING}")
-  string(REGEX REPLACE "^[0-9]+\\.[0-9]+\\.([0-9]+).*" "\\1" QT_VERSION_PATCH "${Qt5Core_VERSION_STRING}")
-  set(NUTSNBOLTS_PKG_DEPS "${NUTSNBOLTS_PKG_DEPS} Qt5Widgets")
+    if(Qt6_FOUND)
+      set(NUTSNBOLTS_QT_TARGETS Qt6::Widgets)
+      string(REGEX REPLACE "^([0-9]+)\\.[0-9]+\\.[0-9]+.*" "\\1" QT_VERSION_MAJOR "${Qt6Core_VERSION_STRING}")
+      string(REGEX REPLACE "^[0-9]+\\.([0-9]+)\\.[0-9]+.*" "\\1" QT_VERSION_MINOR "${Qt6Core_VERSION_STRING}")
+      string(REGEX REPLACE "^[0-9]+\\.[0-9]+\\.([0-9]+).*" "\\1" QT_VERSION_PATCH "${Qt6Core_VERSION_STRING}")
+      set(NUTSNBOLTS_PKG_DEPS "${NUTSNBOLTS_PKG_DEPS} Qt6Widgets")
+    elseif(Qt5_FOUND)
+      set(NUTSNBOLTS_QT_TARGETS Qt5::Widgets)
+      string(REGEX REPLACE "^([0-9]+)\\.[0-9]+\\.[0-9]+.*" "\\1" QT_VERSION_MAJOR "${Qt5Core_VERSION_STRING}")
+      string(REGEX REPLACE "^[0-9]+\\.([0-9]+)\\.[0-9]+.*" "\\1" QT_VERSION_MINOR "${Qt5Core_VERSION_STRING}")
+      string(REGEX REPLACE "^[0-9]+\\.[0-9]+\\.([0-9]+).*" "\\1" QT_VERSION_PATCH "${Qt5Core_VERSION_STRING}")
+      set(NUTSNBOLTS_PKG_DEPS "${NUTSNBOLTS_PKG_DEPS} Qt5Widgets")
+    else()
+      set(NUTSNBOLTS_QT_TARGETS Qt4::QtGui)
+      include(${QT_USE_FILE})
+      set(NUTSNBOLTS_PKG_DEPS "${NUTSNBOLTS_PKG_DEPS} QtGui")
+    endif()
+
+    set(NUTSNBOLTS_PKG_LIBS "" CACHE INTERNAL "Link libraries for package config")
+    set(NUTSNBOLTS_PKG_FLAGS "" CACHE INTERNAL "Compilation flags for package config")
+
+    find_package(SoQt REQUIRED)
 else()
-  set(NUTSNBOLTS_QT_TARGETS Qt4::QtGui)
-  include(${QT_USE_FILE})
-  set(NUTSNBOLTS_PKG_DEPS "${NUTSNBOLTS_PKG_DEPS} QtGui")
+    set(NUTSNBOLTS_PKG_LIBS "" CACHE INTERNAL "Link libraries for package config")
+    set(NUTSNBOLTS_PKG_FLAGS "" CACHE INTERNAL "Compilation flags for package config")
+    
+    find_package(SoWx REQUIRED)
 endif()
-
-set(NUTSNBOLTS_PKG_LIBS "" CACHE INTERNAL "Link libraries for package config")
-set(NUTSNBOLTS_PKG_FLAGS "" CACHE INTERNAL "Compilation flags for package config")
-
-find_package(SoQt REQUIRED)
 
 # ##########################################################################
 # Setup build environment
