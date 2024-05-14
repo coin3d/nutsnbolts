@@ -1,0 +1,1008 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.10.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!-- BEGIN opengraph metadata -->
+<meta property="og:title" content="Doxygen Awesome" />
+<meta property="og:image" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta property="og:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<meta property="og:url" content="https://jothepro.github.io/doxygen-awesome-css/" />
+<!-- END opengraph metadata -->
+<!-- BEGIN twitter metadata -->
+<meta name="twitter:image:src" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta name="twitter:title" content="Doxygen Awesome" />
+<meta name="twitter:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<!-- END twitter metadata -->
+<title>NutsnBolts: NbSceneManager Class Reference</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link rel="icon" type="image/svg+xml" href="logo.drawio.svg"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript" src="doxygen-awesome-tabs.js"></script>
+<script type="text/javascript" src="toggle-alternative-theme.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeFragmentCopyButton.init()
+    DoxygenAwesomeDarkModeToggle.init()
+    DoxygenAwesomeParagraphLink.init()
+    DoxygenAwesomeInteractiveToc.init()
+    DoxygenAwesomeTabs.init()
+</script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="custom-alternative.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/coin3d/nutsnbolts" class="github-corner" title="View source on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="40" height="40" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="Coin_logo.png"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">NutsnBolts
+   &#160;<span id="projectnumber">0.1.0</span>
+   </div>
+   <div id="projectbrief">An extension library for Coin</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.10.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('classNbSceneManager.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="classNbSceneManager-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">NbSceneManager Class Reference<div class="ingroups"><a class="el" href="group__misc.html">Misc</a> &#124; <a class="el" href="group__navigation.html">Navigation Classes</a></div></div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Extends the <a class="el" href="classSoSceneManager.html">SoSceneManager</a> class with more high-level viewer related functionality.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="NbSceneManager_8h_source.html">NutsnBolts/NbSceneManager.h</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for NbSceneManager:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classNbSceneManager.png" usemap="#NbSceneManager_map" alt=""/>
+  <map id="NbSceneManager_map" name="NbSceneManager_map">
+<area href="classSoSceneManager.html" alt="SoSceneManager" shape="rect" coords="0,0,115,24"/>
+  </map>
+</div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:ac5def4197b39ad5acbc6d380b968debe" id="r_ac5def4197b39ad5acbc6d380b968debe"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac5def4197b39ad5acbc6d380b968debe">AutoClippingStrategy</a> { <b>NO_AUTO_CLIPPING</b>
+, <b>FIXED_NEAR_PLANE</b>
+, <b>VARIABLE_NEAR_PLANE</b>
+ }</td></tr>
+<tr class="separator:ac5def4197b39ad5acbc6d380b968debe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab251c7dbe9fa157f9061645bf328b340" id="r_ab251c7dbe9fa157f9061645bf328b340"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab251c7dbe9fa157f9061645bf328b340">NavigationState</a> { <b>NO_NAVIGATION</b>
+, <b>JUST_NAVIGATION</b>
+, <b>MIXED_NAVIGATION</b>
+ }</td></tr>
+<tr class="separator:ab251c7dbe9fa157f9061645bf328b340"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e620d5ed75dd688133b726f034e0341" id="r_a1e620d5ed75dd688133b726f034e0341"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1e620d5ed75dd688133b726f034e0341">RenderMode</a> { <br />
+&#160;&#160;<b>AS_IS</b>
+, <b>WIREFRAME</b>
+, <b>POINTS</b>
+, <b>WIREFRAME_OVERLAY</b>
+, <br />
+&#160;&#160;<b>HIDDEN_LINE</b>
+, <b>BOUNDING_BOX</b>
+<br />
+ }</td></tr>
+<tr class="separator:a1e620d5ed75dd688133b726f034e0341"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8032b107a183e61437f880e9f33a048" id="r_ab8032b107a183e61437f880e9f33a048"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab8032b107a183e61437f880e9f33a048">StereoMode</a> { <br />
+&#160;&#160;<b>MONO</b>
+, <b>RED_CYAN</b>
+, <b>RED_BLUE</b>
+, <b>QUAD_BUFFER</b>
+, <br />
+&#160;&#160;<b>INTERLEAVED_ROWS</b>
+, <b>INTERLEAVED_COLUMNS</b>
+<br />
+ }</td></tr>
+<tr class="separator:ab8032b107a183e61437f880e9f33a048"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:affe7893c7852662414befb8b3afc041d" id="r_affe7893c7852662414befb8b3afc041d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#affe7893c7852662414befb8b3afc041d">NbSceneManager</a> (void)</td></tr>
+<tr class="separator:affe7893c7852662414befb8b3afc041d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8fdcffe088ab51fcb46e549fa40e1723" id="r_a8fdcffe088ab51fcb46e549fa40e1723"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8fdcffe088ab51fcb46e549fa40e1723">~NbSceneManager</a> (void)</td></tr>
+<tr class="separator:a8fdcffe088ab51fcb46e549fa40e1723"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6740517d0d45916015e066112dc874ae" id="r_a6740517d0d45916015e066112dc874ae"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6740517d0d45916015e066112dc874ae">activate</a> (void)</td></tr>
+<tr class="separator:a6740517d0d45916015e066112dc874ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32cc8bac6aa2853bcfff28b51fd66f62" id="r_a32cc8bac6aa2853bcfff28b51fd66f62"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a32cc8bac6aa2853bcfff28b51fd66f62">deactivate</a> (void)</td></tr>
+<tr class="separator:a32cc8bac6aa2853bcfff28b51fd66f62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5295fd08645786cff956a1ed756109a0" id="r_a5295fd08645786cff956a1ed756109a0"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="#ac5def4197b39ad5acbc6d380b968debe">AutoClippingStrategy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5295fd08645786cff956a1ed756109a0">getAutoClipping</a> (void) const</td></tr>
+<tr class="separator:a5295fd08645786cff956a1ed756109a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af488154df53be315b1ce82cc2d051278" id="r_af488154df53be315b1ce82cc2d051278"><td class="memItemLeft" align="right" valign="top">SoCamera *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af488154df53be315b1ce82cc2d051278">getCamera</a> (void) const</td></tr>
+<tr class="separator:af488154df53be315b1ce82cc2d051278"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad412b6157a93eefcb54f74a7b0c0d8f0" id="r_ad412b6157a93eefcb54f74a7b0c0d8f0"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="#ab251c7dbe9fa157f9061645bf328b340">NavigationState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad412b6157a93eefcb54f74a7b0c0d8f0">getNavigationState</a> (void) const</td></tr>
+<tr class="separator:ad412b6157a93eefcb54f74a7b0c0d8f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adcb67bde1b95d7ccdd34e165fcf67417" id="r_adcb67bde1b95d7ccdd34e165fcf67417"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classNbNavigationSystem.html">NbNavigationSystem</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adcb67bde1b95d7ccdd34e165fcf67417">getNavigationSystem</a> (void) const</td></tr>
+<tr class="separator:adcb67bde1b95d7ccdd34e165fcf67417"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab13731830194cca0a6002aba34188ba2" id="r_ab13731830194cca0a6002aba34188ba2"><td class="memItemLeft" align="right" valign="top">virtual float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab13731830194cca0a6002aba34188ba2">getNearPlaneValue</a> (void) const</td></tr>
+<tr class="separator:ab13731830194cca0a6002aba34188ba2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1bdc32de54898af74afe84584768da0" id="r_ab1bdc32de54898af74afe84584768da0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a1e620d5ed75dd688133b726f034e0341">RenderMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab1bdc32de54898af74afe84584768da0">getRenderMode</a> (void) const</td></tr>
+<tr class="separator:ab1bdc32de54898af74afe84584768da0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7e132ab4cb1fdfd561ed53b74f532d9" id="r_ae7e132ab4cb1fdfd561ed53b74f532d9"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classSoNode.html">SoNode</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae7e132ab4cb1fdfd561ed53b74f532d9">getSceneGraph</a> (void) const</td></tr>
+<tr class="separator:ae7e132ab4cb1fdfd561ed53b74f532d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3f9ae59e0a5b0fefbd259166d5cca77" id="r_ab3f9ae59e0a5b0fefbd259166d5cca77"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#ab8032b107a183e61437f880e9f33a048">StereoMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab3f9ae59e0a5b0fefbd259166d5cca77">getStereoMode</a> (void) const</td></tr>
+<tr class="separator:ab3f9ae59e0a5b0fefbd259166d5cca77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0c2eebeed281f23ca132a611d2b52b5" id="r_ad0c2eebeed281f23ca132a611d2b52b5"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad0c2eebeed281f23ca132a611d2b52b5">getStereoOffset</a> (void) const</td></tr>
+<tr class="separator:ad0c2eebeed281f23ca132a611d2b52b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7729c863f2d017f7a7bccad075a9ff21" id="r_a7729c863f2d017f7a7bccad075a9ff21"><td class="memItemLeft" align="right" valign="top">const SbColor &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7729c863f2d017f7a7bccad075a9ff21">getWireframeOverlayColor</a> (void) const</td></tr>
+<tr class="separator:a7729c863f2d017f7a7bccad075a9ff21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d33321b98dd710a9c30a46b32d78f0a" id="r_a0d33321b98dd710a9c30a46b32d78f0a"><td class="memItemLeft" align="right" valign="top">SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0d33321b98dd710a9c30a46b32d78f0a">isTexturesEnabled</a> (void) const</td></tr>
+<tr class="separator:a0d33321b98dd710a9c30a46b32d78f0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66812776419a69313b32d408889462e9" id="r_a66812776419a69313b32d408889462e9"><td class="memItemLeft" align="right" valign="top">virtual SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a66812776419a69313b32d408889462e9">processEvent</a> (const <a class="el" href="classSoEvent.html">SoEvent</a> *const event)</td></tr>
+<tr class="separator:a66812776419a69313b32d408889462e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac237b5be073f4abc6b151e048fc04a32" id="r_ac237b5be073f4abc6b151e048fc04a32"><td class="memItemLeft" align="right" valign="top"><a id="ac237b5be073f4abc6b151e048fc04a32" name="ac237b5be073f4abc6b151e048fc04a32"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>render</b> (const SbBool clearwindow=TRUE, const SbBool clearzbuffer=TRUE)</td></tr>
+<tr class="separator:ac237b5be073f4abc6b151e048fc04a32"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebf8ff4210b02370a9c2b4db34499326" id="r_aebf8ff4210b02370a9c2b4db34499326"><td class="memItemLeft" align="right" valign="top"><a id="aebf8ff4210b02370a9c2b4db34499326" name="aebf8ff4210b02370a9c2b4db34499326"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>render</b> (SoGLRenderAction *action, const SbBool initmatrices=TRUE, const SbBool clearwindow=TRUE, const SbBool clearzbuffer=TRUE)</td></tr>
+<tr class="separator:aebf8ff4210b02370a9c2b4db34499326"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18809cf15be90e6cb1acde79a9b08948" id="r_a18809cf15be90e6cb1acde79a9b08948"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a18809cf15be90e6cb1acde79a9b08948">setAutoClipping</a> (<a class="el" href="#ac5def4197b39ad5acbc6d380b968debe">AutoClippingStrategy</a> strategy)</td></tr>
+<tr class="separator:a18809cf15be90e6cb1acde79a9b08948"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3aaad53aa9ffc03294e0bb061467082a" id="r_a3aaad53aa9ffc03294e0bb061467082a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3aaad53aa9ffc03294e0bb061467082a">setCamera</a> (SoCamera *camera)</td></tr>
+<tr class="separator:a3aaad53aa9ffc03294e0bb061467082a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a961f2c2c03dbf14594635a6be3ae7916" id="r_a961f2c2c03dbf14594635a6be3ae7916"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a961f2c2c03dbf14594635a6be3ae7916">setNavigationState</a> (<a class="el" href="#ab251c7dbe9fa157f9061645bf328b340">NavigationState</a> state)</td></tr>
+<tr class="separator:a961f2c2c03dbf14594635a6be3ae7916"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a862f80422539f077c929debbf51dbf29" id="r_a862f80422539f077c929debbf51dbf29"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a862f80422539f077c929debbf51dbf29">setNavigationSystem</a> (<a class="el" href="classNbNavigationSystem.html">NbNavigationSystem</a> *system)</td></tr>
+<tr class="separator:a862f80422539f077c929debbf51dbf29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff3d01207bf9cd112fbe1e0533c6edd5" id="r_aff3d01207bf9cd112fbe1e0533c6edd5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aff3d01207bf9cd112fbe1e0533c6edd5">setNearPlaneValue</a> (float value)</td></tr>
+<tr class="separator:aff3d01207bf9cd112fbe1e0533c6edd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ec10bc730ff8bddb0df9f9b3663e023" id="r_a8ec10bc730ff8bddb0df9f9b3663e023"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8ec10bc730ff8bddb0df9f9b3663e023">setRenderMode</a> (<a class="el" href="#a1e620d5ed75dd688133b726f034e0341">RenderMode</a> mode)</td></tr>
+<tr class="separator:a8ec10bc730ff8bddb0df9f9b3663e023"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a68475049174abbbdc0126472c0d9e6" id="r_a2a68475049174abbbdc0126472c0d9e6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2a68475049174abbbdc0126472c0d9e6">setSceneGraph</a> (<a class="el" href="classSoNode.html">SoNode</a> *const root)</td></tr>
+<tr class="separator:a2a68475049174abbbdc0126472c0d9e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca74e20c1fe82674f1709336887f9d9a" id="r_aca74e20c1fe82674f1709336887f9d9a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aca74e20c1fe82674f1709336887f9d9a">setStereoMode</a> (<a class="el" href="#ab8032b107a183e61437f880e9f33a048">StereoMode</a> mode)</td></tr>
+<tr class="separator:aca74e20c1fe82674f1709336887f9d9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a9a0a4dc19486c0bb34082d0027ef31" id="r_a0a9a0a4dc19486c0bb34082d0027ef31"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0a9a0a4dc19486c0bb34082d0027ef31">setStereoOffset</a> (float offset)</td></tr>
+<tr class="separator:a0a9a0a4dc19486c0bb34082d0027ef31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23d4f454e81d6db0832c321d6aaf6826" id="r_a23d4f454e81d6db0832c321d6aaf6826"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a23d4f454e81d6db0832c321d6aaf6826">setTexturesEnabled</a> (const SbBool onoff)</td></tr>
+<tr class="separator:a23d4f454e81d6db0832c321d6aaf6826"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a197c781192227ba3916cb4ade88d88db" id="r_a197c781192227ba3916cb4ade88d88db"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a197c781192227ba3916cb4ade88d88db">setWireframeOverlayColor</a> (const SbColor &amp;color)</td></tr>
+<tr class="separator:a197c781192227ba3916cb4ade88d88db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Extends the <a class="el" href="classSoSceneManager.html">SoSceneManager</a> class with more high-level viewer related functionality. </p>
+<p>The <a class="el" href="classNbSceneManager.html" title="Extends the SoSceneManager class with more high-level viewer related functionality.">NbSceneManager</a> class extends the SoSceneManger class with functionality that relates to scene graphs and rendering on a higher level. By using a scene manager of this type instead of the standard <a class="el" href="classSoSceneManager.html">SoSceneManager</a>, you can easily get more advanced viewer functionality connected to a custom GL context you've created yourself instead of having to resort to one of SoQt/SoWin/SoXts viewer components.</p>
+<p>Currently, the functionality this class adds to the <a class="el" href="classSoSceneManager.html">SoSceneManager</a> can be categorized into three groups:</p>
+<p>One set of functions lets you control the <b>rendering</b> <b>style</b>. These are <a class="el" href="#a8ec10bc730ff8bddb0df9f9b3663e023">setRenderMode()</a>, <a class="el" href="#a23d4f454e81d6db0832c321d6aaf6826">setTexturesEnabled()</a>, and <a class="el" href="#a197c781192227ba3916cb4ade88d88db">setWireframeOverlayColor()</a>.</p>
+<p>Another set of functions implements support for various <b>stereo</b> <b>rendering</b> techniques. These are <a class="el" href="#aca74e20c1fe82674f1709336887f9d9a">setStereoMode()</a> and <a class="el" href="#a0a9a0a4dc19486c0bb34082d0027ef31">setStereoOffset()</a>.</p>
+<p>The third group of functions is for incorporating a system for handling/intercepting <a class="el" href="classSoEvent.html">SoEvent</a> objects for doing <b>user-interactive</b> <b>camera</b> <b>navigation</b>. These are <a class="el" href="#a961f2c2c03dbf14594635a6be3ae7916">setNavigationState()</a>, <a class="el" href="#a862f80422539f077c929debbf51dbf29">setNavigationSystem()</a>, <a class="el" href="#a18809cf15be90e6cb1acde79a9b08948">setAutoClipping()</a>, and <a class="el" href="#aff3d01207bf9cd112fbe1e0533c6edd5">setNearPlaneValue()</a>. The first two control how user events control camera navigation. The latter two control how camera movements / scene changes affect the clipping planes the camera uses. Moving the camera, you will often need the clipping planes to get updated...</p>
+<p>You will also notice that all the other virtual functions in the <a class="el" href="classSoSceneManager.html">SoSceneManager</a> class are overridden. This is done because some of them are modified to implement the above mentioned functionality, and the rest of them might be necessary to override later when more functionality is added, and we would like to be able to do that without breaking binary compatibility and having to bump the major version of the library for the next release. </p>
+</div><h2 class="groupheader">Member Enumeration Documentation</h2>
+<a id="ac5def4197b39ad5acbc6d380b968debe" name="ac5def4197b39ad5acbc6d380b968debe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5def4197b39ad5acbc6d380b968debe">&#9670;&#160;</a></span>AutoClippingStrategy</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#ac5def4197b39ad5acbc6d380b968debe">NbSceneManager::AutoClippingStrategy</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This enum defines the autoclipping strategies that the <a class="el" href="classNbSceneManager.html" title="Extends the SoSceneManager class with more high-level viewer related functionality.">NbSceneManager</a> can handle. </p>
+
+</div>
+</div>
+<a id="ab251c7dbe9fa157f9061645bf328b340" name="ab251c7dbe9fa157f9061645bf328b340"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab251c7dbe9fa157f9061645bf328b340">&#9670;&#160;</a></span>NavigationState</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#ab251c7dbe9fa157f9061645bf328b340">NbSceneManager::NavigationState</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This enum defines the available strategies for combining camera navigation and scene interaction when listening to <a class="el" href="classSoEvent.html">SoEvent</a> objects. </p>
+
+</div>
+</div>
+<a id="a1e620d5ed75dd688133b726f034e0341" name="a1e620d5ed75dd688133b726f034e0341"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e620d5ed75dd688133b726f034e0341">&#9670;&#160;</a></span>RenderMode</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#a1e620d5ed75dd688133b726f034e0341">NbSceneManager::RenderMode</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This enum defines the various rendering styles that are supported by the <a class="el" href="classNbSceneManager.html" title="Extends the SoSceneManager class with more high-level viewer related functionality.">NbSceneManager</a> class. </p>
+
+</div>
+</div>
+<a id="ab8032b107a183e61437f880e9f33a048" name="ab8032b107a183e61437f880e9f33a048"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8032b107a183e61437f880e9f33a048">&#9670;&#160;</a></span>StereoMode</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#ab8032b107a183e61437f880e9f33a048">NbSceneManager::StereoMode</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This enum defines the various stereo mode rendering strategies supported by the <a class="el" href="classNbSceneManager.html" title="Extends the SoSceneManager class with more high-level viewer related functionality.">NbSceneManager</a> class. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="affe7893c7852662414befb8b3afc041d" name="affe7893c7852662414befb8b3afc041d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#affe7893c7852662414befb8b3afc041d">&#9670;&#160;</a></span>NbSceneManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">NbSceneManager::NbSceneManager </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Constructor. </p>
+
+</div>
+</div>
+<a id="a8fdcffe088ab51fcb46e549fa40e1723" name="a8fdcffe088ab51fcb46e549fa40e1723"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8fdcffe088ab51fcb46e549fa40e1723">&#9670;&#160;</a></span>~NbSceneManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">NbSceneManager::~NbSceneManager </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Destructor </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a6740517d0d45916015e066112dc874ae" name="a6740517d0d45916015e066112dc874ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6740517d0d45916015e066112dc874ae">&#9670;&#160;</a></span>activate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbSceneManager::activate </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Overloaded in case of future developments.</p>
+<p>See SoSceneManager::activate(). </p>
+
+</div>
+</div>
+<a id="a32cc8bac6aa2853bcfff28b51fd66f62" name="a32cc8bac6aa2853bcfff28b51fd66f62"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32cc8bac6aa2853bcfff28b51fd66f62">&#9670;&#160;</a></span>deactivate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbSceneManager::deactivate </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Overloaded in case of future developments.</p>
+<p>See SoSceneManager::deactivate(). </p>
+
+</div>
+</div>
+<a id="a5295fd08645786cff956a1ed756109a0" name="a5295fd08645786cff956a1ed756109a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5295fd08645786cff956a1ed756109a0">&#9670;&#160;</a></span>getAutoClipping()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ac5def4197b39ad5acbc6d380b968debe">NbSceneManager::AutoClippingStrategy</a> NbSceneManager::getAutoClipping </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method returns the current autoclipping strategy.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a18809cf15be90e6cb1acde79a9b08948">setAutoClipping</a> </dd></dl>
+
+</div>
+</div>
+<a id="af488154df53be315b1ce82cc2d051278" name="af488154df53be315b1ce82cc2d051278"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af488154df53be315b1ce82cc2d051278">&#9670;&#160;</a></span>getCamera()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SoCamera * NbSceneManager::getCamera </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the current camera.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a3aaad53aa9ffc03294e0bb061467082a">setCamera</a> </dd></dl>
+
+</div>
+</div>
+<a id="ad412b6157a93eefcb54f74a7b0c0d8f0" name="ad412b6157a93eefcb54f74a7b0c0d8f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad412b6157a93eefcb54f74a7b0c0d8f0">&#9670;&#160;</a></span>getNavigationState()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ab251c7dbe9fa157f9061645bf328b340">NbSceneManager::NavigationState</a> NbSceneManager::getNavigationState </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method returns which state the camera navigation system is in.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#ab251c7dbe9fa157f9061645bf328b340">NbSceneManager::NavigationState</a>, <a class="el" href="#a961f2c2c03dbf14594635a6be3ae7916">setNavigationState</a> </dd></dl>
+
+</div>
+</div>
+<a id="adcb67bde1b95d7ccdd34e165fcf67417" name="adcb67bde1b95d7ccdd34e165fcf67417"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adcb67bde1b95d7ccdd34e165fcf67417">&#9670;&#160;</a></span>getNavigationSystem()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classNbNavigationSystem.html">NbNavigationSystem</a> * NbSceneManager::getNavigationSystem </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method returns the current navigation system in use. NULL means that no navigation system is in use.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classNbNavigationSystem.html" title="Class for managing user-based viewer navigation.">NbNavigationSystem</a>, <a class="el" href="#a862f80422539f077c929debbf51dbf29">setNavigationSystem</a> </dd></dl>
+
+</div>
+</div>
+<a id="ab13731830194cca0a6002aba34188ba2" name="ab13731830194cca0a6002aba34188ba2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab13731830194cca0a6002aba34188ba2">&#9670;&#160;</a></span>getNearPlaneValue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float NbSceneManager::getNearPlaneValue </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method returns the near plane distance value that will be used when the NbSceneManager::FIXED_NEAR_PLANE autoclipping strategy is used.</p>
+<p>Default value is 0.6.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a18809cf15be90e6cb1acde79a9b08948">setAutoClipping</a>, <a class="el" href="#aff3d01207bf9cd112fbe1e0533c6edd5">setNearPlaneValue</a>, <a class="el" href="#ac5def4197b39ad5acbc6d380b968debe">NbSceneManager::AutoClippingStrategy</a> </dd></dl>
+
+</div>
+</div>
+<a id="ab1bdc32de54898af74afe84584768da0" name="ab1bdc32de54898af74afe84584768da0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1bdc32de54898af74afe84584768da0">&#9670;&#160;</a></span>getRenderMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a1e620d5ed75dd688133b726f034e0341">NbSceneManager::RenderMode</a> NbSceneManager::getRenderMode </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the current render mode.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a1e620d5ed75dd688133b726f034e0341">NbSceneManager::RenderMode</a>, <a class="el" href="#a8ec10bc730ff8bddb0df9f9b3663e023">setRenderMode</a> </dd></dl>
+
+</div>
+</div>
+<a id="ae7e132ab4cb1fdfd561ed53b74f532d9" name="ae7e132ab4cb1fdfd561ed53b74f532d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7e132ab4cb1fdfd561ed53b74f532d9">&#9670;&#160;</a></span>getSceneGraph()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classSoNode.html">SoNode</a> * NbSceneManager::getSceneGraph </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Overloaded in case of future developments.</p>
+<p>See SoSceneManager::getSceneGraph(). </p>
+
+</div>
+</div>
+<a id="ab3f9ae59e0a5b0fefbd259166d5cca77" name="ab3f9ae59e0a5b0fefbd259166d5cca77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3f9ae59e0a5b0fefbd259166d5cca77">&#9670;&#160;</a></span>getStereoMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ab8032b107a183e61437f880e9f33a048">NbSceneManager::StereoMode</a> NbSceneManager::getStereoMode </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the current stereo mode.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#aca74e20c1fe82674f1709336887f9d9a">setStereoMode</a> </dd></dl>
+
+</div>
+</div>
+<a id="ad0c2eebeed281f23ca132a611d2b52b5" name="ad0c2eebeed281f23ca132a611d2b52b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0c2eebeed281f23ca132a611d2b52b5">&#9670;&#160;</a></span>getStereoOffset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float NbSceneManager::getStereoOffset </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the current stereo offset.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a0a9a0a4dc19486c0bb34082d0027ef31">setStereoOffset</a> </dd></dl>
+
+</div>
+</div>
+<a id="a7729c863f2d017f7a7bccad075a9ff21" name="a7729c863f2d017f7a7bccad075a9ff21"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7729c863f2d017f7a7bccad075a9ff21">&#9670;&#160;</a></span>getWireframeOverlayColor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const SbColor &amp; NbSceneManager::getWireframeOverlayColor </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the WIREFRAME_OVERLAY line color.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a197c781192227ba3916cb4ade88d88db">setWireframeOverlayColor</a> </dd></dl>
+
+</div>
+</div>
+<a id="a0d33321b98dd710a9c30a46b32d78f0a" name="a0d33321b98dd710a9c30a46b32d78f0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d33321b98dd710a9c30a46b32d78f0a">&#9670;&#160;</a></span>isTexturesEnabled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SbBool NbSceneManager::isTexturesEnabled </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns whether textures are enabled or not.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a23d4f454e81d6db0832c321d6aaf6826">setTexturesEnabled</a> </dd></dl>
+
+</div>
+</div>
+<a id="a66812776419a69313b32d408889462e9" name="a66812776419a69313b32d408889462e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66812776419a69313b32d408889462e9">&#9670;&#160;</a></span>processEvent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">SbBool NbSceneManager::processEvent </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classSoEvent.html">SoEvent</a> *const</td>          <td class="paramname"><span class="paramname"><em>event</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Overloaded from <a class="el" href="classSoSceneManager.html">SoSceneManager</a> to handle viewer navigation. </p>
+
+</div>
+</div>
+<a id="a18809cf15be90e6cb1acde79a9b08948" name="a18809cf15be90e6cb1acde79a9b08948"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18809cf15be90e6cb1acde79a9b08948">&#9670;&#160;</a></span>setAutoClipping()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbSceneManager::setAutoClipping </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#ac5def4197b39ad5acbc6d380b968debe">AutoClippingStrategy</a></td>          <td class="paramname"><span class="paramname"><em>strategy</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method sets the scene manager's autoclipping strategy.</p>
+<p>Default setting is NbSceneManager::VARIABLE_NEAR_PLANE.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#ac5def4197b39ad5acbc6d380b968debe">NbSceneManager::AutoClippingStrategy</a>, <a class="el" href="#a5295fd08645786cff956a1ed756109a0">getAutoClipping</a>, <a class="el" href="#aff3d01207bf9cd112fbe1e0533c6edd5">setNearPlaneValue</a>, <a class="el" href="#ab13731830194cca0a6002aba34188ba2">getNearPlaneValue</a> </dd></dl>
+
+</div>
+</div>
+<a id="a3aaad53aa9ffc03294e0bb061467082a" name="a3aaad53aa9ffc03294e0bb061467082a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3aaad53aa9ffc03294e0bb061467082a">&#9670;&#160;</a></span>setCamera()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbSceneManager::setCamera </td>
+          <td>(</td>
+          <td class="paramtype">SoCamera *</td>          <td class="paramname"><span class="paramname"><em>camera</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Sets the camera to be used. If you do not set a camera, the scene manager will search for one by itself.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#af488154df53be315b1ce82cc2d051278">getCamera</a> </dd></dl>
+
+</div>
+</div>
+<a id="a961f2c2c03dbf14594635a6be3ae7916" name="a961f2c2c03dbf14594635a6be3ae7916"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a961f2c2c03dbf14594635a6be3ae7916">&#9670;&#160;</a></span>setNavigationState()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbSceneManager::setNavigationState </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#ab251c7dbe9fa157f9061645bf328b340">NavigationState</a></td>          <td class="paramname"><span class="paramname"><em>state</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method sets the navigation mode of the scene manager. The navigation mode determines the system the user uses to navigate the 3D model.</p>
+<p>NbSceneManager::NO_NAVIGATION is the default setting.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#ab251c7dbe9fa157f9061645bf328b340">NbSceneManager::NavigationState</a>, <a class="el" href="#ad412b6157a93eefcb54f74a7b0c0d8f0">getNavigationState</a> </dd></dl>
+
+</div>
+</div>
+<a id="a862f80422539f077c929debbf51dbf29" name="a862f80422539f077c929debbf51dbf29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a862f80422539f077c929debbf51dbf29">&#9670;&#160;</a></span>setNavigationSystem()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbSceneManager::setNavigationSystem </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classNbNavigationSystem.html">NbNavigationSystem</a> *</td>          <td class="paramname"><span class="paramname"><em>system</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method sets the navigation system to use.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classNbNavigationSystem.html" title="Class for managing user-based viewer navigation.">NbNavigationSystem</a>, <a class="el" href="#adcb67bde1b95d7ccdd34e165fcf67417">getNavigationSystem</a> </dd></dl>
+
+</div>
+</div>
+<a id="aff3d01207bf9cd112fbe1e0533c6edd5" name="aff3d01207bf9cd112fbe1e0533c6edd5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff3d01207bf9cd112fbe1e0533c6edd5">&#9670;&#160;</a></span>setNearPlaneValue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbSceneManager::setNearPlaneValue </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>When the NbSceneManager::FIXED_NEAR_PLANE autoclipping strategy is used, you set the value of the near plane distance with this method.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a18809cf15be90e6cb1acde79a9b08948">setAutoClipping</a>, <a class="el" href="#ab13731830194cca0a6002aba34188ba2">getNearPlaneValue</a>, <a class="el" href="#ac5def4197b39ad5acbc6d380b968debe">NbSceneManager::AutoClippingStrategy</a> </dd></dl>
+
+</div>
+</div>
+<a id="a8ec10bc730ff8bddb0df9f9b3663e023" name="a8ec10bc730ff8bddb0df9f9b3663e023"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ec10bc730ff8bddb0df9f9b3663e023">&#9670;&#160;</a></span>setRenderMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbSceneManager::setRenderMode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a1e620d5ed75dd688133b726f034e0341">RenderMode</a></td>          <td class="paramname"><span class="paramname"><em>mode</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Sets the render mode. Defaults to AS_IS.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a1e620d5ed75dd688133b726f034e0341">NbSceneManager::RenderMode</a>, <a class="el" href="#ab1bdc32de54898af74afe84584768da0">getRenderMode</a> </dd></dl>
+
+</div>
+</div>
+<a id="a2a68475049174abbbdc0126472c0d9e6" name="a2a68475049174abbbdc0126472c0d9e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a68475049174abbbdc0126472c0d9e6">&#9670;&#160;</a></span>setSceneGraph()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbSceneManager::setSceneGraph </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classSoNode.html">SoNode</a> *const</td>          <td class="paramname"><span class="paramname"><em>root</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Overloaded in case of future developments.</p>
+<p>See SoSceneManager::setSceneGraph(). </p>
+
+</div>
+</div>
+<a id="aca74e20c1fe82674f1709336887f9d9a" name="aca74e20c1fe82674f1709336887f9d9a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca74e20c1fe82674f1709336887f9d9a">&#9670;&#160;</a></span>setStereoMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbSceneManager::setStereoMode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#ab8032b107a183e61437f880e9f33a048">StereoMode</a></td>          <td class="paramname"><span class="paramname"><em>mode</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Sets the stereo rendering mode. Defaults to MONO.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#ab3f9ae59e0a5b0fefbd259166d5cca77">getStereoMode</a> </dd></dl>
+
+</div>
+</div>
+<a id="a0a9a0a4dc19486c0bb34082d0027ef31" name="a0a9a0a4dc19486c0bb34082d0027ef31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a9a0a4dc19486c0bb34082d0027ef31">&#9670;&#160;</a></span>setStereoOffset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbSceneManager::setStereoOffset </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>offset</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Sets the stereo offset - the distance between the viewpoint each eye uses - used when doing stereo rendering. Defaults to 0.1.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#ad0c2eebeed281f23ca132a611d2b52b5">getStereoOffset</a> </dd></dl>
+
+</div>
+</div>
+<a id="a23d4f454e81d6db0832c321d6aaf6826" name="a23d4f454e81d6db0832c321d6aaf6826"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23d4f454e81d6db0832c321d6aaf6826">&#9670;&#160;</a></span>setTexturesEnabled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbSceneManager::setTexturesEnabled </td>
+          <td>(</td>
+          <td class="paramtype">const SbBool</td>          <td class="paramname"><span class="paramname"><em>onoff</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Enable/disable textures when rendering. Defaults to TRUE.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a0d33321b98dd710a9c30a46b32d78f0a">isTexturesEnabled</a> </dd></dl>
+
+</div>
+</div>
+<a id="a197c781192227ba3916cb4ade88d88db" name="a197c781192227ba3916cb4ade88d88db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a197c781192227ba3916cb4ade88d88db">&#9670;&#160;</a></span>setWireframeOverlayColor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbSceneManager::setWireframeOverlayColor </td>
+          <td>(</td>
+          <td class="paramtype">const SbColor &amp;</td>          <td class="paramname"><span class="paramname"><em>color</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Sets the color of the lines in WIREFRAME_OVERLAY rendering mode. Defaults to red [1.0 0.0 0.0].</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a7729c863f2d017f7a7bccad075a9ff21">getWireframeOverlayColor</a> </dd></dl>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li><a class="el" href="NbSceneManager_8h_source.html">NbSceneManager.h</a></li>
+<li><b>NbSceneManager.cpp</b></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="classNbSceneManager.html">NbSceneManager</a></li>
+    <li class="footer">Generated on Tue May 14 2024 19:53:13 for NutsnBolts by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
+  </ul>
+</div>
+</body>
+</html>

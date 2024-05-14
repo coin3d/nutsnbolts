@@ -1,0 +1,919 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.10.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!-- BEGIN opengraph metadata -->
+<meta property="og:title" content="Doxygen Awesome" />
+<meta property="og:image" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta property="og:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<meta property="og:url" content="https://jothepro.github.io/doxygen-awesome-css/" />
+<!-- END opengraph metadata -->
+<!-- BEGIN twitter metadata -->
+<meta name="twitter:image:src" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta name="twitter:title" content="Doxygen Awesome" />
+<meta name="twitter:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<!-- END twitter metadata -->
+<title>NutsnBolts: NbNavigationSystem Class Reference</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link rel="icon" type="image/svg+xml" href="logo.drawio.svg"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript" src="doxygen-awesome-tabs.js"></script>
+<script type="text/javascript" src="toggle-alternative-theme.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeFragmentCopyButton.init()
+    DoxygenAwesomeDarkModeToggle.init()
+    DoxygenAwesomeParagraphLink.init()
+    DoxygenAwesomeInteractiveToc.init()
+    DoxygenAwesomeTabs.init()
+</script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="custom-alternative.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/coin3d/nutsnbolts" class="github-corner" title="View source on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="40" height="40" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="Coin_logo.png"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">NutsnBolts
+   &#160;<span id="projectnumber">0.1.0</span>
+   </div>
+   <div id="projectbrief">An extension library for Coin</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.10.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('classNbNavigationSystem.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#related">Related Symbols</a> &#124;
+<a href="classNbNavigationSystem-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">NbNavigationSystem Class Reference<div class="ingroups"><a class="el" href="group__navigation.html">Navigation Classes</a></div></div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Class for managing user-based viewer navigation.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="NbNavigationSystem_8h_source.html">NutsnBolts/navigation/NbNavigationSystem.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:abbabeddf32800e651e8dc0650943386e" id="r_abbabeddf32800e651e8dc0650943386e"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abbabeddf32800e651e8dc0650943386e">TransitionType</a> { <br />
+&#160;&#160;<b>INITIAL</b>
+, <b>STACK</b>
+, <b>SWITCH</b>
+, <b>FINISH</b>
+, <br />
+&#160;&#160;<b>ABORT</b>
+<br />
+ }</td></tr>
+<tr class="separator:abbabeddf32800e651e8dc0650943386e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a2c89f08aaae205ad93cb5e24a8f8fbef" id="r_a2c89f08aaae205ad93cb5e24a8f8fbef"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2c89f08aaae205ad93cb5e24a8f8fbef">NbNavigationSystem</a> (SbName name)</td></tr>
+<tr class="separator:a2c89f08aaae205ad93cb5e24a8f8fbef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a2ea5c113f94185d7d8a7f16a7b3045" id="r_a8a2ea5c113f94185d7d8a7f16a7b3045"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8a2ea5c113f94185d7d8a7f16a7b3045">~NbNavigationSystem</a> (void)</td></tr>
+<tr class="separator:a8a2ea5c113f94185d7d8a7f16a7b3045"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf8cb57dbf81c11f17866f5139cd30a2" id="r_abf8cb57dbf81c11f17866f5139cd30a2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abf8cb57dbf81c11f17866f5139cd30a2">addMode</a> (<a class="el" href="classNbNavigationMode.html">NbNavigationMode</a> *mode)</td></tr>
+<tr class="separator:abf8cb57dbf81c11f17866f5139cd30a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac09eac9f59f38c0bcdfa43ddee7edcec" id="r_ac09eac9f59f38c0bcdfa43ddee7edcec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac09eac9f59f38c0bcdfa43ddee7edcec">addModeChangeCallback</a> (<a class="el" href="#a5490346b8eacaeed48ddf44b87aa3450">NbNavigationModeChangeCB</a> *cb, void *closure)</td></tr>
+<tr class="separator:ac09eac9f59f38c0bcdfa43ddee7edcec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0249422beda3995ed1641845b1ada96d" id="r_a0249422beda3995ed1641845b1ada96d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0249422beda3995ed1641845b1ada96d">addModeTransition</a> (<a class="el" href="classNbNavigationMode.html">NbNavigationMode</a> *mode, <a class="el" href="#abbabeddf32800e651e8dc0650943386e">TransitionType</a> type, const <a class="el" href="classSoEvent.html">SoEvent</a> *trigger=NULL, const <a class="el" href="classSoEvent.html">SoEvent</a> *condition=NULL)</td></tr>
+<tr class="separator:a0249422beda3995ed1641845b1ada96d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad51f307cfc7fcddd487c2bc0d65ce836" id="r_ad51f307cfc7fcddd487c2bc0d65ce836"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad51f307cfc7fcddd487c2bc0d65ce836">addModeTransition</a> (<a class="el" href="classNbNavigationMode.html">NbNavigationMode</a> *mode1, <a class="el" href="classNbNavigationMode.html">NbNavigationMode</a> *mode2, <a class="el" href="#abbabeddf32800e651e8dc0650943386e">TransitionType</a> type, const <a class="el" href="classSoEvent.html">SoEvent</a> *trigger, const <a class="el" href="classSoEvent.html">SoEvent</a> *condition=NULL)</td></tr>
+<tr class="separator:ad51f307cfc7fcddd487c2bc0d65ce836"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ee7d8cab3bd59d2270d7e4d672b9bb4" id="r_a7ee7d8cab3bd59d2270d7e4d672b9bb4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classNbNavigationSystem.html">NbNavigationSystem</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7ee7d8cab3bd59d2270d7e4d672b9bb4">clone</a> (void) const</td></tr>
+<tr class="separator:a7ee7d8cab3bd59d2270d7e4d672b9bb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3100f2c24c28c6bc19d6a34db95c1e3" id="r_ad3100f2c24c28c6bc19d6a34db95c1e3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classNbNavigationMode.html">NbNavigationMode</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad3100f2c24c28c6bc19d6a34db95c1e3">getCurrentMode</a> (void) const</td></tr>
+<tr class="separator:ad3100f2c24c28c6bc19d6a34db95c1e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cff207ecc028b72e70ab3c039360502" id="r_a0cff207ecc028b72e70ab3c039360502"><td class="memItemLeft" align="right" valign="top">SbName&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0cff207ecc028b72e70ab3c039360502">getCurrentModeName</a> (void) const</td></tr>
+<tr class="separator:a0cff207ecc028b72e70ab3c039360502"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a492ebe70ae36fa1dce5bf06035a138de" id="r_a492ebe70ae36fa1dce5bf06035a138de"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classNbNavigationMode.html">NbNavigationMode</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a492ebe70ae36fa1dce5bf06035a138de">getMode</a> (SbName name) const</td></tr>
+<tr class="separator:a492ebe70ae36fa1dce5bf06035a138de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6daa58ca5966894f4ce231142f2a47d1" id="r_a6daa58ca5966894f4ce231142f2a47d1"><td class="memItemLeft" align="right" valign="top">SbName&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6daa58ca5966894f4ce231142f2a47d1">getName</a> (void) const</td></tr>
+<tr class="separator:a6daa58ca5966894f4ce231142f2a47d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7788f278d9d1b5e6fdf98c69e2e9081f" id="r_a7788f278d9d1b5e6fdf98c69e2e9081f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classNbNavigationControl.html">NbNavigationControl</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7788f278d9d1b5e6fdf98c69e2e9081f">getNavigationControl</a> (void) const</td></tr>
+<tr class="separator:a7788f278d9d1b5e6fdf98c69e2e9081f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1596c180d83891dc8c5a051a33cbf7da" id="r_a1596c180d83891dc8c5a051a33cbf7da"><td class="memItemLeft" align="right" valign="top">SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1596c180d83891dc8c5a051a33cbf7da">processEvent</a> (const <a class="el" href="classSoEvent.html">SoEvent</a> *event)</td></tr>
+<tr class="separator:a1596c180d83891dc8c5a051a33cbf7da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8a34e19fe00ff8b05074be473455f2f" id="r_ac8a34e19fe00ff8b05074be473455f2f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac8a34e19fe00ff8b05074be473455f2f">removeModeChangeCallback</a> (<a class="el" href="#a5490346b8eacaeed48ddf44b87aa3450">NbNavigationModeChangeCB</a> *cb, void *closure)</td></tr>
+<tr class="separator:ac8a34e19fe00ff8b05074be473455f2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a013021d039bf21b237032d35c5a51f16" id="r_a013021d039bf21b237032d35c5a51f16"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a013021d039bf21b237032d35c5a51f16">setCamera</a> (SoCamera *camera)</td></tr>
+<tr class="separator:a013021d039bf21b237032d35c5a51f16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4fd1644a2a5ef42dbb6ae0b365fefdd" id="r_ad4fd1644a2a5ef42dbb6ae0b365fefdd"><td class="memItemLeft" align="right" valign="top"><a id="ad4fd1644a2a5ef42dbb6ae0b365fefdd" name="ad4fd1644a2a5ef42dbb6ae0b365fefdd"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setSceneGraph</b> (<a class="el" href="classSoNode.html">SoNode</a> *scenegraph)</td></tr>
+<tr class="separator:ad4fd1644a2a5ef42dbb6ae0b365fefdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9577b792a7d74a6e27cc87669b0f893d" id="r_a9577b792a7d74a6e27cc87669b0f893d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9577b792a7d74a6e27cc87669b0f893d">setViewport</a> (const SbViewportRegion &amp;viewport)</td></tr>
+<tr class="separator:a9577b792a7d74a6e27cc87669b0f893d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae235f84688fff49c6a43360af6ce1926" id="r_ae235f84688fff49c6a43360af6ce1926"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae235f84688fff49c6a43360af6ce1926">viewAll</a> (void)</td></tr>
+<tr class="separator:ae235f84688fff49c6a43360af6ce1926"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0b0069c91b1f29d4ae8024cb4aec7fa" id="r_ab0b0069c91b1f29d4ae8024cb4aec7fa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab0b0069c91b1f29d4ae8024cb4aec7fa">viewPart</a> (<a class="el" href="classSoNode.html">SoNode</a> *node, const SbVec3f &amp;in, const SbVec3f &amp;up)</td></tr>
+<tr class="separator:ab0b0069c91b1f29d4ae8024cb4aec7fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a49c3276a061490d96db83502f1347d" id="r_a3a49c3276a061490d96db83502f1347d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3a49c3276a061490d96db83502f1347d">viewPart</a> (SoPath *path, const SbVec3f &amp;in, const SbVec3f &amp;up)</td></tr>
+<tr class="separator:a3a49c3276a061490d96db83502f1347d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a8356243a3a500619df2ed76db22012a9" id="r_a8356243a3a500619df2ed76db22012a9"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8356243a3a500619df2ed76db22012a9">cleanClass</a> (void)</td></tr>
+<tr class="separator:a8356243a3a500619df2ed76db22012a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abacb00010f0fef9232031d6c26508d9b" id="r_abacb00010f0fef9232031d6c26508d9b"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classNbNavigationSystem.html">NbNavigationSystem</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abacb00010f0fef9232031d6c26508d9b">createByName</a> (SbName name)</td></tr>
+<tr class="separator:abacb00010f0fef9232031d6c26508d9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbd6601f5a24122ae476f0dab49e345b" id="r_acbd6601f5a24122ae476f0dab49e345b"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classNbNavigationSystem.html">NbNavigationSystem</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acbd6601f5a24122ae476f0dab49e345b">getByName</a> (SbName name)</td></tr>
+<tr class="separator:acbd6601f5a24122ae476f0dab49e345b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fb7b17548f677de9ed736dfb90af423" id="r_a2fb7b17548f677de9ed736dfb90af423"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2fb7b17548f677de9ed736dfb90af423">initClass</a> (void)</td></tr>
+<tr class="separator:a2fb7b17548f677de9ed736dfb90af423"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4de7e0250059223511f7d080cd758c9f" id="r_a4de7e0250059223511f7d080cd758c9f"><td class="memItemLeft" align="right" valign="top">static SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4de7e0250059223511f7d080cd758c9f">isRegistered</a> (<a class="el" href="classNbNavigationSystem.html">NbNavigationSystem</a> *system)</td></tr>
+<tr class="separator:a4de7e0250059223511f7d080cd758c9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7770d6c3854fcb8cd4fa8950db8f14df" id="r_a7770d6c3854fcb8cd4fa8950db8f14df"><td class="memItemLeft" align="right" valign="top">static SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7770d6c3854fcb8cd4fa8950db8f14df">registerSystem</a> (<a class="el" href="classNbNavigationSystem.html">NbNavigationSystem</a> *system)</td></tr>
+<tr class="separator:a7770d6c3854fcb8cd4fa8950db8f14df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32126b6ec62e89042fb5f3ceb23985a0" id="r_a32126b6ec62e89042fb5f3ceb23985a0"><td class="memItemLeft" align="right" valign="top">static SbBool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a32126b6ec62e89042fb5f3ceb23985a0">unregisterSystem</a> (<a class="el" href="classNbNavigationSystem.html">NbNavigationSystem</a> *system)</td></tr>
+<tr class="separator:a32126b6ec62e89042fb5f3ceb23985a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:aa9c150bd8dc28d3ae15c93b4a6907af0" id="r_aa9c150bd8dc28d3ae15c93b4a6907af0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa9c150bd8dc28d3ae15c93b4a6907af0">invokeModeChangeCallbacks</a> (void)</td></tr>
+<tr class="separator:aa9c150bd8dc28d3ae15c93b4a6907af0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="related" name="related"></a>
+Related Symbols</h2></td></tr>
+<tr><td class="ititle" colspan="2"><p>(Note that these are not member symbols.) </p>
+</td></tr>
+<tr class="memitem:a5490346b8eacaeed48ddf44b87aa3450" id="r_a5490346b8eacaeed48ddf44b87aa3450"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5490346b8eacaeed48ddf44b87aa3450">NbNavigationModeChangeCB</a> (void *closure, <a class="el" href="classNbNavigationSystem.html">NbNavigationSystem</a> *system)</td></tr>
+<tr class="separator:a5490346b8eacaeed48ddf44b87aa3450"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Class for managing user-based viewer navigation. </p>
+<p>Container class for navigation systems. </p>
+</div><h2 class="groupheader">Member Enumeration Documentation</h2>
+<a id="abbabeddf32800e651e8dc0650943386e" name="abbabeddf32800e651e8dc0650943386e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abbabeddf32800e651e8dc0650943386e">&#9670;&#160;</a></span>TransitionType</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#abbabeddf32800e651e8dc0650943386e">NbNavigationSystem::TransitionType</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This enum defines the types of mode transitions supported by the <a class="el" href="classNbNavigationSystem.html" title="Class for managing user-based viewer navigation.">NbNavigationSystem</a> class. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a2c89f08aaae205ad93cb5e24a8f8fbef" name="a2c89f08aaae205ad93cb5e24a8f8fbef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c89f08aaae205ad93cb5e24a8f8fbef">&#9670;&#160;</a></span>NbNavigationSystem()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">NbNavigationSystem::NbNavigationSystem </td>
+          <td>(</td>
+          <td class="paramtype">SbName</td>          <td class="paramname"><span class="paramname"><em>name</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Constructor. The <em>name</em> argument is the name of the system, the name it will be registered under with NbSceneManager::registerSystem(). </p>
+
+</div>
+</div>
+<a id="a8a2ea5c113f94185d7d8a7f16a7b3045" name="a8a2ea5c113f94185d7d8a7f16a7b3045"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a2ea5c113f94185d7d8a7f16a7b3045">&#9670;&#160;</a></span>~NbNavigationSystem()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">NbNavigationSystem::~NbNavigationSystem </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Destructor. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="abf8cb57dbf81c11f17866f5139cd30a2" name="abf8cb57dbf81c11f17866f5139cd30a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf8cb57dbf81c11f17866f5139cd30a2">&#9670;&#160;</a></span>addMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbNavigationSystem::addMode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classNbNavigationMode.html">NbNavigationMode</a> *</td>          <td class="paramname"><span class="paramname"><em>mode</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Adds a submode to a navigation system. </p>
+
+</div>
+</div>
+<a id="ac09eac9f59f38c0bcdfa43ddee7edcec" name="ac09eac9f59f38c0bcdfa43ddee7edcec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac09eac9f59f38c0bcdfa43ddee7edcec">&#9670;&#160;</a></span>addModeChangeCallback()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbNavigationSystem::addModeChangeCallback </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a5490346b8eacaeed48ddf44b87aa3450">NbNavigationModeChangeCB</a> *</td>          <td class="paramname"><span class="paramname"><em>cb</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>closure</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Adds a callback that will be called each time the navigation system switches navigation mode. Intended usage for this is for the application to switch mouse cursor representation and similar things.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#ac8a34e19fe00ff8b05074be473455f2f">removeModeChangeCallback</a>, <a class="el" href="#a0cff207ecc028b72e70ab3c039360502">getCurrentModeName</a> </dd></dl>
+
+</div>
+</div>
+<a id="a0249422beda3995ed1641845b1ada96d" name="a0249422beda3995ed1641845b1ada96d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0249422beda3995ed1641845b1ada96d">&#9670;&#160;</a></span>addModeTransition() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbNavigationSystem::addModeTransition </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classNbNavigationMode.html">NbNavigationMode</a> *</td>          <td class="paramname"><span class="paramname"><em>mode</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#abbabeddf32800e651e8dc0650943386e">TransitionType</a></td>          <td class="paramname"><span class="paramname"><em>type</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classSoEvent.html">SoEvent</a> *</td>          <td class="paramname"><span class="paramname"><em>trigger</em><span class="paramdefsep"> = </span><span class="paramdefval">NULL</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classSoEvent.html">SoEvent</a> *</td>          <td class="paramname"><span class="paramname"><em>condition</em><span class="paramdefsep"> = </span><span class="paramdefval">NULL</span></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Adds a mode transition. </p>
+
+</div>
+</div>
+<a id="ad51f307cfc7fcddd487c2bc0d65ce836" name="ad51f307cfc7fcddd487c2bc0d65ce836"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad51f307cfc7fcddd487c2bc0d65ce836">&#9670;&#160;</a></span>addModeTransition() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbNavigationSystem::addModeTransition </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classNbNavigationMode.html">NbNavigationMode</a> *</td>          <td class="paramname"><span class="paramname"><em>mode1</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classNbNavigationMode.html">NbNavigationMode</a> *</td>          <td class="paramname"><span class="paramname"><em>mode2</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#abbabeddf32800e651e8dc0650943386e">TransitionType</a></td>          <td class="paramname"><span class="paramname"><em>type</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classSoEvent.html">SoEvent</a> *</td>          <td class="paramname"><span class="paramname"><em>trigger</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classSoEvent.html">SoEvent</a> *</td>          <td class="paramname"><span class="paramname"><em>condition</em><span class="paramdefsep"> = </span><span class="paramdefval">NULL</span></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Adds a mode transition. </p>
+
+</div>
+</div>
+<a id="a8356243a3a500619df2ed76db22012a9" name="a8356243a3a500619df2ed76db22012a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8356243a3a500619df2ed76db22012a9">&#9670;&#160;</a></span>cleanClass()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbNavigationSystem::cleanClass </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This function cleans up after the <a class="el" href="classNbNavigationSystem.html" title="Class for managing user-based viewer navigation.">NbNavigationSystem</a> class.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a2fb7b17548f677de9ed736dfb90af423">NbNavigationSystem::initClass</a> </dd></dl>
+
+</div>
+</div>
+<a id="a7ee7d8cab3bd59d2270d7e4d672b9bb4" name="a7ee7d8cab3bd59d2270d7e4d672b9bb4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ee7d8cab3bd59d2270d7e4d672b9bb4">&#9670;&#160;</a></span>clone()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classNbNavigationSystem.html">NbNavigationSystem</a> * NbNavigationSystem::clone </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method creates a clone of this navigation system. Only the mode network setup is copied - callback lists are not. </p>
+
+</div>
+</div>
+<a id="abacb00010f0fef9232031d6c26508d9b" name="abacb00010f0fef9232031d6c26508d9b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abacb00010f0fef9232031d6c26508d9b">&#9670;&#160;</a></span>createByName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classNbNavigationSystem.html">NbNavigationSystem</a> * NbNavigationSystem::createByName </td>
+          <td>(</td>
+          <td class="paramtype">SbName</td>          <td class="paramname"><span class="paramname"><em>name</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This function returns a distinct copy of the navigation system defined by the given name, or NULL if no such navigation system has been </p>
+
+</div>
+</div>
+<a id="acbd6601f5a24122ae476f0dab49e345b" name="acbd6601f5a24122ae476f0dab49e345b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbd6601f5a24122ae476f0dab49e345b">&#9670;&#160;</a></span>getByName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classNbNavigationSystem.html">NbNavigationSystem</a> * NbNavigationSystem::getByName </td>
+          <td>(</td>
+          <td class="paramtype">SbName</td>          <td class="paramname"><span class="paramname"><em>name</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This function returns the navigation system that has been registered under the given name. NULL is returned if no such system has been registered.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a7770d6c3854fcb8cd4fa8950db8f14df">NbNavigationSystem::registerSystem</a>, <a class="el" href="#a32126b6ec62e89042fb5f3ceb23985a0">NbNavigationSystem::unregisterSystem</a> </dd></dl>
+
+</div>
+</div>
+<a id="ad3100f2c24c28c6bc19d6a34db95c1e3" name="ad3100f2c24c28c6bc19d6a34db95c1e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3100f2c24c28c6bc19d6a34db95c1e3">&#9670;&#160;</a></span>getCurrentMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classNbNavigationMode.html">NbNavigationMode</a> * NbNavigationSystem::getCurrentMode </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the object for the current submode. </p>
+
+</div>
+</div>
+<a id="a0cff207ecc028b72e70ab3c039360502" name="a0cff207ecc028b72e70ab3c039360502"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0cff207ecc028b72e70ab3c039360502">&#9670;&#160;</a></span>getCurrentModeName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SbName NbNavigationSystem::getCurrentModeName </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the name of the current submode. </p>
+
+</div>
+</div>
+<a id="a492ebe70ae36fa1dce5bf06035a138de" name="a492ebe70ae36fa1dce5bf06035a138de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a492ebe70ae36fa1dce5bf06035a138de">&#9670;&#160;</a></span>getMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classNbNavigationMode.html">NbNavigationMode</a> * NbNavigationSystem::getMode </td>
+          <td>(</td>
+          <td class="paramtype">SbName</td>          <td class="paramname"><span class="paramname"><em>name</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the submode with the given name.</p>
+<p>NULL is returned if no mode with the given name exists in the system. </p>
+
+</div>
+</div>
+<a id="a6daa58ca5966894f4ce231142f2a47d1" name="a6daa58ca5966894f4ce231142f2a47d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6daa58ca5966894f4ce231142f2a47d1">&#9670;&#160;</a></span>getName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SbName NbNavigationSystem::getName </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the name of the navigation system. </p>
+
+</div>
+</div>
+<a id="a7788f278d9d1b5e6fdf98c69e2e9081f" name="a7788f278d9d1b5e6fdf98c69e2e9081f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7788f278d9d1b5e6fdf98c69e2e9081f">&#9670;&#160;</a></span>getNavigationControl()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classNbNavigationControl.html">NbNavigationControl</a> * NbNavigationSystem::getNavigationControl </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the navigation control class used by the navigation systems. </p>
+
+</div>
+</div>
+<a id="a2fb7b17548f677de9ed736dfb90af423" name="a2fb7b17548f677de9ed736dfb90af423"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2fb7b17548f677de9ed736dfb90af423">&#9670;&#160;</a></span>initClass()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbNavigationSystem::initClass </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Initializes the built-in navigation systems.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a8356243a3a500619df2ed76db22012a9">NbNavigationSystem::cleanClass</a> </dd></dl>
+
+</div>
+</div>
+<a id="aa9c150bd8dc28d3ae15c93b4a6907af0" name="aa9c150bd8dc28d3ae15c93b4a6907af0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9c150bd8dc28d3ae15c93b4a6907af0">&#9670;&#160;</a></span>invokeModeChangeCallbacks()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbNavigationSystem::invokeModeChangeCallbacks </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Invokes all the mode change callbacks.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#ac09eac9f59f38c0bcdfa43ddee7edcec">addModeChangeCallback</a>, <a class="el" href="#ac8a34e19fe00ff8b05074be473455f2f">removeModeChangeCallback</a> </dd></dl>
+
+</div>
+</div>
+<a id="a4de7e0250059223511f7d080cd758c9f" name="a4de7e0250059223511f7d080cd758c9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4de7e0250059223511f7d080cd758c9f">&#9670;&#160;</a></span>isRegistered()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">SbBool NbNavigationSystem::isRegistered </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classNbNavigationSystem.html">NbNavigationSystem</a> *</td>          <td class="paramname"><span class="paramname"><em>system</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This function returns whether or not this particular navigation system instance is in the register. </p>
+
+</div>
+</div>
+<a id="a1596c180d83891dc8c5a051a33cbf7da" name="a1596c180d83891dc8c5a051a33cbf7da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1596c180d83891dc8c5a051a33cbf7da">&#9670;&#160;</a></span>processEvent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SbBool NbNavigationSystem::processEvent </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classSoEvent.html">SoEvent</a> *</td>          <td class="paramname"><span class="paramname"><em>event</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Processes an event. Returns TRUE if a mode used the event, and FALSE if the event didn't result in anything. </p>
+
+</div>
+</div>
+<a id="a7770d6c3854fcb8cd4fa8950db8f14df" name="a7770d6c3854fcb8cd4fa8950db8f14df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7770d6c3854fcb8cd4fa8950db8f14df">&#9670;&#160;</a></span>registerSystem()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">SbBool NbNavigationSystem::registerSystem </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classNbNavigationSystem.html">NbNavigationSystem</a> *</td>          <td class="paramname"><span class="paramname"><em>system</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This function registers a navigation system object so it can later be fetched by name through <a class="el" href="#acbd6601f5a24122ae476f0dab49e345b">NbNavigationSystem::getByName()</a>.</p>
+<p>Registered navigation systems can be enabled for an <a class="el" href="classNbSceneManager.html" title="Extends the SoSceneManager class with more high-level viewer related functionality.">NbSceneManager</a> through use of an <a class="el" href="classNbViewerNavigationMode.html" title="Node for setting the default viewer navigation mode for a scene graph.">NbViewerNavigationMode</a> node in the scene graph.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a32126b6ec62e89042fb5f3ceb23985a0">NbNavigationSystem::unregisterSystem</a>, <a class="el" href="#acbd6601f5a24122ae476f0dab49e345b">NbNavigationSystem::getByName</a> </dd></dl>
+
+</div>
+</div>
+<a id="ac8a34e19fe00ff8b05074be473455f2f" name="ac8a34e19fe00ff8b05074be473455f2f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8a34e19fe00ff8b05074be473455f2f">&#9670;&#160;</a></span>removeModeChangeCallback()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbNavigationSystem::removeModeChangeCallback </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a5490346b8eacaeed48ddf44b87aa3450">NbNavigationModeChangeCB</a> *</td>          <td class="paramname"><span class="paramname"><em>cb</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>closure</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Removes a callback set with <a class="el" href="#ac09eac9f59f38c0bcdfa43ddee7edcec">addModeChangeCallback()</a>.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#ac09eac9f59f38c0bcdfa43ddee7edcec">addModeChangeCallback</a> </dd></dl>
+
+</div>
+</div>
+<a id="a013021d039bf21b237032d35c5a51f16" name="a013021d039bf21b237032d35c5a51f16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a013021d039bf21b237032d35c5a51f16">&#9670;&#160;</a></span>setCamera()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbNavigationSystem::setCamera </td>
+          <td>(</td>
+          <td class="paramtype">SoCamera *</td>          <td class="paramname"><span class="paramname"><em>camera</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Sets the pointer to the camera that the navigation system should manipulate. </p>
+
+</div>
+</div>
+<a id="a9577b792a7d74a6e27cc87669b0f893d" name="a9577b792a7d74a6e27cc87669b0f893d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9577b792a7d74a6e27cc87669b0f893d">&#9670;&#160;</a></span>setViewport()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbNavigationSystem::setViewport </td>
+          <td>(</td>
+          <td class="paramtype">const SbViewportRegion &amp;</td>          <td class="paramname"><span class="paramname"><em>vp</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Sets the viewport region information needed for interpreting mouse events correctly. </p>
+
+</div>
+</div>
+<a id="a32126b6ec62e89042fb5f3ceb23985a0" name="a32126b6ec62e89042fb5f3ceb23985a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32126b6ec62e89042fb5f3ceb23985a0">&#9670;&#160;</a></span>unregisterSystem()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">SbBool NbNavigationSystem::unregisterSystem </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classNbNavigationSystem.html">NbNavigationSystem</a> *</td>          <td class="paramname"><span class="paramname"><em>system</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This function unregisters a navigation system from the dictionary.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a7770d6c3854fcb8cd4fa8950db8f14df">NbNavigationSystem::registerSystem</a>, <a class="el" href="#acbd6601f5a24122ae476f0dab49e345b">NbNavigationSystem::getByName</a> </dd></dl>
+
+</div>
+</div>
+<a id="ae235f84688fff49c6a43360af6ce1926" name="ae235f84688fff49c6a43360af6ce1926"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae235f84688fff49c6a43360af6ce1926">&#9670;&#160;</a></span>viewAll()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbNavigationSystem::viewAll </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Repositions the camera so that the complete model gets in the view. </p>
+
+</div>
+</div>
+<a id="ab0b0069c91b1f29d4ae8024cb4aec7fa" name="ab0b0069c91b1f29d4ae8024cb4aec7fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0b0069c91b1f29d4ae8024cb4aec7fa">&#9670;&#160;</a></span>viewPart() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbNavigationSystem::viewPart </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classSoNode.html">SoNode</a> *</td>          <td class="paramname"><span class="paramname"><em>node</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const SbVec3f &amp;</td>          <td class="paramname"><span class="paramname"><em>in</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const SbVec3f &amp;</td>          <td class="paramname"><span class="paramname"><em>up</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method finds the first path to <em>node</em> and invokes the path-based <a class="el" href="#a3a49c3276a061490d96db83502f1347d">viewPart()</a> instead. It's just a convenience function for avoiding to have to find the path yourself.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a3a49c3276a061490d96db83502f1347d">viewPart</a> </dd></dl>
+
+</div>
+</div>
+<a id="a3a49c3276a061490d96db83502f1347d" name="a3a49c3276a061490d96db83502f1347d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a49c3276a061490d96db83502f1347d">&#9670;&#160;</a></span>viewPart() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbNavigationSystem::viewPart </td>
+          <td>(</td>
+          <td class="paramtype">SoPath *</td>          <td class="paramname"><span class="paramname"><em>path</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const SbVec3f &amp;</td>          <td class="paramname"><span class="paramname"><em>in</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const SbVec3f &amp;</td>          <td class="paramname"><span class="paramname"><em>up</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method places the camera so that it has the best view possible of the part <em>path</em> points to, given the in-vector and up-vector constraints. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Friends And Related Symbol Documentation</h2>
+<a id="a5490346b8eacaeed48ddf44b87aa3450" name="a5490346b8eacaeed48ddf44b87aa3450"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5490346b8eacaeed48ddf44b87aa3450">&#9670;&#160;</a></span>NbNavigationModeChangeCB()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbNavigationModeChangeCB </td>
+          <td>(</td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>closure</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classNbNavigationSystem.html">NbNavigationSystem</a> *</td>          <td class="paramname"><span class="paramname"><em>system</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This function type defines the signature the <a class="el" href="classNbNavigationSystem.html" title="Class for managing user-based viewer navigation.">NbNavigationSystem</a> mode change callbacks must use.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#ac09eac9f59f38c0bcdfa43ddee7edcec">NbNavigationSystem::addModeChangeCallback</a>, <a class="el" href="#ac8a34e19fe00ff8b05074be473455f2f">NbNavigationSystem::removeModeChangeCallback</a> </dd></dl>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li><a class="el" href="NbNavigationSystem_8h_source.html">NbNavigationSystem.h</a></li>
+<li><b>NbNavigationSystem.cpp</b></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="classNbNavigationSystem.html">NbNavigationSystem</a></li>
+    <li class="footer">Generated on Tue May 14 2024 19:53:13 for NutsnBolts by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
+  </ul>
+</div>
+</body>
+</html>

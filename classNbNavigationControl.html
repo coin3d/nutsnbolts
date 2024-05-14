@@ -1,0 +1,672 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.10.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!-- BEGIN opengraph metadata -->
+<meta property="og:title" content="Doxygen Awesome" />
+<meta property="og:image" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta property="og:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<meta property="og:url" content="https://jothepro.github.io/doxygen-awesome-css/" />
+<!-- END opengraph metadata -->
+<!-- BEGIN twitter metadata -->
+<meta name="twitter:image:src" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta name="twitter:title" content="Doxygen Awesome" />
+<meta name="twitter:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<!-- END twitter metadata -->
+<title>NutsnBolts: NbNavigationControl Class Reference</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link rel="icon" type="image/svg+xml" href="logo.drawio.svg"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript" src="doxygen-awesome-tabs.js"></script>
+<script type="text/javascript" src="toggle-alternative-theme.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeFragmentCopyButton.init()
+    DoxygenAwesomeDarkModeToggle.init()
+    DoxygenAwesomeParagraphLink.init()
+    DoxygenAwesomeInteractiveToc.init()
+    DoxygenAwesomeTabs.init()
+</script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="custom-alternative.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/coin3d/nutsnbolts" class="github-corner" title="View source on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="40" height="40" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="Coin_logo.png"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">NutsnBolts
+   &#160;<span id="projectnumber">0.1.0</span>
+   </div>
+   <div id="projectbrief">An extension library for Coin</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.10.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('classNbNavigationControl.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="classNbNavigationControl-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">NbNavigationControl Class Reference</div></div>
+</div><!--header-->
+<div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a031f8cf874c7b51fed71d9e1532ef1a1" id="r_a031f8cf874c7b51fed71d9e1532ef1a1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a031f8cf874c7b51fed71d9e1532ef1a1">NbNavigationControl</a> (void)</td></tr>
+<tr class="separator:a031f8cf874c7b51fed71d9e1532ef1a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:addfe876225d9a300e819196e451f7214" id="r_addfe876225d9a300e819196e451f7214"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#addfe876225d9a300e819196e451f7214">~NbNavigationControl</a> (void)</td></tr>
+<tr class="separator:addfe876225d9a300e819196e451f7214"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a371a2a4548303dc77a18bff311cf6731" id="r_a371a2a4548303dc77a18bff311cf6731"><td class="memItemLeft" align="right" valign="top">SoCamera *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a371a2a4548303dc77a18bff311cf6731">getCamera</a> (void) const</td></tr>
+<tr class="separator:a371a2a4548303dc77a18bff311cf6731"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01e37718741183e9b7a445f25f6c5bc7" id="r_a01e37718741183e9b7a445f25f6c5bc7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classSoNode.html">SoNode</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a01e37718741183e9b7a445f25f6c5bc7">getSceneGraph</a> (void) const</td></tr>
+<tr class="separator:a01e37718741183e9b7a445f25f6c5bc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a420b7dfa9ee73182dfbed97ea09d0407" id="r_a420b7dfa9ee73182dfbed97ea09d0407"><td class="memItemLeft" align="right" valign="top">const SbVec3f &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a420b7dfa9ee73182dfbed97ea09d0407">getUpVector</a> (void) const</td></tr>
+<tr class="separator:a420b7dfa9ee73182dfbed97ea09d0407"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7b1e3acdb228b6d09efe5afbc97f450" id="r_aa7b1e3acdb228b6d09efe5afbc97f450"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa7b1e3acdb228b6d09efe5afbc97f450">getViewportAspect</a> (void) const</td></tr>
+<tr class="separator:aa7b1e3acdb228b6d09efe5afbc97f450"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7f79d515b9b914f30d35106b2f2384d" id="r_aa7f79d515b9b914f30d35106b2f2384d"><td class="memItemLeft" align="right" valign="top">SbVec2s&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa7f79d515b9b914f30d35106b2f2384d">getViewportSize</a> (void) const</td></tr>
+<tr class="separator:aa7f79d515b9b914f30d35106b2f2384d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7320d46695cdddfefc7b1c735f8918d1" id="r_a7320d46695cdddfefc7b1c735f8918d1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7320d46695cdddfefc7b1c735f8918d1">moveCamera</a> (const SbVec3f &amp;distance) const</td></tr>
+<tr class="separator:a7320d46695cdddfefc7b1c735f8918d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbc0ed11aef8bd00de1b0549375fc2b9" id="r_acbc0ed11aef8bd00de1b0549375fc2b9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acbc0ed11aef8bd00de1b0549375fc2b9">moveCamera</a> (float factor, const SbBool keepfocalpoint=TRUE) const</td></tr>
+<tr class="separator:acbc0ed11aef8bd00de1b0549375fc2b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a872de75be9d62cac3f7a88ef03f8dd3d" id="r_a872de75be9d62cac3f7a88ef03f8dd3d"><td class="memItemLeft" align="right" valign="top">SoPath *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a872de75be9d62cac3f7a88ef03f8dd3d">pick</a> (SbVec2s pos, SbVec3d &amp;pickpos) const</td></tr>
+<tr class="separator:a872de75be9d62cac3f7a88ef03f8dd3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27ed86976257b51970f1e81d0e4dbd8d" id="r_a27ed86976257b51970f1e81d0e4dbd8d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a27ed86976257b51970f1e81d0e4dbd8d">pitchCamera</a> (float angle) const</td></tr>
+<tr class="separator:a27ed86976257b51970f1e81d0e4dbd8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5821c2f26b9dab5d961e65bd445a3a57" id="r_a5821c2f26b9dab5d961e65bd445a3a57"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5821c2f26b9dab5d961e65bd445a3a57">pointDir</a> (const SbVec3f &amp;dir) const</td></tr>
+<tr class="separator:a5821c2f26b9dab5d961e65bd445a3a57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade93a2cd417195f6a415089d5dc52627" id="r_ade93a2cd417195f6a415089d5dc52627"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ade93a2cd417195f6a415089d5dc52627">reorientCamera</a> (const SbRotation &amp;rot) const</td></tr>
+<tr class="separator:ade93a2cd417195f6a415089d5dc52627"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d2b11ae08187d053cbdac89582e9310" id="r_a6d2b11ae08187d053cbdac89582e9310"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6d2b11ae08187d053cbdac89582e9310">reorientCamera</a> (const SbVec3f &amp;pointat) const</td></tr>
+<tr class="separator:a6d2b11ae08187d053cbdac89582e9310"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a552613366d139c171c29d00b5258c528" id="r_a552613366d139c171c29d00b5258c528"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a552613366d139c171c29d00b5258c528">resetRoll</a> (void) const</td></tr>
+<tr class="separator:a552613366d139c171c29d00b5258c528"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e11a5c2cc08a4f5561b384f1cdd0e9f" id="r_a7e11a5c2cc08a4f5561b384f1cdd0e9f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7e11a5c2cc08a4f5561b384f1cdd0e9f">restoreCamera</a> (void) const</td></tr>
+<tr class="separator:a7e11a5c2cc08a4f5561b384f1cdd0e9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf2df865ca05168f54ac5f18f5d9b002" id="r_acf2df865ca05168f54ac5f18f5d9b002"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acf2df865ca05168f54ac5f18f5d9b002">rollCamera</a> (float angle) const</td></tr>
+<tr class="separator:acf2df865ca05168f54ac5f18f5d9b002"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6815c27bc0cfbcb2c17d2b64b2f7ed05" id="r_a6815c27bc0cfbcb2c17d2b64b2f7ed05"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6815c27bc0cfbcb2c17d2b64b2f7ed05">saveCamera</a> (void) const</td></tr>
+<tr class="separator:a6815c27bc0cfbcb2c17d2b64b2f7ed05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdda187491c0428bdebfe7f872ca1d5f" id="r_afdda187491c0428bdebfe7f872ca1d5f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afdda187491c0428bdebfe7f872ca1d5f">setCamera</a> (SoCamera *camera)</td></tr>
+<tr class="separator:afdda187491c0428bdebfe7f872ca1d5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a230a5ca78db52b97269852a774ce003f" id="r_a230a5ca78db52b97269852a774ce003f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a230a5ca78db52b97269852a774ce003f">setSceneGraph</a> (<a class="el" href="classSoNode.html">SoNode</a> *scene)</td></tr>
+<tr class="separator:a230a5ca78db52b97269852a774ce003f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2828d0454fbe0108f709f3cb987b349" id="r_ad2828d0454fbe0108f709f3cb987b349"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad2828d0454fbe0108f709f3cb987b349">setUpVector</a> (const SbVec3f &amp;up)</td></tr>
+<tr class="separator:ad2828d0454fbe0108f709f3cb987b349"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6bdc904559aaade352a2644fbcd112e" id="r_af6bdc904559aaade352a2644fbcd112e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af6bdc904559aaade352a2644fbcd112e">setViewport</a> (const SbViewportRegion &amp;vp)</td></tr>
+<tr class="separator:af6bdc904559aaade352a2644fbcd112e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe27012a61aeac5bde0b7f9edc9ea503" id="r_afe27012a61aeac5bde0b7f9edc9ea503"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afe27012a61aeac5bde0b7f9edc9ea503">viewAll</a> (void) const</td></tr>
+<tr class="separator:afe27012a61aeac5bde0b7f9edc9ea503"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d8eae0f26cd8282be015471a6bb5f5f" id="r_a6d8eae0f26cd8282be015471a6bb5f5f"><td class="memItemLeft" align="right" valign="top"><a id="a6d8eae0f26cd8282be015471a6bb5f5f" name="a6d8eae0f26cd8282be015471a6bb5f5f"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>viewPart</b> (SoPath *path, const SbVec3f &amp;in, const SbVec3f &amp;up) const</td></tr>
+<tr class="separator:a6d8eae0f26cd8282be015471a6bb5f5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c03361d5e132c0ed93022c1c935c090" id="r_a9c03361d5e132c0ed93022c1c935c090"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9c03361d5e132c0ed93022c1c935c090">yawCamera</a> (float angle) const</td></tr>
+<tr class="separator:a9c03361d5e132c0ed93022c1c935c090"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a031f8cf874c7b51fed71d9e1532ef1a1" name="a031f8cf874c7b51fed71d9e1532ef1a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a031f8cf874c7b51fed71d9e1532ef1a1">&#9670;&#160;</a></span>NbNavigationControl()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">NbNavigationControl::NbNavigationControl </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Constructor. </p>
+
+</div>
+</div>
+<a id="addfe876225d9a300e819196e451f7214" name="addfe876225d9a300e819196e451f7214"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#addfe876225d9a300e819196e451f7214">&#9670;&#160;</a></span>~NbNavigationControl()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">NbNavigationControl::~NbNavigationControl </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Destructor. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a371a2a4548303dc77a18bff311cf6731" name="a371a2a4548303dc77a18bff311cf6731"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a371a2a4548303dc77a18bff311cf6731">&#9670;&#160;</a></span>getCamera()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SoCamera * NbNavigationControl::getCamera </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the pointer the the camera that is to be manipulated.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#afdda187491c0428bdebfe7f872ca1d5f">setCamera</a> </dd></dl>
+
+</div>
+</div>
+<a id="a01e37718741183e9b7a445f25f6c5bc7" name="a01e37718741183e9b7a445f25f6c5bc7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01e37718741183e9b7a445f25f6c5bc7">&#9670;&#160;</a></span>getSceneGraph()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classSoNode.html">SoNode</a> * NbNavigationControl::getSceneGraph </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the set scene graph.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a230a5ca78db52b97269852a774ce003f">setSceneGraph</a> </dd></dl>
+
+</div>
+</div>
+<a id="a420b7dfa9ee73182dfbed97ea09d0407" name="a420b7dfa9ee73182dfbed97ea09d0407"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a420b7dfa9ee73182dfbed97ea09d0407">&#9670;&#160;</a></span>getUpVector()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const SbVec3f &amp; NbNavigationControl::getUpVector </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method returns the up vector. Default value is (0, 0, 0) which is interpreted as no up direction.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#ad2828d0454fbe0108f709f3cb987b349">setUpVector</a>, <a class="el" href="#a552613366d139c171c29d00b5258c528">resetRoll</a> </dd></dl>
+
+</div>
+</div>
+<a id="aa7b1e3acdb228b6d09efe5afbc97f450" name="aa7b1e3acdb228b6d09efe5afbc97f450"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7b1e3acdb228b6d09efe5afbc97f450">&#9670;&#160;</a></span>getViewportAspect()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float NbNavigationControl::getViewportAspect </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the aspect ratio of the viewport - its width divided by height. </p>
+
+</div>
+</div>
+<a id="aa7f79d515b9b914f30d35106b2f2384d" name="aa7f79d515b9b914f30d35106b2f2384d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7f79d515b9b914f30d35106b2f2384d">&#9670;&#160;</a></span>getViewportSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SbVec2s NbNavigationControl::getViewportSize </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the size of the viewport in pixels. </p>
+
+</div>
+</div>
+<a id="a7320d46695cdddfefc7b1c735f8918d1" name="a7320d46695cdddfefc7b1c735f8918d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7320d46695cdddfefc7b1c735f8918d1">&#9670;&#160;</a></span>moveCamera() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbNavigationControl::moveCamera </td>
+          <td>(</td>
+          <td class="paramtype">const SbVec3f &amp;</td>          <td class="paramname"><span class="paramname"><em>distance</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method moves the camera.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#ade93a2cd417195f6a415089d5dc52627">reorientCamera</a>, <a class="el" href="#a6815c27bc0cfbcb2c17d2b64b2f7ed05">saveCamera</a>, <a class="el" href="#a7e11a5c2cc08a4f5561b384f1cdd0e9f">restoreCamera</a> </dd></dl>
+
+</div>
+</div>
+<a id="acbc0ed11aef8bd00de1b0549375fc2b9" name="acbc0ed11aef8bd00de1b0549375fc2b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbc0ed11aef8bd00de1b0549375fc2b9">&#9670;&#160;</a></span>moveCamera() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbNavigationControl::moveCamera </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>factor</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const SbBool</td>          <td class="paramname"><span class="paramname"><em>keepfocalpoint</em><span class="paramdefsep"> = </span><span class="paramdefval">TRUE</span></span>&#160;) const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This camera moves the camera straight forwards towards the focal point. The position of the focal point can be kept, or moved equally forwards as well. </p>
+
+</div>
+</div>
+<a id="a872de75be9d62cac3f7a88ef03f8dd3d" name="a872de75be9d62cac3f7a88ef03f8dd3d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a872de75be9d62cac3f7a88ef03f8dd3d">&#9670;&#160;</a></span>pick()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SoPath * NbNavigationControl::pick </td>
+          <td>(</td>
+          <td class="paramtype">SbVec2s</td>          <td class="paramname"><span class="paramname"><em>pos</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SbVec3d &amp;</td>          <td class="paramname"><span class="paramname"><em>pickpos</em></span>&#160;) const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Performs a pick in the scene.</p>
+<p><em>pos</em> is the 2D location on the viewport. <em>pickpos</em> is the returned 3D pick position.</p>
+<p>The method returns the SoPath to the picked object if a point was picked, and NULL otherwise. </p>
+
+</div>
+</div>
+<a id="a27ed86976257b51970f1e81d0e4dbd8d" name="a27ed86976257b51970f1e81d0e4dbd8d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27ed86976257b51970f1e81d0e4dbd8d">&#9670;&#160;</a></span>pitchCamera()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbNavigationControl::pitchCamera </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>angle</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method reorients the camera in the pitch plane.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#acf2df865ca05168f54ac5f18f5d9b002">rollCamera</a>, <a class="el" href="#a9c03361d5e132c0ed93022c1c935c090">yawCamera</a> </dd></dl>
+
+</div>
+</div>
+<a id="a5821c2f26b9dab5d961e65bd445a3a57" name="a5821c2f26b9dab5d961e65bd445a3a57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5821c2f26b9dab5d961e65bd445a3a57">&#9670;&#160;</a></span>pointDir()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbNavigationControl::pointDir </td>
+          <td>(</td>
+          <td class="paramtype">const SbVec3f &amp;</td>          <td class="paramname"><span class="paramname"><em>dir</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Orients the camera so that it points in the given direction.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#ade93a2cd417195f6a415089d5dc52627">reorientCamera</a> </dd></dl>
+
+</div>
+</div>
+<a id="ade93a2cd417195f6a415089d5dc52627" name="ade93a2cd417195f6a415089d5dc52627"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade93a2cd417195f6a415089d5dc52627">&#9670;&#160;</a></span>reorientCamera() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbNavigationControl::reorientCamera </td>
+          <td>(</td>
+          <td class="paramtype">const SbRotation &amp;</td>          <td class="paramname"><span class="paramname"><em>rot</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method reorients the camera according to the given rotation.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a6815c27bc0cfbcb2c17d2b64b2f7ed05">saveCamera</a>, <a class="el" href="#a7e11a5c2cc08a4f5561b384f1cdd0e9f">restoreCamera</a>, <a class="el" href="#a7320d46695cdddfefc7b1c735f8918d1">moveCamera</a> </dd></dl>
+
+</div>
+</div>
+<a id="a6d2b11ae08187d053cbdac89582e9310" name="a6d2b11ae08187d053cbdac89582e9310"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d2b11ae08187d053cbdac89582e9310">&#9670;&#160;</a></span>reorientCamera() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbNavigationControl::reorientCamera </td>
+          <td>(</td>
+          <td class="paramtype">const SbVec3f &amp;</td>          <td class="paramname"><span class="paramname"><em>pointat</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method reorients the camera to point at the <em>pointat</em> location. </p>
+
+</div>
+</div>
+<a id="a552613366d139c171c29d00b5258c528" name="a552613366d139c171c29d00b5258c528"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a552613366d139c171c29d00b5258c528">&#9670;&#160;</a></span>resetRoll()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbNavigationControl::resetRoll </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method resets the roll of the camera. If no up vector has been set, this method does nothing.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#acf2df865ca05168f54ac5f18f5d9b002">rollCamera</a>, <a class="el" href="#ad2828d0454fbe0108f709f3cb987b349">setUpVector</a>, <a class="el" href="#a420b7dfa9ee73182dfbed97ea09d0407">getUpVector</a> </dd></dl>
+
+</div>
+</div>
+<a id="a7e11a5c2cc08a4f5561b384f1cdd0e9f" name="a7e11a5c2cc08a4f5561b384f1cdd0e9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e11a5c2cc08a4f5561b384f1cdd0e9f">&#9670;&#160;</a></span>restoreCamera()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbNavigationControl::restoreCamera </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method restores the camera back to its last <em>set</em> position, or its initial position if <a class="el" href="#a6815c27bc0cfbcb2c17d2b64b2f7ed05">saveCamera()</a> has not been used yet.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a6815c27bc0cfbcb2c17d2b64b2f7ed05">saveCamera</a> </dd></dl>
+
+</div>
+</div>
+<a id="acf2df865ca05168f54ac5f18f5d9b002" name="acf2df865ca05168f54ac5f18f5d9b002"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf2df865ca05168f54ac5f18f5d9b002">&#9670;&#160;</a></span>rollCamera()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbNavigationControl::rollCamera </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>angle</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method reorients the camera in the roll plane.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a27ed86976257b51970f1e81d0e4dbd8d">pitchCamera</a>, <a class="el" href="#a9c03361d5e132c0ed93022c1c935c090">yawCamera</a> </dd></dl>
+
+</div>
+</div>
+<a id="a6815c27bc0cfbcb2c17d2b64b2f7ed05" name="a6815c27bc0cfbcb2c17d2b64b2f7ed05"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6815c27bc0cfbcb2c17d2b64b2f7ed05">&#9670;&#160;</a></span>saveCamera()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbNavigationControl::saveCamera </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method <em>saves</em> the current camera position and orientation. You can later restore the camera back to this position by calling <a class="el" href="#a7e11a5c2cc08a4f5561b384f1cdd0e9f">restoreCamera()</a>.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a7e11a5c2cc08a4f5561b384f1cdd0e9f">restoreCamera</a> </dd></dl>
+
+</div>
+</div>
+<a id="afdda187491c0428bdebfe7f872ca1d5f" name="afdda187491c0428bdebfe7f872ca1d5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afdda187491c0428bdebfe7f872ca1d5f">&#9670;&#160;</a></span>setCamera()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbNavigationControl::setCamera </td>
+          <td>(</td>
+          <td class="paramtype">SoCamera *</td>          <td class="paramname"><span class="paramname"><em>camera</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Sets the pointer to the camera that is to be manipulated.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a371a2a4548303dc77a18bff311cf6731">getCamera</a> </dd></dl>
+
+</div>
+</div>
+<a id="a230a5ca78db52b97269852a774ce003f" name="a230a5ca78db52b97269852a774ce003f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a230a5ca78db52b97269852a774ce003f">&#9670;&#160;</a></span>setSceneGraph()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbNavigationControl::setSceneGraph </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classSoNode.html">SoNode</a> *</td>          <td class="paramname"><span class="paramname"><em>scenegraph</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Sets the scene graph. Needed for certain navigation modes that for instance perform picking.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a01e37718741183e9b7a445f25f6c5bc7">getSceneGraph</a> </dd></dl>
+
+</div>
+</div>
+<a id="ad2828d0454fbe0108f709f3cb987b349" name="ad2828d0454fbe0108f709f3cb987b349"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2828d0454fbe0108f709f3cb987b349">&#9670;&#160;</a></span>setUpVector()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbNavigationControl::setUpVector </td>
+          <td>(</td>
+          <td class="paramtype">const SbVec3f &amp;</td>          <td class="paramname"><span class="paramname"><em>up</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method lets you set the up vector. Default value is (0, 0, 0) which means no up vector is set.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a420b7dfa9ee73182dfbed97ea09d0407">getUpVector</a>, <a class="el" href="#a552613366d139c171c29d00b5258c528">resetRoll</a> </dd></dl>
+
+</div>
+</div>
+<a id="af6bdc904559aaade352a2644fbcd112e" name="af6bdc904559aaade352a2644fbcd112e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6bdc904559aaade352a2644fbcd112e">&#9670;&#160;</a></span>setViewport()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbNavigationControl::setViewport </td>
+          <td>(</td>
+          <td class="paramtype">const SbViewportRegion &amp;</td>          <td class="paramname"><span class="paramname"><em>vp</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method sets the viewport information. </p>
+
+</div>
+</div>
+<a id="afe27012a61aeac5bde0b7f9edc9ea503" name="afe27012a61aeac5bde0b7f9edc9ea503"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe27012a61aeac5bde0b7f9edc9ea503">&#9670;&#160;</a></span>viewAll()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbNavigationControl::viewAll </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Positions the camera so that the whole model gets in view. </p>
+
+</div>
+</div>
+<a id="a9c03361d5e132c0ed93022c1c935c090" name="a9c03361d5e132c0ed93022c1c935c090"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c03361d5e132c0ed93022c1c935c090">&#9670;&#160;</a></span>yawCamera()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NbNavigationControl::yawCamera </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>angle</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method reorients the camera in the yaw plane.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a27ed86976257b51970f1e81d0e4dbd8d">pitchCamera</a>, <a class="el" href="#acf2df865ca05168f54ac5f18f5d9b002">rollCamera</a> </dd></dl>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li><a class="el" href="NbNavigationControl_8h_source.html">NbNavigationControl.h</a></li>
+<li><b>NbNavigationControl.cpp</b></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="classNbNavigationControl.html">NbNavigationControl</a></li>
+    <li class="footer">Generated on Tue May 14 2024 19:53:13 for NutsnBolts by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
+  </ul>
+</div>
+</body>
+</html>
