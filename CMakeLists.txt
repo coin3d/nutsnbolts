@@ -57,6 +57,7 @@ option(NUTSNBOLTS_USE_QT6 "Prefer Qt6 over Qt5 if available" ON)
 option(NUTSNBOLTS_USE_QT5 "Prefer Qt5 over Qt4 if available" ON)
 option(NUTSNBOLTS_USE_WX "Prefer wxWidgets over Qt if available" OFF)
 option(NUTSNBOLTS_BUILD_DOCUMENTATION "Build and install API documentation (requires Doxygen)." OFF)
+option(NUTSNBOLTS_BUILD_AWESOME_DOCUMENTATION "Build and install API documentation in new modern style (requires Doxygen)." OFF)
 cmake_dependent_option(NUTSNBOLTS_BUILD_INTERNAL_DOCUMENTATION "Document internal code not part of the API." OFF "NUTSNBOLTS_BUILD_DOCUMENTATION" OFF)
 cmake_dependent_option(NUTSNBOLTS_BUILD_DOC_MAN "Build NutsnBolts man pages." OFF "NUTSNBOLTS_BUILD_DOCUMENTATION" OFF)
 cmake_dependent_option(NUTSNBOLTS_BUILD_DOC_QTHELP "Build QtHelp documentation." OFF "NUTSNBOLTS_BUILD_DOCUMENTATION" OFF)
@@ -69,6 +70,7 @@ report_prepare(
   NUTSNBOLTS_USE_QT5
   NUTSNBOLTS_USE_WX
   NUTSNBOLTS_BUILD_DOCUMENTATION
+  NUTSNBOLTS_BUILD_AWESOME_DOCUMENTATION
   NUTSNBOLTS_BUILD_INTERNAL_DOCUMENTATION
   NUTSNBOLTS_BUILD_DOC_MAN
   NUTSNBOLTS_BUILD_DOC_QTHELP
